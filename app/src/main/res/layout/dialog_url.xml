@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="290dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorAccent">
+
+        <TextView
+            android:id="@+id/lblTitleDialogUrl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="وارد کردن لینک"
+            android:textColor="@color/colorWhite"
+            android:textSize="17sp"
+            tools:ignore="HardcodedText" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/txtLinkDialogUrl"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/background_edittext"
+        android:gravity="left|top"
+        android:hint="http://"
+        android:inputType="textCapSentences|textMultiLine"
+        android:padding="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textSize="14sp"
+        android:scrollHorizontally="false"
+        tools:ignore="HardcodedText,TextFields" />
+    <TextView
+        android:id="@+id/txtLinkDialogUrlUseed"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/background_edittext"
+        android:gravity="left|top"
+        android:padding="5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="........."
+        android:textSize="14sp"
+        android:scrollHorizontally="false"
+        tools:ignore="HardcodedText,TextFields" />
+    <EditText
+        android:id="@+id/txtLinkDialogAppId"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/background_edittext"
+        android:gravity="left|top"
+        android:hint="10"
+        android:inputType="textCapSentences|textMultiLine"
+        android:padding="5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textSize="14sp"
+        android:scrollHorizontally="false"
+        tools:ignore="HardcodedText,TextFields" />
+    <Button
+        android:id="@+id/btnSubmitDialogUrl"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_margin="16dp"
+        android:background="@color/colorPrimary"
+        android:text="برو بریم"
+        android:textColor="@color/colorRed"
+        android:textSize="17sp"
+        android:textColorLink="@color/colorAccent"
+        tools:ignore="HardcodedText" />
+</LinearLayout>

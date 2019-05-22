@@ -1,0 +1,43 @@
+<com.mxn.soul.flowingdrawer_core.FlowingDrawer xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    app:edMenuBackground="#fff"
+    app:edMenuSize="220dp"
+    app:edPosition="2">
+
+    <include
+        layout="@layout/content_act_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.mxn.soul.flowingdrawer_core.FlowingMenuLayout
+        android:id="@+id/menulayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/container_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.flaviofaria.kenburnsview.KenBurnsView
+                android:id="@+id/HeaderImageActMain"
+                android:layout_width="match_parent"
+                android:layout_height="120dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/RecyclerDrawer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none" />
+        </LinearLayout>
+
+    </com.mxn.soul.flowingdrawer_core.FlowingMenuLayout>
+
+</com.mxn.soul.flowingdrawer_core.FlowingDrawer>

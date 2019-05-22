@@ -1,0 +1,19 @@
+#Internal package file, do not edit.
+#Sat May 04 17:00:14 IRDT 2019
+1.base=G\:\\NTK\\Ntk.Android.Academy\\app\\build\\intermediates\\merged_assets\\debug\\mergeDebugAssets\\out
+2.path=fonts/HARLOWSI.TTF
+0.baseType=DIRECTORY
+3.baseType=DIRECTORY
+2.base=G\:\\NTK\\Ntk.Android.Academy\\app\\build\\intermediates\\merged_assets\\debug\\mergeDebugAssets\\out
+3.set=DEX
+2.set=ASSET
+1.baseType=DIRECTORY
+3.path=classes.dex
+count=4
+1.set=ASSET
+0.path=fonts/iranbold.ttf
+3.base=G\:\\NTK\\Ntk.Android.Academy\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+0.set=ASSET
+0.base=G\:\\NTK\\Ntk.Android.Academy\\app\\build\\intermediates\\merged_assets\\debug\\mergeDebugAssets\\out
+2.baseType=DIRECTORY
+1.path=fonts/Iran_Sans.ttf

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ntk.android.tiketing.APPNTK.test">
+
+    <uses-sdk android:minSdkVersion="17" android:targetSdkVersion="27" />
+
+    <application android:debuggable="true" >
+        <uses-library android:name="android.test.runner" />
+    </application>
+
+    <instrumentation android:name="android.support.test.runner.AndroidJUnitRunner"
+                     android:targetPackage="ntk.android.academy.APPNTK"
+                     android:handleProfiling="false"
+                     android:functionalTest="false"
+                     android:label="Tests for ntk.android.ticket.APPNTK"/>
+</manifest>
