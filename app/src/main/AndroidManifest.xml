@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="ntk.android.tiketing">
+    package="ntk.android.ticketing">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name=".Tickting"
+        android:name="ntk.android.ticketing.Tickting"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -20,7 +20,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".activity.ActSplash"
+            android:name="ntk.android.ticketing.activity.ActSplash"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar">
             <intent-filter>
@@ -29,61 +29,61 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.ActIntro"
+            android:name="ntk.android.ticketing.activity.ActIntro"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
-            android:name=".activity.ActMain"
+            android:name="ntk.android.ticketing.activity.ActMain"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActRegister"
+            android:name="ntk.android.ticketing.activity.ActRegister"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
-            android:name=".activity.ActAbout"
+            android:name="ntk.android.ticketing.activity.ActAbout"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
-            android:name=".activity.ActSendTicket"
+            android:name="ntk.android.ticketing.activity.ActSendTicket"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActNews"
+            android:name="ntk.android.ticketing.activity.ActNews"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActPooling"
+            android:name="ntk.android.ticketing.activity.ActPooling"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActDetailPooling"
+            android:name="ntk.android.ticketing.activity.ActDetailPooling"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActInbox"
+            android:name="ntk.android.ticketing.activity.ActInbox"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActDetailNews"
+            android:name="ntk.android.ticketing.activity.ActDetailNews"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActFaq"
+            android:name="ntk.android.ticketing.activity.ActFaq"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActTicketAnswer"
+            android:name="ntk.android.ticketing.activity.ActTicketAnswer"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
 
-        <service android:name=".service.SeFirebase">
+        <service android:name="ntk.android.ticketing.service.SeFirebase">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service android:name=".service.SeRegisterId">
+        <service android:name="ntk.android.ticketing.service.SeRegisterId">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -100,7 +100,7 @@
         </provider>
 
         <receiver
-            android:name=".service.SeSms"
+            android:name="ntk.android.ticketing.service.SeSms"
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter android:priority="15000">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />

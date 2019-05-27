@@ -1,4 +1,0 @@
-#Mon Apr 29 11:22:43 IRDT 2019
-base.0=G\:\\NTK\\Ntk.Android.Academy\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\9
-path.0=classes.dex
-renamed.0=classes.dex

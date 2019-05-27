@@ -11,11 +11,21 @@
         android:layout_height="wrap_content"
         android:scrollbars="none" />
 
+    <ss.com.bannerslider.views.BannerSlider
+        android:id="@+id/SliderActMain"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        app:defaultIndicators="round_square"
+        app:indicatorSize="7dp"
+        android:layout_below="@id/RecyclerToolbarActMain"
+        app:interval="5000"
+        app:loopSlides="true" />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/RefreshTicket"
-        android:layout_below="@id/RecyclerToolbarActMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/SliderActMain">
 
         <RelativeLayout
             android:layout_width="match_parent"
