@@ -16,9 +16,9 @@ android {
     signingConfigs {
         release {
             storeFile file('..\\..\\keys\\key.jks')
-            storePassword "ntk#soheil33355555"
-            keyAlias "elective ntk"
-            keyPassword "ntk#elective9785"
+            storePassword "APPstorePassword"
+            keyAlias "APPkeyAlias"
+            keyPassword "APPkeyPassword"
         }
     }
     buildTypes {
@@ -34,13 +34,16 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     repositories {
+        google()
+        maven {
+            url "https://maven.google.com"
+        }
+        jcenter()
         maven { url "https://jitpack.io" }
         maven {
             url 'https://dl.bintray.com/omnivirt/OmniVirtSDK'
         }
         maven { url 'https://dl.bintray.com/drummer-aidan/maven' }
-        google()
-        jcenter()
         maven {
             url "http://dl.bintray.com/lukaville/maven"
         }
