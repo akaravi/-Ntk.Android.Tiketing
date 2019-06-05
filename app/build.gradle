@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'io.fabric'
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -90,6 +90,7 @@ dependencies {
     compile 'com.google.firebase:firebase-messaging:12.0.1'
     //noinspection GradleDependency
     implementation 'com.google.firebase:firebase-core:12.0.1'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'   // Crashlytics plugin
     implementation 'com.airbnb.android:lottie:2.7.0'
     implementation 'gun0912.ted:tedpermission-rx2:2.2.2'
     implementation 'com.github.akaravi:ntk.android.base:1.0.3'
