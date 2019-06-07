@@ -44,7 +44,7 @@ public class ActIntro extends AppCompatActivity {
 
     private ApplicationIntroResponse Intro = new ApplicationIntroResponse();
     private int CountIntro = 0;
-
+    private Handler handler = new Handler();
     public int Help = 0;
 
     @Override
@@ -84,7 +84,7 @@ public class ActIntro extends AppCompatActivity {
                             HandelIntro();
                         } else {
                             EasyPreference.with(ActIntro.this).addBoolean("Intro", true);
-                            new Handler().postDelayed(() -> {
+                            handler.postDelayed(() -> {
                                 startActivity(new Intent(ActIntro.this, ActRegister.class));
                                 finish();
                             }, 3000);
@@ -123,7 +123,7 @@ public class ActIntro extends AppCompatActivity {
 
     @OnClick(R.id.btnAfterActIntro)
     public void ClickAfter() {
-        if (CountIntro < (Intro.ListItems.size() - 1)) {
+        if (Intro.ListItems != null && CountIntro < (Intro.ListItems.size() - 1)) {
             CountIntro = CountIntro + 1;
             findViewById(R.id.btnBeforeActIntro).setVisibility(View.VISIBLE);
             HandelIntro();
@@ -131,6 +131,7 @@ public class ActIntro extends AppCompatActivity {
                 Lbls.get(2).setText("شروع");
             }
         } else {
+            handler.removeCallbacksAndMessages(null);
             if (Help == 0) {
                 EasyPreference.with(this).addBoolean("Intro", true);
                 startActivity(new Intent(ActIntro.this, ActRegister.class));

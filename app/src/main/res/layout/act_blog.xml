@@ -7,14 +7,14 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/ToolbarActNews"
+        android:id="@+id/ToolbarActBlog"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorWhite"
         tools:ignore="UselessParent">
 
         <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/imgBackActNews"
+            android:id="@+id/imgBackActBlog"
             android:layout_width="45dp"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
@@ -38,13 +38,13 @@
         </com.balysv.materialripple.MaterialRippleLayout>
 
         <TextView
-            android:id="@+id/lblTitleActNews"
+            android:id="@+id/lblTitleActBlog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
-            android:layout_toStartOf="@id/imgBackActNews"
-            android:text="اخبار"
+            android:layout_toStartOf="@id/imgBackActBlog"
+            android:text="مجلات"
             android:textColor="@color/colorMenu"
             tools:ignore="HardcodedText" />
     </RelativeLayout>
@@ -55,7 +55,7 @@
         android:background="@color/colorAccent" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerNews"
+        android:id="@+id/recyclerBlog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"

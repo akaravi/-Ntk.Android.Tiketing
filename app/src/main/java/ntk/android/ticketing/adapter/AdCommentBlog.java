@@ -20,25 +20,24 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.config.ConfigRestHeader;
 import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.FontManager;
-import ntk.base.api.news.interfase.INews;
-import ntk.base.api.news.model.NewsComment;
-import ntk.base.api.news.model.NewsCommentResponse;
-import ntk.base.api.news.model.NewsCommentViewRequest;
+import ntk.base.api.blog.interfase.IBlog;
+import ntk.base.api.blog.model.BlogComment;
+import ntk.base.api.blog.model.BlogCommentResponse;
+import ntk.base.api.blog.model.BlogCommentViewRequest;
 import ntk.base.api.utill.NTKClientAction;
 import ntk.base.api.utill.RetrofitManager;
 
-public class AdCommentNews extends RecyclerView.Adapter<AdCommentNews.ViewHolder> {
+public class AdCommentBlog extends RecyclerView.Adapter<AdCommentBlog.ViewHolder> {
 
-    private List<NewsComment> arrayList;
+    private List<BlogComment> arrayList;
     private Context context;
 
-    public AdCommentNews(Context context, List<NewsComment> arrayList) {
+    public AdCommentBlog(Context context, List<BlogComment> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -62,29 +61,26 @@ public class AdCommentNews extends RecyclerView.Adapter<AdCommentNews.ViewHolder
         holder.Lbls.get(4).setText(String.valueOf(arrayList.get(position).Comment));
 
         holder.ImgLike.setOnClickListener(v -> {
-            NewsCommentViewRequest request = new NewsCommentViewRequest();
+            BlogCommentViewRequest request = new BlogCommentViewRequest();
             request.Id = arrayList.get(position).Id;
             request.ActionClientOrder = NTKClientAction.LikeClientAction;
             RetrofitManager retro = new RetrofitManager(context);
-            INews iNews = retro.getRetrofitUnCached(new ConfigStaticValue(context).GetApiBaseUrl()).create(INews.class);
+            IBlog iBlog = retro.getRetrofitUnCached(new ConfigStaticValue(context).GetApiBaseUrl()).create(IBlog.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);
-            Observable<NewsCommentResponse> call = iNews.GetCommentView(headers, request);
+            Observable<BlogCommentResponse> call = iBlog.GetCommentView(headers, request);
             call.observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<NewsCommentResponse>() {
+                    .subscribe(new Observer<BlogCommentResponse>() {
                         @Override
                         public void onSubscribe(Disposable d) {
 
                         }
 
                         @Override
-                        public void onNext(NewsCommentResponse model) {
+                        public void onNext(BlogCommentResponse model) {
                             if (model.IsSuccess) {
-                                Toasty.success(context, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
                                 arrayList.get(position).SumLikeClick = arrayList.get(position).SumLikeClick + 1;
                                 notifyDataSetChanged();
-                            } else {
-                                Toasty.warning(context, model.ErrorMessage, Toasty.LENGTH_LONG, true).show();
                             }
                         }
 
@@ -95,40 +91,38 @@ public class AdCommentNews extends RecyclerView.Adapter<AdCommentNews.ViewHolder
 
                         @Override
                         public void onComplete() {
+                            Toasty.warning(context, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
                         }
                     });
         });
 
         holder.ImgDisLike.setOnClickListener(v -> {
-            NewsCommentViewRequest request = new NewsCommentViewRequest();
+            BlogCommentViewRequest request = new BlogCommentViewRequest();
             request.Id = arrayList.get(position).Id;
             request.ActionClientOrder = NTKClientAction.DisLikeClientAction;
             RetrofitManager retro = new RetrofitManager(context);
-            INews iNews = retro.getRetrofitUnCached(new ConfigStaticValue(context).GetApiBaseUrl()).create(INews.class);
+            IBlog iBlog = retro.getRetrofitUnCached(new ConfigStaticValue(context).GetApiBaseUrl()).create(IBlog.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);
-            Observable<NewsCommentResponse> call = iNews.GetCommentView(headers, request);
+            Observable<BlogCommentResponse> call = iBlog.GetCommentView(headers, request);
             call.observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<NewsCommentResponse>() {
+                    .subscribe(new Observer<BlogCommentResponse>() {
                         @Override
                         public void onSubscribe(Disposable d) {
 
                         }
 
                         @Override
-                        public void onNext(NewsCommentResponse model) {
+                        public void onNext(BlogCommentResponse model) {
                             if (model.IsSuccess) {
-                                Toasty.success(context, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
                                 arrayList.get(position).SumDisLikeClick = arrayList.get(position).SumDisLikeClick - 1;
                                 notifyDataSetChanged();
-                            } else {
-                                Toasty.warning(context, model.ErrorMessage, Toasty.LENGTH_LONG, true).show();
                             }
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            Toasty.warning(context, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
+
                         }
 
                         @Override

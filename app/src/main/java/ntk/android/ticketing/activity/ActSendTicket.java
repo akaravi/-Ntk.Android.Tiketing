@@ -4,6 +4,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.codekidlabs.storagechooser.StorageChooser;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -21,10 +24,12 @@ import com.tedpark.tedpermission.rx2.TedRx2Permission;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
@@ -81,6 +86,9 @@ public class ActSendTicket extends AppCompatActivity {
 
     @BindView(R.id.RecyclerAttach)
     RecyclerView Rv;
+
+    @BindView(R.id.mainLayoutActSendTicket)
+    CoordinatorLayout layout;
 
     private TicketingSubmitRequest request = new TicketingSubmitRequest();
     private List<String> attaches = new ArrayList<>();
@@ -220,13 +228,18 @@ public class ActSendTicket extends AppCompatActivity {
 
                                                 @Override
                                                 public void onNext(TicketingSubmitResponse model) {
-                                                    Toasty.info(ActSendTicket.this, model.Item.virtual_Departemen.DefaultAnswerBody, Toasty.LENGTH_LONG, true).show();
+                                                    Toasty.success(ActSendTicket.this, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
                                                     finish();
                                                 }
 
                                                 @Override
                                                 public void onError(Throwable e) {
-                                                    Toasty.warning(ActSendTicket.this, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
+                                                    Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View v) {
+                                                            init();
+                                                        }
+                                                    }).show();
                                                 }
 
                                                 @Override
@@ -235,7 +248,12 @@ public class ActSendTicket extends AppCompatActivity {
                                                 }
                                             });
                                 } else {
-                                    Toasty.warning(this, "عدم دسترسی به اینترنت", Toasty.LENGTH_LONG, true).show();
+                                    Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            init();
+                                        }
+                                    }).show();
                                 }
                             } else {
                                 Toasty.warning(this, "آدرس پست الکترونیکی صحیح نمیباشد", Toasty.LENGTH_LONG, true).show();
@@ -246,6 +264,7 @@ public class ActSendTicket extends AppCompatActivity {
             }
         }
     }
+
 
     @OnClick(R.id.imgBackActSendTicket)
     public void Clickback() {

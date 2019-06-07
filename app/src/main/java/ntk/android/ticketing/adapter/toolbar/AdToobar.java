@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.event.toolbar.EVHamberMenuClick;
+import ntk.android.ticketing.event.toolbar.EVSearchClick;
 import ntk.android.ticketing.utill.EasyPreference;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.model.theme.Toolbar;
@@ -63,6 +64,7 @@ public class AdToobar extends RecyclerView.Adapter<AdToobar.ViewHolder> {
         holder.Line.setBackgroundColor(Color.parseColor(toolbars.get(position).ColorBelowLine));
 
         holder.Ripples.get(0).setOnClickListener(v -> EventBus.getDefault().post(new EVHamberMenuClick(true)));
+        holder.Ripples.get(1).setOnClickListener(v -> EventBus.getDefault().post(new EVSearchClick(true)));
 
         holder.Container.setOnClickListener(v -> {
             if (Click < 10) {

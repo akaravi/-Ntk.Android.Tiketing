@@ -77,6 +77,7 @@ public class AdTicket extends RecyclerView.Adapter<AdTicket.ViewHolder> {
             request.filters = filters;
             Intent intent = new Intent(context, ActTicketAnswer.class);
             intent.putExtra("Request", new Gson().toJson(request));
+            intent.putExtra("TicketId", arrayList.get(position).Id);
             context.startActivity(intent);
         });
     }

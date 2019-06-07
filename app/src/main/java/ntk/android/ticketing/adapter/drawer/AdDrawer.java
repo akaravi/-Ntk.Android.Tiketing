@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,6 +39,7 @@ import io.reactivex.schedulers.Schedulers;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.ActAbout;
+import ntk.android.ticketing.activity.ActBlog;
 import ntk.android.ticketing.activity.ActFaq;
 import ntk.android.ticketing.activity.ActInbox;
 import ntk.android.ticketing.activity.ActIntro;
@@ -111,6 +113,9 @@ public class AdDrawer extends RecyclerView.Adapter<AdDrawer.ViewHolder> {
                     break;
                 case 10:
                     ClickIntro();
+                    break;
+                case 11:
+                    ClickBlog();
                     break;
             }
         });
@@ -247,15 +252,15 @@ public class AdDrawer extends RecyclerView.Adapter<AdDrawer.ViewHolder> {
                                 @Override
                                 public void onNext(ApplicationScoreResponse applicationScoreResponse) {
                                     if (applicationScoreResponse.IsSuccess) {
-                                        dialog.dismiss();
+                                        Toasty.success(context, "با موفقیت ثبت شد", Toast.LENGTH_LONG, true).show();
                                     } else {
-                                        Toasty.error(context, "خظا در دریافت اطلاعات", Toast.LENGTH_LONG, true).show();
+                                        Toasty.warning(context, "خظا در دریافت اطلاعات", Toast.LENGTH_LONG, true).show();
                                     }
                                 }
 
                                 @Override
                                 public void onError(Throwable e) {
-                                    Toasty.error(context, "خظا در اتصال به مرکز", Toast.LENGTH_LONG, true).show();
+                                    Toasty.warning(context, "خظا در اتصال به مرکز", Toast.LENGTH_LONG, true).show();
                                 }
 
                                 @Override
@@ -265,13 +270,20 @@ public class AdDrawer extends RecyclerView.Adapter<AdDrawer.ViewHolder> {
                             });
                 } else {
                     Toast.makeText(context, "عدم دسترسی به اینترنت", Toast.LENGTH_SHORT).show();
-                }
+                }dialog.dismiss();
             }
         });
     }
 
     private void ClickQuestion() {
         context.startActivity(new Intent(context, ActFaq.class));
+        if (Drawer != null) {
+            Drawer.closeMenu(true);
+        }
+    }
+
+    private void ClickBlog() {
+        context.startActivity(new Intent(context, ActBlog.class));
         if (Drawer != null) {
             Drawer.closeMenu(true);
         }

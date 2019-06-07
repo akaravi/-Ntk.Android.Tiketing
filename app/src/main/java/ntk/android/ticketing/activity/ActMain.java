@@ -6,14 +6,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
@@ -49,6 +53,7 @@ import ntk.android.ticketing.adapter.toolbar.AdToobar;
 import ntk.android.ticketing.config.ConfigRestHeader;
 import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.event.toolbar.EVHamberMenuClick;
+import ntk.android.ticketing.event.toolbar.EVSearchClick;
 import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.EasyPreference;
 import ntk.android.ticketing.utill.EndlessRecyclerViewScrollListener;
@@ -98,6 +103,12 @@ public class ActMain extends AppCompatActivity {
     @BindView(R.id.SliderActMain)
     public BannerSlider Slider;
 
+    @BindView(R.id.lblStatusActMain)
+    TextView status;
+
+    @BindView(R.id.mainLayoutActMain)
+    CoordinatorLayout layout;
+
     private ArrayList<TicketingTask> tickets = new ArrayList<>();
     private AdTicket adapter;
 
@@ -116,6 +127,7 @@ public class ActMain extends AppCompatActivity {
     }
 
     private void init() {
+        status.setTypeface(FontManager.GetTypeface(ActMain.this, FontManager.IranSans));
         drawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
             @Override
             public void onDrawerStateChange(int oldState, int newState) {
@@ -180,42 +192,62 @@ public class ActMain extends AppCompatActivity {
     }
 
     private void HandelDataSupport(int i) {
-        RetrofitManager retro = new RetrofitManager(this);
-        ITicket iTicket = retro.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
-        Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
+        if (AppUtill.isNetworkAvailable(this)) {
+            RetrofitManager retro = new RetrofitManager(this);
+            ITicket iTicket = retro.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
+            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
 
-        TicketingListRequest request = new TicketingListRequest();
-        request.RowPerPage = 10;
-        request.CurrentPageNumber = i;
-        request.SortType = NTKUtill.Descnding_Sort;
-        request.SortColumn = "Id";
+            TicketingListRequest request = new TicketingListRequest();
+            request.RowPerPage = 10;
+            request.CurrentPageNumber = i;
+            request.SortType = NTKUtill.Descnding_Sort;
+            request.SortColumn = "Id";
 
-        Observable<TicketingListResponse> Call = iTicket.GetTicketList(headers, request);
-        Call.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<TicketingListResponse>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+            Observable<TicketingListResponse> Call = iTicket.GetTicketList(headers, request);
+            Call.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<TicketingListResponse>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onNext(TicketingListResponse model) {
-                        tickets.addAll(model.ListItems);
-                        adapter.notifyDataSetChanged();
-                        TotalTag = model.TotalRowCount;
-                    }
+                        @Override
+                        public void onNext(TicketingListResponse model) {
+                            if (!model.ListItems.isEmpty()) {
+                                tickets.addAll(model.ListItems);
+                                adapter.notifyDataSetChanged();
+                                TotalTag = model.TotalRowCount;
+                                status.setVisibility(View.GONE);
+                            } else {
+                                status.setVisibility(View.VISIBLE);
+                            }
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Toasty.warning(ActMain.this, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    init();
+                                }
+                            }).show();
 
-                    @Override
-                    public void onComplete() {
+                        }
 
-                    }
-                });
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } else {
+            Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    init();
+                }
+            }).show();
+        }
     }
 
     @OnClick(R.id.FabActMain)
@@ -259,6 +291,11 @@ public class ActMain extends AppCompatActivity {
     @Subscribe
     public void EvClickMenu(EVHamberMenuClick click) {
         drawer.openMenu(false);
+    }
+
+    @Subscribe
+    public void EvClickSearch(EVSearchClick click) {
+        startActivity(new Intent(this, ActSearch.class));
     }
 
     @Override

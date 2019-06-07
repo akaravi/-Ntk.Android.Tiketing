@@ -9,9 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.gson.Gson;
+
 import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -64,13 +67,13 @@ public class ActSplash extends AppCompatActivity {
         super.onStart();
         if (!EasyPreference.with(this).getString("configapp", "").isEmpty()) {
             if (EasyPreference.with(this).getBoolean("Intro", false)) {
-                if (EasyPreference.with(this).getString("register" , "").equals("1")) {
+                if (EasyPreference.with(this).getString("register", "").equals("1")) {
                     new Handler().postDelayed(() -> {
                         Loading.setVisibility(View.GONE);
                         startActivity(new Intent(ActSplash.this, ActMain.class));
                         finish();
                     }, 3000);
-                }else {
+                } else {
                     new Handler().postDelayed(() -> {
                         Loading.setVisibility(View.GONE);
                         startActivity(new Intent(ActSplash.this, ActRegister.class));
@@ -149,51 +152,57 @@ public class ActSplash extends AppCompatActivity {
     }
 
     private void GetTheme() {
-        Loading.playAnimation();
-        Loading.setVisibility(View.VISIBLE);
-        RetrofitManager manager = new RetrofitManager(this);
-        ICore iCore = manager.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(ICore.class);
-        Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-        Observable<CoreTheme> call = iCore.GetThemeCore(headers);
-        call.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<CoreTheme>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+        if (AppUtill.isNetworkAvailable(this)) {
+            Loading.playAnimation();
+            Loading.setVisibility(View.VISIBLE);
+            RetrofitManager manager = new RetrofitManager(this);
+            ICore iCore = manager.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(ICore.class);
+            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
+            Observable<CoreTheme> call = iCore.GetThemeCore(headers);
+            call.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<CoreTheme>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
 
-                    }
-
-                    @Override
-                    public void onNext(CoreTheme theme) {
-                        EasyPreference.with(ActSplash.this).addString("Theme", new Gson().toJson(theme.Item.ThemeConfigJson));
-                        if (EasyPreference.with(ActSplash.this).getBoolean("Intro", false)) {
-                            new Handler().postDelayed(() -> {
-                                Loading.setVisibility(View.GONE);
-                                startActivity(new Intent(ActSplash.this, ActMain.class));
-                                finish();
-                            }, 3000);
-                        } else {
-                            new Handler().postDelayed(() -> {
-                                Loading.setVisibility(View.GONE);
-                                startActivity(new Intent(ActSplash.this, ActIntro.class));
-                                finish();
-                            }, 3000);
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Loading.cancelAnimation();
-                        Loading.setVisibility(View.GONE);
-                        BtnRefresh.setVisibility(View.VISIBLE);
-                        Toasty.warning(ActSplash.this, "خطای سامانه مجددا تلاش کنید", Toasty.LENGTH_LONG, true).show();
-                    }
+                        @Override
+                        public void onNext(CoreTheme theme) {
+                            EasyPreference.with(ActSplash.this).addString("Theme", new Gson().toJson(theme.Item.ThemeConfigJson));
+                            if (EasyPreference.with(ActSplash.this).getBoolean("Intro", false)) {
+                                new Handler().postDelayed(() -> {
+                                    Loading.setVisibility(View.GONE);
+                                    startActivity(new Intent(ActSplash.this, ActMain.class));
+                                    finish();
+                                }, 3000);
+                            } else {
+                                new Handler().postDelayed(() -> {
+                                    Loading.setVisibility(View.GONE);
+                                    startActivity(new Intent(ActSplash.this, ActIntro.class));
+                                    finish();
+                                }, 3000);
+                            }
+                        }
 
-                    @Override
-                    public void onComplete() {
+                        @Override
+                        public void onError(Throwable e) {
+                            Loading.cancelAnimation();
+                            Loading.setVisibility(View.GONE);
+                            BtnRefresh.setVisibility(View.VISIBLE);
+                            Toasty.warning(ActSplash.this, "خطای سامانه مجددا تلاش کنید", Toasty.LENGTH_LONG, true).show();
+                        }
 
-                    }
-                });
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } else {
+            Loading.setVisibility(View.GONE);
+            BtnRefresh.setVisibility(View.VISIBLE);
+            Toasty.warning(this, "عدم دسترسی به اینترنت", Toasty.LENGTH_LONG, true).show();
+        }
     }
 
     @OnClick(R.id.btnRefreshActSplash)
