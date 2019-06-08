@@ -65,6 +65,7 @@ public class ActSplash extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        GetTheme();
         if (!EasyPreference.with(this).getString("configapp", "").isEmpty()) {
             if (EasyPreference.with(this).getBoolean("Intro", false)) {
                 if (EasyPreference.with(this).getString("register", "").equals("1")) {
@@ -111,24 +112,22 @@ public class ActSplash extends AppCompatActivity {
                             EasyPreference.with(ActSplash.this).addString("configapp", new Gson().toJson(mainCoreResponse.Item));
                             Loading.cancelAnimation();
                             Loading.setVisibility(View.GONE);
-                            if (EasyPreference.with(ActSplash.this).getString("Theme", "").isEmpty()) {
-                                GetTheme();
+//                            GetTheme();
+                            if (EasyPreference.with(ActSplash.this).getBoolean("Intro", false)) {
+                                new Handler().postDelayed(() -> {
+                                    Loading.setVisibility(View.GONE);
+                                    startActivity(new Intent(ActSplash.this, ActMain.class));
+                                    finish();
+                                }, 3000);
                             } else {
-                                if (EasyPreference.with(ActSplash.this).getBoolean("Intro", false)) {
-                                    new Handler().postDelayed(() -> {
-                                        Loading.setVisibility(View.GONE);
-                                        startActivity(new Intent(ActSplash.this, ActMain.class));
-                                        finish();
-                                    }, 3000);
-                                } else {
-                                    new Handler().postDelayed(() -> {
-                                        Loading.setVisibility(View.GONE);
-                                        startActivity(new Intent(ActSplash.this, ActIntro.class));
-                                        finish();
-                                    }, 3000);
-                                }
+                                new Handler().postDelayed(() -> {
+                                    Loading.setVisibility(View.GONE);
+                                    startActivity(new Intent(ActSplash.this, ActIntro.class));
+                                    finish();
+                                }, 3000);
                             }
                         }
+
 
                         @Override
                         public void onError(Throwable e) {

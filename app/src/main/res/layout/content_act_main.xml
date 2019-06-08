@@ -19,7 +19,7 @@
         <ss.com.bannerslider.views.BannerSlider
             android:id="@+id/SliderActMain"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="200dp"
             android:layout_below="@id/RecyclerToolbarActMain"
             app:defaultIndicators="round_square"
             app:indicatorSize="7dp"

@@ -95,5 +95,7 @@ dependencies {
     implementation 'gun0912.ted:tedpermission-rx2:2.2.2'
     implementation 'com.github.akaravi:ntk.android.base:1.0.9'
     compile 'com.ss.bannerslider:bannerslider:1.8.0'
+    implementation 'com.google.zxing:core:3.3.0'
+    implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
 }
 apply plugin: 'com.google.gms.google-services'

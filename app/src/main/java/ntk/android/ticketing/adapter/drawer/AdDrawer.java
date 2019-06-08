@@ -3,16 +3,20 @@ package ntk.android.ticketing.adapter.drawer;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -21,12 +25,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.encoder.Encoder;
 import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 import java.util.Map;
 
+import androidmads.library.qrgenearator.QRGContents;
+import androidmads.library.qrgenearator.QRGEncoder;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
@@ -57,6 +68,8 @@ import ntk.base.api.application.model.ApplicationScoreResponse;
 import ntk.base.api.core.model.CoreMain;
 import ntk.base.api.model.theme.DrawerChild;
 import ntk.base.api.utill.RetrofitManager;
+
+import static android.content.Context.WINDOW_SERVICE;
 
 public class AdDrawer extends RecyclerView.Adapter<AdDrawer.ViewHolder> {
 
@@ -180,15 +193,40 @@ public class AdDrawer extends RecyclerView.Adapter<AdDrawer.ViewHolder> {
     private void ClickShare() {
         String st = EasyPreference.with(context).getString("configapp", "");
         CoreMain mcr = new Gson().fromJson(st, CoreMain.class);
-
         Uri imageUri = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/" + "share");
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.app_name) + "\n" + "لینک دانلود:" + "\n" + mcr.AppUrl);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-        shareIntent.setType("image/jpeg");
-        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        context.startActivity(Intent.createChooser(shareIntent, "به اشتراک گزاری با...."));
+
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(true);
+        Window window = dialog.getWindow();
+        window.setLayout(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.CENTER);
+        dialog.setContentView(R.layout.dialog_qrcode);
+        dialog.show();
+        TextView Lbl = dialog.findViewById(R.id.lblTitleDialogQRCode);
+        Lbl.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
+
+        QRGEncoder qrgEncoder = new QRGEncoder(mcr.AppUrl, null, QRGContents.Type.TEXT, 300);
+        try {
+            Bitmap bitmap = qrgEncoder.encodeAsBitmap();
+            ImageView img = dialog.findViewById(R.id.qrCodeDialogQRCode);
+            img.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            Toasty.warning(context, e.getMessage(), Toast.LENGTH_LONG, true).show();
+        }
+
+        Button Btn = dialog.findViewById(R.id.btnDialogQRCode);
+        Btn.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
+        Btn.setOnClickListener(v -> {
+            dialog.dismiss();
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.app_name) + "\n" + "لینک دانلود:" + "\n" + mcr.AppUrl);
+            shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+            shareIntent.setType("image/jpeg");
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            context.startActivity(Intent.createChooser(shareIntent, "به اشتراک گزاری با...."));
+        });
         if (Drawer != null) {
             Drawer.closeMenu(true);
         }
@@ -270,7 +308,8 @@ public class AdDrawer extends RecyclerView.Adapter<AdDrawer.ViewHolder> {
                             });
                 } else {
                     Toast.makeText(context, "عدم دسترسی به اینترنت", Toast.LENGTH_SHORT).show();
-                }dialog.dismiss();
+                }
+                dialog.dismiss();
             }
         });
     }
