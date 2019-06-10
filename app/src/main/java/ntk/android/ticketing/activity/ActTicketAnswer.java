@@ -2,6 +2,7 @@ package ntk.android.ticketing.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -11,19 +12,25 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.codekidlabs.storagechooser.StorageChooser;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
 import com.tedpark.tedpermission.rx2.TedRx2Permission;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
@@ -33,6 +40,7 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.internal.observers.BlockingBaseObserver;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdAttach;
@@ -42,6 +50,7 @@ import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.event.EvRemoveAttach;
 import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.FontManager;
+import ntk.base.api.file.interfase.IFile;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingAnswer;
 import ntk.base.api.ticket.model.TicketingAnswerListRequest;
@@ -49,6 +58,11 @@ import ntk.base.api.ticket.model.TicketingAnswerListResponse;
 import ntk.base.api.ticket.model.TicketingAnswerSubmitRequest;
 import ntk.base.api.ticket.model.TicketingAnswerSubmitResponse;
 import ntk.base.api.utill.RetrofitManager;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okio.BufferedSink;
+import retrofit2.Retrofit;
 
 
 public class ActTicketAnswer extends AppCompatActivity {
@@ -70,6 +84,7 @@ public class ActTicketAnswer extends AppCompatActivity {
     private AdTicketAnswer adapter;
     private List<String> attaches = new ArrayList<>();
     private AdAttach AdAtach;
+    private String fileIds;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -176,6 +191,7 @@ public class ActTicketAnswer extends AppCompatActivity {
                 TicketingAnswerSubmitRequest request = new TicketingAnswerSubmitRequest();
                 request.HtmlBody = txt.getText().toString();
                 request.LinkTicketId = getIntent().getLongExtra("TicketId", 0);
+                request.LinkFileIds = fileIds;
                 RetrofitManager retro = new RetrofitManager(this);
                 Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
                 ITicket iTicket = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
@@ -243,6 +259,7 @@ public class ActTicketAnswer extends AppCompatActivity {
     }
 
     private void UploadFile(String s) {
+        UploadToServer(s);
         Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
         RetrofitManager manager = new RetrofitManager(this);
         Observable<String> observable = manager.FileUpload(null, s, headers);
@@ -268,6 +285,61 @@ public class ActTicketAnswer extends AppCompatActivity {
 
                     @Override
                     public void onComplete() {
+
+                    }
+                });
+    }
+
+    private void UploadToServer(String url) {
+        Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
+        Map<String, RequestBody> request = new HashMap<>();
+        MultipartBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.ALTERNATIVE)
+                .addFormDataPart("type", url)
+                .build();
+        request.put("Src", requestBody);
+        MultipartBody.Part part = requestBody.part(0);
+
+        RetrofitManager retro = new RetrofitManager(this);
+        IFile iFile = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IFile.class);
+        Observable<String> Call = iFile.uploadFileWithPartMap(headers, request, part);
+        Call.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new BlockingBaseObserver<String>() {
+                    @Override
+                    public void onNext(String s) {
+                        fileIds = fileIds + s + ",";
+                        Log.i("124587963", "onNext: " + s);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("124587963", "onNext: " + e.getMessage());
+                    }
+                });
+    }
+
+    private void  test(String s){
+        Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse("text/plain"),s);
+
+        HashMap<String, RequestBody> map = new HashMap<>();
+
+        RetrofitManager retro = new RetrofitManager(this);
+        IFile iFile = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IFile.class);
+        Observable<String> Call = iFile.uploadFileWithPartMap(headers, map ,MultipartBody.Part.createFormData("Src",s) );
+        Call.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new BlockingBaseObserver<String>() {
+                    @Override
+                    public void onNext(String s) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
 
                     }
                 });
