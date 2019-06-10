@@ -71,40 +71,29 @@ public class AdNews extends RecyclerView.Adapter<AdNews.ViewHolder> {
 
             }
         });
-        double rating = 5.0;
+        double rating = 0.0;
         int sumClick = arrayList.get(position).ScoreSumClick;
         if (arrayList.get(position).ScoreSumClick == 0) sumClick = 1;
-        switch (arrayList.get(position).ScoreSumPercent / sumClick) {
-            case 10:
-                rating = 0.5;
-                break;
-            case 20:
-                rating = 1.0;
-                break;
-            case 30:
-                rating = 1.5;
-                break;
-            case 40:
-                rating = 2.0;
-                break;
-            case 50:
-                rating = 2.5;
-                break;
-            case 60:
-                rating = 3.0;
-                break;
-            case 70:
-                rating = 3.5;
-                break;
-            case 80:
-                rating = 4.0;
-                break;
-            case 90:
-                rating = 4.5;
-                break;
-            case 100:
-                rating = 5.0;
-                break;
+        if (arrayList.get(position).ScoreSumPercent / sumClick > 0 && arrayList.get(position).ScoreSumPercent / sumClick <= 10) {
+            rating = 0.5;
+        } else if (arrayList.get(position).ScoreSumPercent / sumClick > 10 && arrayList.get(position).ScoreSumPercent / sumClick <= 20) {
+            rating = 1.0;
+        } else if (arrayList.get(position).ScoreSumPercent / sumClick > 20 && arrayList.get(position).ScoreSumPercent / sumClick <= 30) {
+            rating = 1.5;
+        } else if (arrayList.get(position).ScoreSumPercent / sumClick > 30 && arrayList.get(position).ScoreSumPercent / sumClick <= 40) {
+            rating = 2.0;
+        } else if (arrayList.get(position).ScoreSumPercent / sumClick > 40 && arrayList.get(position).ScoreSumPercent / sumClick <= 50) {
+            rating = 2.5;
+        } else if (arrayList.get(position).ScoreSumPercent / sumClick > 50 && arrayList.get(position).ScoreSumPercent / sumClick <= 60) {
+            rating = 3.0;
+        } else if (arrayList.get(position).ScoreSumPercent / sumClick > 60 && arrayList.get(position).ScoreSumPercent / sumClick <= 70) {
+            rating = 3.5;
+        } else if (arrayList.get(position).ScoreSumPercent / sumClick > 70 && arrayList.get(position).ScoreSumPercent / sumClick <= 80) {
+            rating = 4.0;
+        } else if (arrayList.get(position).ScoreSumPercent / sumClick > 80 && arrayList.get(position).ScoreSumPercent / sumClick <= 90) {
+            rating = 4.5;
+        } else if (arrayList.get(position).ScoreSumPercent / sumClick > 90) {
+            rating = 5.0;
         }
         holder.Rate.setRating((float) rating);
         holder.Root.setOnClickListener(view -> {
