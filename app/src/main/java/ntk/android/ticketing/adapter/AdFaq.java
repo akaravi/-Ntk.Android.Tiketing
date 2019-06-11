@@ -40,7 +40,7 @@ public class AdFaq extends RecyclerView.Adapter<AdFaq.ViewHolder> {
         holder.Lbls.get(1).setText(arrayList.get(position).Answer);
         holder.Root.get(0).setOnClickListener(view -> {
             if (holder.Web.getVisibility() == View.GONE) {
-                holder.Web.loadData("<html dir=\"rtl\" lang=\"\"><body>" + arrayList.get(position).HtmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8");
+                holder.Web.loadData("<html dir=\"rtl\" lang=\"\"><body>" + arrayList.get(position).Answer + "</body></html>", "text/html; charset=utf-8", "UTF-8");
                 holder.Web.setVisibility(View.VISIBLE);
                 holder.Root.get(1).setVisibility(View.VISIBLE);
             } else {

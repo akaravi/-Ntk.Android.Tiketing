@@ -81,17 +81,18 @@ public class AdCommentBlog extends RecyclerView.Adapter<AdCommentBlog.ViewHolder
                             if (model.IsSuccess) {
                                 arrayList.get(position).SumLikeClick = arrayList.get(position).SumLikeClick + 1;
                                 notifyDataSetChanged();
+                            } else {
+                                Toasty.warning(context, model.ErrorMessage, Toasty.LENGTH_LONG, true).show();
                             }
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            Toasty.warning(context, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
+                            Toasty.warning(context, "قبلا در این محتوا ثبت نطر ئاشته اید", Toasty.LENGTH_LONG, true).show();
                         }
 
                         @Override
                         public void onComplete() {
-                            Toasty.warning(context, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
                         }
                     });
         });
@@ -117,12 +118,14 @@ public class AdCommentBlog extends RecyclerView.Adapter<AdCommentBlog.ViewHolder
                             if (model.IsSuccess) {
                                 arrayList.get(position).SumDisLikeClick = arrayList.get(position).SumDisLikeClick - 1;
                                 notifyDataSetChanged();
+                            } else {
+                                Toasty.warning(context, model.ErrorMessage, Toasty.LENGTH_LONG, true).show();
                             }
                         }
 
                         @Override
                         public void onError(Throwable e) {
-
+                            Toasty.warning(context, "قبلا در این محتوا ثبت نطر ئاشته اید", Toasty.LENGTH_LONG, true).show();
                         }
 
                         @Override

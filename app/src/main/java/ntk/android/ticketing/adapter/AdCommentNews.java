@@ -80,7 +80,6 @@ public class AdCommentNews extends RecyclerView.Adapter<AdCommentNews.ViewHolder
                         @Override
                         public void onNext(NewsCommentResponse model) {
                             if (model.IsSuccess) {
-                                Toasty.success(context, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
                                 arrayList.get(position).SumLikeClick = arrayList.get(position).SumLikeClick + 1;
                                 notifyDataSetChanged();
                             } else {
@@ -90,7 +89,7 @@ public class AdCommentNews extends RecyclerView.Adapter<AdCommentNews.ViewHolder
 
                         @Override
                         public void onError(Throwable e) {
-                            Toasty.warning(context, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
+                            Toasty.warning(context, "قبلا در این محتوا ثبت نطر ئاشته اید", Toasty.LENGTH_LONG, true).show();
                         }
 
                         @Override
@@ -118,7 +117,6 @@ public class AdCommentNews extends RecyclerView.Adapter<AdCommentNews.ViewHolder
                         @Override
                         public void onNext(NewsCommentResponse model) {
                             if (model.IsSuccess) {
-                                Toasty.success(context, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
                                 arrayList.get(position).SumDisLikeClick = arrayList.get(position).SumDisLikeClick - 1;
                                 notifyDataSetChanged();
                             } else {
@@ -128,7 +126,7 @@ public class AdCommentNews extends RecyclerView.Adapter<AdCommentNews.ViewHolder
 
                         @Override
                         public void onError(Throwable e) {
-                            Toasty.warning(context, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
+                            Toasty.warning(context, "قبلا در این محتوا ثبت نطر ئاشته اید", Toasty.LENGTH_LONG, true).show();
                         }
 
                         @Override
