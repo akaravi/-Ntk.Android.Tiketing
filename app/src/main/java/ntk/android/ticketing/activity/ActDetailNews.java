@@ -398,12 +398,21 @@ public class ActDetailNews extends AppCompatActivity {
 
     private void SetDataOtherinfo(NewsContentOtherInfoResponse model) {
         Info = model;
-        if (model.ListItems == null || model.ListItems.size() == 0) {
-            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            p.weight = 3;
-            return;
-        }
         List<NewsContentOtherInfo> Info = new ArrayList<>();
+        NewsContentOtherInfo i1 = new NewsContentOtherInfo();
+        i1.Title = "توضیحات";
+        i1.TypeId = 0;
+        i1.HtmlBody = this.model.Item.description;
+        if (this.model.Item.description != null) {
+            Info.add(i1);
+        }
+        NewsContentOtherInfo i = new NewsContentOtherInfo();
+        i.Title = "متن اخبار";
+        i.TypeId = 0;
+        i.HtmlBody = this.model.Item.Body;
+        if (this.model.Item.Body != null) {
+            Info.add(i);
+        }
 
         for (NewsContentOtherInfo ai : model.ListItems) {
             switch (ai.TypeId) {

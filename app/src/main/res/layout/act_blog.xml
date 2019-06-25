@@ -6,58 +6,73 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/ToolbarActBlog"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipRefreshActBlog"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorWhite"
-        tools:ignore="UselessParent">
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorAccent"
+        tools:targetApi="lollipop">
 
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:id="@+id/imgBackActBlog"
-            android:layout_width="45dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
-            app:mrl_rippleAlpha="0.05"
-            app:mrl_rippleColor="#10000000"
-            app:mrl_rippleRoundedCorners="100dp">
+            android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/ToolbarActBlog"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/colorWhite"
+                tools:ignore="UselessParent">
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_centerInParent="true"
-                    android:contentDescription="@null"
-                    android:rotation="180"
-                    app:srcCompat="@drawable/ic_back" />
+                <com.balysv.materialripple.MaterialRippleLayout
+                    android:id="@+id/imgBackActBlog"
+                    android:layout_width="45dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="10dp"
+                    app:mrl_rippleAlpha="0.05"
+                    app:mrl_rippleColor="#10000000"
+                    app:mrl_rippleRoundedCorners="100dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_centerInParent="true"
+                            android:contentDescription="@null"
+                            android:rotation="180"
+                            app:srcCompat="@drawable/ic_back" />
+                    </RelativeLayout>
+                </com.balysv.materialripple.MaterialRippleLayout>
+
+                <TextView
+                    android:id="@+id/lblTitleActBlog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="15dp"
+                    android:layout_toStartOf="@id/imgBackActBlog"
+                    android:text="مجلات"
+                    android:textColor="@color/colorMenu"
+                    tools:ignore="HardcodedText" />
             </RelativeLayout>
-        </com.balysv.materialripple.MaterialRippleLayout>
 
-        <TextView
-            android:id="@+id/lblTitleActBlog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="15dp"
-            android:layout_toStartOf="@id/imgBackActBlog"
-            android:text="مجلات"
-            android:textColor="@color/colorMenu"
-            tools:ignore="HardcodedText" />
-    </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="@color/colorAccent" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@color/colorAccent" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerBlog"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                tools:ignore="InvalidId" />
+        </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerBlog"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none"
-        tools:ignore="InvalidId" />
 </LinearLayout>

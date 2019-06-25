@@ -2,6 +2,7 @@ package ntk.android.ticketing.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -39,6 +40,9 @@ public class ActNews extends AppCompatActivity {
     @BindView(R.id.recyclerNews)
     RecyclerView Rv;
 
+    @BindView(R.id.swipRefreshActNews)
+    SwipeRefreshLayout Refresh;
+
     private int Total = 0;
     private List<NewsContent> news = new ArrayList<>();
     private AdNews adapter;
@@ -71,6 +75,12 @@ public class ActNews extends AppCompatActivity {
         Rv.addOnScrollListener(scrollListener);
 
         RestCall(1);
+
+        Refresh.setOnRefreshListener(() -> {
+            news.clear();
+            init();
+            Refresh.setRefreshing(false);
+        });
     }
 
     private void RestCall(int i) {
