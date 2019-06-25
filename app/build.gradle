@@ -93,9 +93,11 @@ dependencies {
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'   // Crashlytics plugin
     implementation 'com.airbnb.android:lottie:2.7.0'
     implementation 'gun0912.ted:tedpermission-rx2:2.2.2'
-    implementation 'com.github.akaravi:ntk.android.base:1.0.9'
+
     compile 'com.ss.bannerslider:bannerslider:1.8.0'
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
+
+    implementation 'com.github.akaravi:ntk.android.base:1.0.10'
 }
 apply plugin: 'com.google.gms.google-services'
