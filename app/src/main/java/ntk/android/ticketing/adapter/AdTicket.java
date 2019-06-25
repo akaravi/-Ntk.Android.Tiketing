@@ -9,9 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
@@ -44,7 +47,9 @@ public class AdTicket extends RecyclerView.Adapter<AdTicket.ViewHolder> {
         holder.Lbls.get(0).setText(arrayList.get(position).Title);
         holder.Lbls.get(1).setText(arrayList.get(position).LinkTicketTypeId);
         holder.Lbls.get(3).setText(arrayList.get(position).DeviceInformation);
-        holder.Lbls.get(5).setText("#" + arrayList.get(position).LinkCmsUserId);
+        if (arrayList.get(position).LinkCmsUserId != null) {
+            holder.Lbls.get(5).setText("#" + arrayList.get(position).LinkCmsUserId);
+        }
         switch (arrayList.get(position).TicketStatus) {
             case 1:
                 holder.Lbls.get(2).setBackgroundResource(R.drawable.circlegreen);
