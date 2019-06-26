@@ -3,17 +3,17 @@
 
     <item
         android:id="@android:id/background"
-        android:bottom="7dp"
+        android:bottom="1dp"
         android:drawable="@drawable/ic_unrate" />
 
     <item
         android:id="@android:id/secondaryProgress"
-        android:bottom="7dp"
+        android:bottom="1dp"
         android:drawable="@drawable/ic_unrate" />
 
     <item
         android:id="@android:id/progress"
-        android:bottom="7dp"
+        android:bottom="1dp"
         android:drawable="@drawable/ic_rate" />
 
 </layer-list>

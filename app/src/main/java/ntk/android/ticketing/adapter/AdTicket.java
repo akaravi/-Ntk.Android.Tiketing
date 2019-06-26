@@ -47,8 +47,8 @@ public class AdTicket extends RecyclerView.Adapter<AdTicket.ViewHolder> {
         holder.Lbls.get(0).setText(arrayList.get(position).Title);
         holder.Lbls.get(1).setText(arrayList.get(position).LinkTicketTypeId);
         holder.Lbls.get(3).setText(arrayList.get(position).DeviceInformation);
-        if (arrayList.get(position).LinkCmsUserId != null) {
-            holder.Lbls.get(5).setText("#" + arrayList.get(position).LinkCmsUserId);
+        if (arrayList.get(position).CreatedBy != null) {
+            holder.Lbls.get(5).setText("#" + arrayList.get(position).CreatedBy);
         }
         switch (arrayList.get(position).TicketStatus) {
             case 1:
