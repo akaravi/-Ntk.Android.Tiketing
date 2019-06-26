@@ -4,6 +4,7 @@ import android.content.Context;
 
 import ntk.android.ticketing.utill.EasyPreference;
 
+
 public class ConfigStaticValue {
     public ConfigStaticValue(Context context) {
         privateContext=context;

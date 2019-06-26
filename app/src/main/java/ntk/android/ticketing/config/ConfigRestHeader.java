@@ -10,8 +10,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.HashMap;
 import java.util.Map;
 
-import ntk.android.ticketing.BuildConfig;
 import ntk.android.ticketing.utill.AppUtill;
+import ntk.base.api.BuildConfig;
 
 public class ConfigRestHeader {
 
