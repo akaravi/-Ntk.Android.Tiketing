@@ -8,7 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import java.util.List;
+
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
@@ -35,9 +37,11 @@ public class AdTicketAnswer extends RecyclerView.Adapter<AdTicketAnswer.ViewHold
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.Lbls.get(1).setText(arrayList.get(position).HtmlBody +"");
-        holder.Lbls.get(2).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate)+"");
-        holder.Lbls.get(3).setText(arrayList.get(position).UpdatedBy+"");
+        holder.Lbls.get(1).setText(arrayList.get(position).HtmlBody + "");
+        holder.Lbls.get(2).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate) + "");
+        if (arrayList.get(position).UpdatedBy != null) {
+            holder.Lbls.get(3).setText(arrayList.get(position).UpdatedBy + "");
+        }
         holder.Lbls.get(4).setText("#" + arrayList.get(position).CreatedBy);
     }
 
