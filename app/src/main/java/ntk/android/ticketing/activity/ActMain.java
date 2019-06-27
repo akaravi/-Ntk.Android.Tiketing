@@ -257,7 +257,7 @@ public class ActMain extends AppCompatActivity {
 
     private void HandelToolbarDrawer() {
         Theme theme = new Gson().fromJson(EasyPreference.with(this).getString("Theme", ""), Theme.class);
-
+        if (theme == null) return;
         RvToolbar.setHasFixedSize(true);
         RvToolbar.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         List<Toolbar> toolbars = new ArrayList<>();
