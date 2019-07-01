@@ -82,12 +82,6 @@ public class ActIntro extends AppCompatActivity {
                         if (response.ListItems.size() != 0) {
                             Intro.ListItems = response.ListItems;
                             HandelIntro();
-                        } else {
-                            EasyPreference.with(ActIntro.this).addBoolean("Intro", true);
-                            handler.postDelayed(() -> {
-                                startActivity(new Intent(ActIntro.this, ActRegister.class));
-                                finish();
-                            }, 3000);
                         }
                     }
 

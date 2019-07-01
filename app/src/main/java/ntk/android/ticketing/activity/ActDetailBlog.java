@@ -743,7 +743,7 @@ public class ActDetailBlog extends AppCompatActivity {
 
     @OnClick(R.id.imgShareActDetailBlog)
     public void ClickShare() {
-        if (model.Item.Source == null) {
+        if (model == null || model.Item.Source == null) {
             Toasty.warning(this, "این محتوا امکان به اشتراک گذاری ندارد", Toasty.LENGTH_LONG, true).show();
             return;
         }

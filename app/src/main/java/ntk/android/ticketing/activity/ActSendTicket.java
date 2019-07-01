@@ -2,6 +2,7 @@ package ntk.android.ticketing.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -25,8 +26,10 @@ import com.tedpark.tedpermission.rx2.TedRx2Permission;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,12 +52,16 @@ import ntk.android.ticketing.event.EvRemoveAttach;
 import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.android.ticketing.utill.Regex;
+import ntk.base.api.file.interfase.IFile;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingDepartemen;
 import ntk.base.api.ticket.model.TicketingDepartemenList;
 import ntk.base.api.ticket.model.TicketingSubmitRequest;
 import ntk.base.api.ticket.model.TicketingSubmitResponse;
 import ntk.base.api.utill.RetrofitManager;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class ActSendTicket extends AppCompatActivity {
 
@@ -93,6 +100,7 @@ public class ActSendTicket extends AppCompatActivity {
     private TicketingSubmitRequest request = new TicketingSubmitRequest();
     private List<String> attaches = new ArrayList<>();
     private AdAttach adapter;
+    private String linkFileIds = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -300,6 +308,7 @@ public class ActSendTicket extends AppCompatActivity {
     }
 
     private void UploadFile(String s) {
+        UploadFileToServer(s);
         Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
 
         RetrofitManager manager = new RetrofitManager(ActSendTicket.this);
@@ -317,11 +326,11 @@ public class ActSendTicket extends AppCompatActivity {
                         String[] strs = s.split("/");
                         String FileName = strs[strs.length - 1];
                         attaches.add(FileName + " - " + url);
-                        adapter.notifyDataSetChanged();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        Toasty.warning(ActSendTicket.this, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
                     }
 
                     @Override
@@ -329,6 +338,47 @@ public class ActSendTicket extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private void UploadFileToServer(String url) {
+        if (AppUtill.isNetworkAvailable(this)) {
+            File file = new File(String.valueOf(Uri.parse(url)));
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            RetrofitManager retro = new RetrofitManager(this);
+            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
+            IFile iFile = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IFile.class);
+            Observable<String> Call = iFile.uploadFileWithPartMap(headers, new HashMap<>(), MultipartBody.Part.createFormData("File", file.getName(), requestFile));
+            Call.observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new Observer<String>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                        }
+
+                        @Override
+                        public void onNext(String model) {
+                            linkFileIds = linkFileIds + model + ",";
+                            adapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    init();
+                                }
+                            }).show();
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } else {
+            Toasty.warning(this, "عدم دسترسی به اینترنت", Toasty.LENGTH_LONG, true).show();
+        }
     }
 
     @Subscribe

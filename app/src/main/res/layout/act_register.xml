@@ -52,6 +52,8 @@
             android:gravity="center"
             android:hint="_   _   _   _   _   _   _   _   _   _"
             android:inputType="phone"
+            android:lines="1"
+            android:maxLength="11"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             tools:ignore="HardcodedText" />
