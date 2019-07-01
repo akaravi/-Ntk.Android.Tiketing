@@ -76,7 +76,7 @@
             <RatingBar
                 android:id="@+id/ratingBarRowRecyclerNews"
                 android:layout_width="wrap_content"
-                android:layout_height="27dp"
+                android:layout_height="19dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
