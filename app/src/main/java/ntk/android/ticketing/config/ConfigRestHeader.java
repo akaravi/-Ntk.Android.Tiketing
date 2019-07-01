@@ -10,8 +10,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.HashMap;
 import java.util.Map;
 
+import ntk.android.ticketing.BuildConfig;
 import ntk.android.ticketing.utill.AppUtill;
-import ntk.base.api.BuildConfig;
 
 public class ConfigRestHeader {
 
@@ -24,8 +24,8 @@ public class ConfigRestHeader {
         headers.put("LocationLat", "0");
         headers.put("DeviceId", Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
         headers.put("DeviceBrand", AppUtill.GetDeviceName());
-        headers.put("Country", context.getResources().getConfiguration().locale.getDisplayCountry());
-        headers.put("Language", context.getResources().getConfiguration().locale.getLanguage());
+        headers.put("Country", "IR");
+        headers.put("Language", "FA");
         headers.put("SimCard", manager.getSimOperatorName());
         headers.put("PackageName", BuildConfig.APPLICATION_ID);
         headers.put("AppBuildVer", String.valueOf(BuildConfig.VERSION_CODE));

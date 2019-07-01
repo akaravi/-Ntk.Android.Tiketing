@@ -98,7 +98,7 @@ public class ActSplash extends AppCompatActivity {
             RetrofitManager manager = new RetrofitManager(this);
             ICore iCore = manager.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(ICore.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-            Observable<MainCoreResponse> observable = iCore.GET_GetResponseMain(headers);
+            Observable<MainCoreResponse> observable = iCore.GetResponseMain(headers);
             observable.observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(new Observer<MainCoreResponse>() {
