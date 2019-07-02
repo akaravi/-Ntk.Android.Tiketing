@@ -128,6 +128,13 @@
                     android:layout_height="wrap_content"
                     android:scrollbars="none" />
 
+                <ProgressBar
+                    android:id="@+id/progressAttachActTicketAnswer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone" />
+
                 <Button
                     android:id="@+id/btnSubmitActTicketAnswer"
                     android:layout_width="match_parent"

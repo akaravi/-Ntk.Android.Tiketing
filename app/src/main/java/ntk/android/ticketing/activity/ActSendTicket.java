@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -96,6 +97,9 @@ public class ActSendTicket extends AppCompatActivity {
 
     @BindView(R.id.mainLayoutActSendTicket)
     CoordinatorLayout layout;
+
+    @BindView(R.id.progressAttachActSendTicket)
+    ProgressBar progressBar;
 
     private TicketingSubmitRequest request = new TicketingSubmitRequest();
     private List<String> attaches = new ArrayList<>();
@@ -300,6 +304,8 @@ public class ActSendTicket extends AppCompatActivity {
                                 .build();
                         chooser.show();
                         chooser.setOnSelectListener(this::UploadFile);
+                        progressBar.setVisibility(View.VISIBLE);
+                        Btn.setVisibility(View.GONE);
                     } else {
                     }
                 }, throwable -> {
@@ -358,11 +364,15 @@ public class ActSendTicket extends AppCompatActivity {
                         @Override
                         public void onNext(String model) {
                             linkFileIds = linkFileIds + model + ",";
+                            progressBar.setVisibility(View.GONE);
+                            Btn.setVisibility(View.VISIBLE);
                             adapter.notifyDataSetChanged();
                         }
 
                         @Override
                         public void onError(Throwable e) {
+                            progressBar.setVisibility(View.GONE);
+                            Btn.setVisibility(View.VISIBLE);
                             Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -377,6 +387,8 @@ public class ActSendTicket extends AppCompatActivity {
                         }
                     });
         } else {
+            Btn.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
             Toasty.warning(this, "عدم دسترسی به اینترنت", Toasty.LENGTH_LONG, true).show();
         }
     }

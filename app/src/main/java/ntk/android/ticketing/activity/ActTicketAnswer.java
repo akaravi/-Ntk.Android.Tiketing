@@ -11,7 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.codekidlabs.storagechooser.StorageChooser;
@@ -29,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
@@ -74,6 +77,12 @@ public class ActTicketAnswer extends AppCompatActivity {
 
     @BindView(R.id.txtMessageActTicketAnswer)
     EditText txt;
+
+    @BindView(R.id.progressAttachActTicketAnswer)
+    ProgressBar progressBar;
+
+    @BindView(R.id.btnSubmitActTicketAnswer)
+    Button btn;
 
     private ArrayList<TicketingAnswer> tickets = new ArrayList<>();
     private AdTicketAnswer adapter;
@@ -246,6 +255,8 @@ public class ActTicketAnswer extends AppCompatActivity {
                                 .build();
                         chooser.show();
                         chooser.setOnSelectListener(this::UploadFile);
+                        progressBar.setVisibility(View.VISIBLE);
+                        btn.setVisibility(View.GONE);
                     } else {
                     }
                 }, throwable -> {
@@ -303,12 +314,16 @@ public class ActTicketAnswer extends AppCompatActivity {
 
                         @Override
                         public void onNext(String model) {
-                            linkFileIds = linkFileIds + model + ",";
+                            progressBar.setVisibility(View.GONE);
+                            btn.setVisibility(View.VISIBLE);
                             adapter.notifyDataSetChanged();
+                            linkFileIds = linkFileIds + model + ",";
                         }
 
                         @Override
                         public void onError(Throwable e) {
+                            progressBar.setVisibility(View.GONE);
+                            btn.setVisibility(View.VISIBLE);
                             Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -323,6 +338,8 @@ public class ActTicketAnswer extends AppCompatActivity {
                         }
                     });
         } else {
+            btn.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
             Toasty.warning(this, "عدم دسترسی به اینترنت", Toasty.LENGTH_LONG, true).show();
         }
     }

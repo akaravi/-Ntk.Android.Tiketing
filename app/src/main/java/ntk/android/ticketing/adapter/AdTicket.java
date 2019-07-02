@@ -47,9 +47,6 @@ public class AdTicket extends RecyclerView.Adapter<AdTicket.ViewHolder> {
         holder.Lbls.get(0).setText(arrayList.get(position).Title);
         holder.Lbls.get(1).setText(arrayList.get(position).LinkTicketTypeId);
         holder.Lbls.get(3).setText(arrayList.get(position).DeviceInformation);
-        if (arrayList.get(position).CreatedBy != null) {
-            holder.Lbls.get(5).setText("#" + arrayList.get(position).CreatedBy);
-        }
         switch (arrayList.get(position).TicketStatus) {
             case 1:
                 holder.Lbls.get(2).setBackgroundResource(R.drawable.circlegreen);
@@ -98,8 +95,7 @@ public class AdTicket extends RecyclerView.Adapter<AdTicket.ViewHolder> {
                 R.id.lblTypeRecyclerTicket,
                 R.id.lblStateRecyclerTicket,
                 R.id.lblDateRecyclerTicket,
-                R.id.lblTypeDepartmanRecyclerTicket,
-                R.id.lblNumberRecyclerTicket})
+                R.id.lblTypeDepartmanRecyclerTicket})
         List<TextView> Lbls;
 
         @BindView(R.id.rootTicket)
@@ -113,7 +109,6 @@ public class AdTicket extends RecyclerView.Adapter<AdTicket.ViewHolder> {
             Lbls.get(2).setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
             Lbls.get(3).setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
             Lbls.get(4).setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
-            Lbls.get(5).setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
         }
     }
 }

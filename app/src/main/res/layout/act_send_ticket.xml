@@ -280,6 +280,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scrollbars="none" />
+
+                <ProgressBar
+                    android:id="@+id/progressAttachActSendTicket"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone" />
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>

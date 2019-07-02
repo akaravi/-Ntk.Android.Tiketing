@@ -21,16 +21,6 @@
             android:textColor="@color/colorGrayText"
             android:textSize="14sp"
             tools:ignore="HardcodedText" />
-
-        <TextView
-            android:id="@+id/lblNumberRecyclerTicket"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="#703756"
-            android:textSize="11sp"
-            tools:ignore="HardcodedText" />
     </RelativeLayout>
 
     <RelativeLayout
