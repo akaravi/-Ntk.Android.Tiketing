@@ -72,8 +72,8 @@ public class AdFaq extends RecyclerView.Adapter<AdFaq.ViewHolder> {
             ButterKnife.bind(this, view);
             Lbls.get(0).setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
             Lbls.get(1).setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
-            Web.getSettings().setBuiltInZoomControls(false);
             Web.getSettings().setJavaScriptEnabled(true);
+            Web.getSettings().setBuiltInZoomControls(true);
             Web.setVisibility(View.GONE);
         }
     }
