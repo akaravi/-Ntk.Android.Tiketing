@@ -225,6 +225,7 @@ public class ActSendTicket extends AppCompatActivity {
                                     request.HtmlBody = Txts.get(1).getText().toString();
                                     request.Title = Txts.get(0).getText().toString();
                                     request.uploadName = attaches;
+                                    request.LinkFileIds = linkFileIds;
 
                                     RetrofitManager retro = new RetrofitManager(this);
                                     Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);

@@ -98,6 +98,6 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.0'
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
 
-    implementation 'com.github.akaravi:ntk.android.base:1.0.10'
+    implementation 'com.github.akaravi:ntk.android.base:1.0.12'
 }
 apply plugin: 'com.google.gms.google-services'
