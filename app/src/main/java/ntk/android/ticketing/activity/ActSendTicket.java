@@ -2,12 +2,15 @@ package ntk.android.ticketing.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -287,31 +290,42 @@ public class ActSendTicket extends AppCompatActivity {
     @SuppressLint("CheckResult")
     @OnClick(R.id.RippleAttachActSendTicket)
     public void ClickAttach() {
-        TedRx2Permission.with(this)
-                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .request()
-                .subscribe(tedPermissionResult -> {
-                    if (tedPermissionResult.isGranted()) {
-                        StorageChooser.Theme theme = new StorageChooser.Theme(getApplicationContext());
-                        theme.setScheme(getResources().getIntArray(R.array.paranoid_theme));
-                        StorageChooser chooser = new StorageChooser.Builder()
-                                .withActivity(this)
-                                .allowCustomPath(true)
-                                .setType(StorageChooser.FILE_PICKER)
-                                .disableMultiSelect()
-                                .setTheme(theme)
-                                .withMemoryBar(true)
-                                .withFragmentManager(getFragmentManager())
-                                .build();
-                        chooser.show();
-                        chooser.setOnSelectListener(this::UploadFile);
-                        progressBar.setVisibility(View.VISIBLE);
-                        Btn.setVisibility(View.GONE);
-                    } else {
-                    }
-                }, throwable -> {
-                });
+        if (CheckPermission()) {
+            TedRx2Permission.with(this)
+                    .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .request()
+                    .subscribe(tedPermissionResult -> {
+                        if (tedPermissionResult.isGranted()) {
+                            StorageChooser.Theme theme = new StorageChooser.Theme(getApplicationContext());
+                            theme.setScheme(getResources().getIntArray(R.array.paranoid_theme));
+                            StorageChooser chooser = new StorageChooser.Builder()
+                                    .withActivity(this)
+                                    .allowCustomPath(true)
+                                    .setType(StorageChooser.FILE_PICKER)
+                                    .disableMultiSelect()
+                                    .setTheme(theme)
+                                    .withMemoryBar(true)
+                                    .withFragmentManager(getFragmentManager())
+                                    .build();
+                            chooser.show();
+                            chooser.setOnSelectListener(this::UploadFile);
+                            progressBar.setVisibility(View.VISIBLE);
+                            Btn.setVisibility(View.GONE);
+                        } else {
+                        }
+                    }, throwable -> {
+                    });
+        } else {
+            ActivityCompat.requestPermissions(ActSendTicket.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 220);
+        }
+    }
 
+    private boolean CheckPermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            return checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+        } else {
+            return true;
+        }
     }
 
     private void UploadFile(String s) {
