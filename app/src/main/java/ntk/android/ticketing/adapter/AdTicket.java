@@ -20,6 +20,7 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.ActTicketAnswer;
+import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.model.Filters;
 import ntk.base.api.ticket.model.TicketingAnswerListRequest;
@@ -45,7 +46,7 @@ public class AdTicket extends RecyclerView.Adapter<AdTicket.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.Lbls.get(0).setText(arrayList.get(position).Title);
-        holder.Lbls.get(2).setText(arrayList.get(position).LinkTicketTypeId);
+        holder.Lbls.get(2).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate) + "");
         switch (arrayList.get(position).TicketStatus) {
             case 1:
                 holder.Lbls.get(1).setBackgroundResource(R.drawable.circlegreen);
