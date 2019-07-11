@@ -193,7 +193,6 @@ public class AdDrawer extends RecyclerView.Adapter<AdDrawer.ViewHolder> {
     private void ClickShare() {
         String st = EasyPreference.with(context).getString("configapp", "");
         CoreMain mcr = new Gson().fromJson(st, CoreMain.class);
-        Uri imageUri = Uri.parse("android.resource://" + context.getPackageName() + "/drawable/" + "share");
 
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -222,8 +221,7 @@ public class AdDrawer extends RecyclerView.Adapter<AdDrawer.ViewHolder> {
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);
             shareIntent.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.app_name) + "\n" + "لینک دانلود:" + "\n" + mcr.AppUrl);
-            shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-            shareIntent.setType("image/jpeg");
+            shareIntent.setType("text/txt");
             shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             context.startActivity(Intent.createChooser(shareIntent, "به اشتراک گزاری با...."));
         });

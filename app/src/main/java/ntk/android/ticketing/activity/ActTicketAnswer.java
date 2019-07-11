@@ -121,7 +121,7 @@ public class ActTicketAnswer extends AppCompatActivity {
 
     private void init() {
         Lbl.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
-        Lbl.setText("پاسخ تیکت شماره");
+        Lbl.setText("پاسخ تیکت  "+getIntent().getLongExtra("TicketId", 0));
         Rvs.get(0).setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         Rvs.get(0).setLayoutManager(manager);

@@ -42,25 +42,6 @@
                 android:textSize="9sp"
                 tools:ignore="HardcodedText" />
 
-            <TextView
-                android:id="@+id/lblNameRecyclerTicketAnswer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:text="keywork.ir"
-                android:textColor="@color/colorAccent"
-                android:textSize="9sp"
-                tools:ignore="HardcodedText" />
-
-            <TextView
-                android:id="@+id/lblTypeDepartmanRecyclerTicketAnswer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="درخواست از دپارتمان"
-                android:textColor="@color/colorGrayText"
-                android:textSize="9sp"
-                tools:ignore="HardcodedText" />
         </LinearLayout>
 
     </RelativeLayout>

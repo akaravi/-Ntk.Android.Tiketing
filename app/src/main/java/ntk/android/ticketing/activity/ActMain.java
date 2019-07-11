@@ -67,6 +67,7 @@ import ntk.base.api.news.interfase.INews;
 import ntk.base.api.news.model.NewsContent;
 import ntk.base.api.news.model.NewsContentListRequest;
 import ntk.base.api.news.model.NewsContentResponse;
+import ntk.base.api.news.model.NewsContentViewRequest;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingListRequest;
 import ntk.base.api.ticket.model.TicketingListResponse;
@@ -75,6 +76,7 @@ import ntk.base.api.utill.NTKUtill;
 import ntk.base.api.utill.RetrofitManager;
 import ss.com.bannerslider.banners.Banner;
 import ss.com.bannerslider.banners.RemoteBanner;
+import ss.com.bannerslider.events.OnBannerClickListener;
 import ss.com.bannerslider.views.BannerSlider;
 
 public class ActMain extends AppCompatActivity {
@@ -446,6 +448,14 @@ public class ActMain extends AppCompatActivity {
                                 banners.add(new RemoteBanner(news.imageSrc));
                             }
                             Slider.setBanners(banners);
+                            Slider.setOnBannerClickListener(new OnBannerClickListener() {
+                                @Override
+                                public void onClick(int position) {
+                                    NewsContentViewRequest request = new NewsContentViewRequest();
+                                    request.Id = newsContentResponse.ListItems.get(position).Id;
+                                    startActivity(new Intent(ActMain.this,ActDetailNews.class).putExtra("Request", new Gson().toJson(request)));
+                                }
+                            });
                         }
                     }
 
