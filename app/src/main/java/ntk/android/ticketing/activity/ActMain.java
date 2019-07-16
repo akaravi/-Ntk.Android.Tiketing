@@ -2,32 +2,30 @@ package ntk.android.ticketing.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.Window;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.flaviofaria.kenburnsview.KenBurnsView;
+import com.codekidlabs.storagechooser.animators.MemorybarAnimation;
 import com.google.gson.Gson;
-import com.mxn.soul.flowingdrawer_core.ElasticDrawer;
-import com.mxn.soul.flowingdrawer_core.FlowingDrawer;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.google.zxing.WriterException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -35,8 +33,12 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import androidmads.library.qrgenearator.QRGContents;
+import androidmads.library.qrgenearator.QRGEncoder;
 import butterknife.BindView;
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
@@ -45,34 +47,26 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 import ntk.android.ticketing.BuildConfig;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.adapter.AdTicket;
-import ntk.android.ticketing.adapter.drawer.AdDrawer;
-import ntk.android.ticketing.adapter.toolbar.AdToobar;
 import ntk.android.ticketing.config.ConfigRestHeader;
 import ntk.android.ticketing.config.ConfigStaticValue;
-import ntk.android.ticketing.event.toolbar.EVHamberMenuClick;
 import ntk.android.ticketing.event.toolbar.EVSearchClick;
 import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.EasyPreference;
-import ntk.android.ticketing.utill.EndlessRecyclerViewScrollListener;
 import ntk.android.ticketing.utill.FontManager;
+import ntk.base.api.application.interfase.IApplication;
+import ntk.base.api.application.model.ApplicationScoreRequest;
+import ntk.base.api.application.model.ApplicationScoreResponse;
 import ntk.base.api.core.interfase.ICore;
 import ntk.base.api.core.model.CoreMain;
 import ntk.base.api.core.model.MainCoreResponse;
-import ntk.base.api.model.theme.Theme;
-import ntk.base.api.model.theme.Toolbar;
 import ntk.base.api.news.interfase.INews;
 import ntk.base.api.news.model.NewsContent;
 import ntk.base.api.news.model.NewsContentListRequest;
 import ntk.base.api.news.model.NewsContentResponse;
 import ntk.base.api.news.model.NewsContentViewRequest;
-import ntk.base.api.ticket.interfase.ITicket;
-import ntk.base.api.ticket.model.TicketingListRequest;
-import ntk.base.api.ticket.model.TicketingListResponse;
-import ntk.base.api.ticket.model.TicketingTask;
-import ntk.base.api.utill.NTKUtill;
 import ntk.base.api.utill.RetrofitManager;
 import ss.com.bannerslider.banners.Banner;
 import ss.com.bannerslider.banners.RemoteBanner;
@@ -81,42 +75,33 @@ import ss.com.bannerslider.views.BannerSlider;
 
 public class ActMain extends AppCompatActivity {
 
-    @BindView(R.id.drawerlayout)
-    FlowingDrawer drawer;
-
-    @BindView(R.id.HeaderImageActMain)
-    KenBurnsView Header;
-
-    @BindView(R.id.RecyclerToolbarActMain)
-    RecyclerView RvToolbar;
-
-    @BindView(R.id.RecyclerDrawer)
-    RecyclerView RvDrawer;
-
-    @BindView(R.id.recyclerActMain)
-    RecyclerView Rv;
-
-    @BindView(R.id.FabActMain)
-    FloatingActionButton Fab;
-
-    @BindView(R.id.RefreshTicket)
-    SwipeRefreshLayout Refresh;
-
+    @BindViews({R.id.news,
+            R.id.pooling,
+            R.id.invite,
+            R.id.feedback,
+            R.id.question,
+            R.id.intro,
+            R.id.blog,
+            R.id.aboutUs,
+            R.id.support,
+            R.id.message})
+    List<TextView> lbl;
+    @BindViews({R.id.newsBtn,
+            R.id.poolingBtn,
+            R.id.searchBtn,
+            R.id.inviteBtn,
+            R.id.feedbackBtn,
+            R.id.questionBtn,
+            R.id.introBtn,
+            R.id.blogBtn,
+            R.id.aboutUsBtn,
+            R.id.supportBtn,
+            R.id.messageBtn})
+    List<LinearLayout> btn;
     @BindView(R.id.SliderActMain)
-    public BannerSlider Slider;
-
-    @BindView(R.id.lblStatusActMain)
-    TextView status;
-
-    @BindView(R.id.mainLayoutActMain)
-    CoordinatorLayout layout;
-
-    private ArrayList<TicketingTask> tickets = new ArrayList<>();
-    private AdTicket adapter;
-
-    private EndlessRecyclerViewScrollListener scrollListener;
-    private int TotalTag = 0;
-
+    BannerSlider Slider;
+    @BindView(R.id.RefreshMain)
+    SwipeRefreshLayout Refresh;
     private long lastPressedTime;
     private static final int PERIOD = 2000;
 
@@ -129,152 +114,20 @@ public class ActMain extends AppCompatActivity {
     }
 
     private void init() {
-        status.setTypeface(FontManager.GetTypeface(ActMain.this, FontManager.IranSans));
-        drawer.setOnDrawerStateChangeListener(new ElasticDrawer.OnDrawerStateChangeListener() {
-            @Override
-            public void onDrawerStateChange(int oldState, int newState) {
-                if (newState == ElasticDrawer.STATE_CLOSED) {
-                }
-            }
-
-            @Override
-            public void onDrawerSlide(float openRatio, int offsetPixels) {
-            }
-        });
-        HandelToolbarDrawer();
-
-        HandelSlider();
-
-        Rv.setHasFixedSize(true);
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        Rv.setLayoutManager(manager);
-
-        adapter = new AdTicket(this, tickets);
-        Rv.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-
-        scrollListener = new EndlessRecyclerViewScrollListener(manager) {
-
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                if (totalItemsCount <= TotalTag) {
-                    HandelDataSupport((page + 1));
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView view, int dx, int dy) {
-                if (dy > 0 || dy < 0 && Fab.isShown())
-                    Fab.hide();
-            }
-
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    Fab.show();
-                }
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-        };
-
-        Rv.addOnScrollListener(scrollListener);
-
+        for (int i = 0; i < lbl.size(); i++) {
+            lbl.get(i).setTypeface(FontManager.GetTypeface(this, FontManager.DastNevis));
+        }
         Refresh.setColorSchemeResources(
                 R.color.colorAccent,
                 R.color.colorAccent,
                 R.color.colorAccent);
 
         Refresh.setOnRefreshListener(() -> {
-            tickets.clear();
-            HandelDataSupport(1);
+            HandelData();
+            HandelSlider();
             Refresh.setRefreshing(false);
         });
-
-        HandelDataSupport(1);
-    }
-
-    private void HandelDataSupport(int i) {
-        if (AppUtill.isNetworkAvailable(this)) {
-            RetrofitManager retro = new RetrofitManager(this);
-            ITicket iTicket = retro.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-
-            TicketingListRequest request = new TicketingListRequest();
-            request.RowPerPage = 10;
-            request.CurrentPageNumber = i;
-            request.SortType = NTKUtill.Descnding_Sort;
-            request.SortColumn = "Id";
-
-            Observable<TicketingListResponse> Call = iTicket.GetTicketList(headers, request);
-            Call.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<TicketingListResponse>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(TicketingListResponse model) {
-                            if (!model.ListItems.isEmpty()) {
-                                tickets.addAll(model.ListItems);
-                                adapter.notifyDataSetChanged();
-                                TotalTag = model.TotalRowCount;
-                                status.setVisibility(View.GONE);
-                            } else {
-                                status.setVisibility(View.VISIBLE);
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    init();
-                                }
-                            }).show();
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-        } else {
-            Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    init();
-                }
-            }).show();
-        }
-    }
-
-    @OnClick(R.id.FabActMain)
-    public void ClickSendTicket() {
-        startActivity(new Intent(this, ActSendTicket.class));
-    }
-
-    private void HandelToolbarDrawer() {
-        Theme theme = new Gson().fromJson(EasyPreference.with(this).getString("Theme", ""), Theme.class);
-        if (theme == null) return;
-        RvToolbar.setHasFixedSize(true);
-        RvToolbar.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        List<Toolbar> toolbars = new ArrayList<>();
-        toolbars.add(theme.Toolbar);
-        AdToobar AdToobar = new AdToobar(this, toolbars);
-        RvToolbar.setAdapter(AdToobar);
-        AdToobar.notifyDataSetChanged();
-
-        ImageLoader.getInstance().displayImage(theme.Toolbar.Drawer.HeaderImage, Header);
-
-        RvDrawer.setHasFixedSize(true);
-        RvDrawer.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        AdDrawer AdDrawer = new AdDrawer(this, theme.Toolbar.Drawer.Child, drawer);
-        RvDrawer.setAdapter(AdDrawer);
-        AdDrawer.notifyDataSetChanged();
+        HandelSlider();
     }
 
     @Override
@@ -288,11 +141,6 @@ public class ActMain extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
-    }
-
-    @Subscribe
-    public void EvClickMenu(EVHamberMenuClick click) {
-        drawer.openMenu(false);
     }
 
     @Subscribe
@@ -453,7 +301,7 @@ public class ActMain extends AppCompatActivity {
                                 public void onClick(int position) {
                                     NewsContentViewRequest request = new NewsContentViewRequest();
                                     request.Id = newsContentResponse.ListItems.get(position).Id;
-                                    startActivity(new Intent(ActMain.this,ActDetailNews.class).putExtra("Request", new Gson().toJson(request)));
+                                    startActivity(new Intent(ActMain.this, ActDetailNews.class).putExtra("Request", new Gson().toJson(request)));
                                 }
                             });
                         }
@@ -470,4 +318,163 @@ public class ActMain extends AppCompatActivity {
                 });
     }
 
+    @OnClick(R.id.supportBtn)
+    public void onSupportClick() {
+        this.startActivity(new Intent(this, ActSupport.class));
+    }
+
+    @OnClick(R.id.searchBtn)
+    public void onSearchClick() {
+        this.startActivity(new Intent(this, ActSearch.class));
+    }
+
+    @OnClick(R.id.messageBtn)
+    public void onInboxClick() {
+        this.startActivity(new Intent(this, ActInbox.class));
+    }
+
+    @OnClick(R.id.newsBtn)
+    public void onNewsClick() {
+        this.startActivity(new Intent(this, ActNews.class));
+    }
+
+    @OnClick(R.id.feedbackBtn)
+    public void onFeedBackClick() {
+        ApplicationScoreRequest request = new ApplicationScoreRequest();
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(true);
+        Window window = dialog.getWindow();
+        window.setLayout(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.CENTER);
+        dialog.setContentView(R.layout.dialog_comment);
+        dialog.show();
+        TextView Lbl = dialog.findViewById(R.id.lblTitleDialogComment);
+        Lbl.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
+        final EditText Txt = dialog.findViewById(R.id.txtDialogComment);
+        Txt.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
+        Txt.setText(EasyPreference.with(this).getString("RateMessage", ""));
+        final MaterialRatingBar Rate = dialog.findViewById(R.id.rateDialogComment);
+        Rate.setRating(EasyPreference.with(this).getInt("Rate", 0));
+        Rate.setOnRatingChangeListener((ratingBar, rating) -> {
+            request.ScorePercent = (int) rating;
+            //برای تبدیل به درصد
+            request.ScorePercent = request.ScorePercent * 17;
+            if (request.ScorePercent > 100)
+                request.ScorePercent = 100;
+        });
+        Button Btn = dialog.findViewById(R.id.btnDialogComment);
+        Btn.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
+        Btn.setOnClickListener(v -> {
+            if (Txt.getText().toString().isEmpty()) {
+                Toast.makeText(this, "لطفا نظر خود را وارد نمایید", Toast.LENGTH_SHORT).show();
+            } else {
+                if (AppUtill.isNetworkAvailable(this)) {
+                    request.ScoreComment = Txt.getText().toString();
+
+                    RetrofitManager manager = new RetrofitManager(this);
+                    IApplication iCore = manager.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(IApplication.class);
+                    Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
+                    Observable<ApplicationScoreResponse> Call = iCore.SetScoreApplication(headers, request);
+                    Call.observeOn(AndroidSchedulers.mainThread())
+                            .subscribeOn(Schedulers.io())
+                            .subscribe(new Observer<ApplicationScoreResponse>() {
+                                @Override
+                                public void onSubscribe(Disposable d) {
+
+                                }
+
+                                @Override
+                                public void onNext(ApplicationScoreResponse applicationScoreResponse) {
+                                    if (applicationScoreResponse.IsSuccess) {
+                                        Toasty.success(ActMain.this, "با موفقیت ثبت شد", Toast.LENGTH_LONG, true).show();
+                                    } else {
+                                        Toasty.warning(ActMain.this, "خظا در دریافت اطلاعات", Toast.LENGTH_LONG, true).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    Toasty.warning(ActMain.this, "خظا در اتصال به مرکز", Toast.LENGTH_LONG, true).show();
+                                }
+
+                                @Override
+                                public void onComplete() {
+
+                                }
+                            });
+                } else {
+                    Toast.makeText(this, "عدم دسترسی به اینترنت", Toast.LENGTH_SHORT).show();
+                }
+                dialog.dismiss();
+            }
+        });
+    }
+
+    @OnClick(R.id.poolingBtn)
+    public void onPoolingClick() {
+        this.startActivity(new Intent(this, ActPooling.class));
+    }
+
+    @OnClick(R.id.inviteBtn)
+    public void onInviteClick() {
+        String st = EasyPreference.with(this).getString("configapp", "");
+        CoreMain mcr = new Gson().fromJson(st, CoreMain.class);
+
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCanceledOnTouchOutside(true);
+        Window window = dialog.getWindow();
+        window.setLayout(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
+        window.setGravity(Gravity.CENTER);
+        dialog.setContentView(R.layout.dialog_qrcode);
+        dialog.show();
+        TextView Lbl = dialog.findViewById(R.id.lblTitleDialogQRCode);
+        Lbl.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
+
+        QRGEncoder qrgEncoder = new QRGEncoder(mcr.AppUrl, null, QRGContents.Type.TEXT, 300);
+        try {
+            Bitmap bitmap = qrgEncoder.encodeAsBitmap();
+            ImageView img = dialog.findViewById(R.id.qrCodeDialogQRCode);
+            img.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            Toasty.warning(this, e.getMessage(), Toast.LENGTH_LONG, true).show();
+        }
+
+        Button Btn = dialog.findViewById(R.id.btnDialogQRCode);
+        Btn.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
+        Btn.setOnClickListener(v -> {
+            dialog.dismiss();
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, this.getString(R.string.app_name) + "\n" + "لینک دانلود:" + "\n" + mcr.AppUrl);
+            shareIntent.setType("text/txt");
+            shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            this.startActivity(Intent.createChooser(shareIntent, "به اشتراک گزاری با...."));
+        });
+    }
+
+    @OnClick(R.id.questionBtn)
+    public void onQuestionClick() {
+        this.startActivity(new Intent(this, ActFaq.class));
+    }
+
+    @OnClick(R.id.blogBtn)
+    public void onBlogClick() {
+        this.startActivity(new Intent(this, ActBlog.class));
+    }
+
+    @OnClick(R.id.aboutUsBtn)
+    public void onAboutUsClick() {
+        this.startActivity(new Intent(this, ActAbout.class));
+    }
+
+    @OnClick(R.id.introBtn)
+    public void onIntroClick() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("Help", 1);
+        Intent intent = new Intent(this, ActIntro.class);
+        intent.putExtra("Help", bundle);
+        this.startActivity(intent);
+    }
 }
