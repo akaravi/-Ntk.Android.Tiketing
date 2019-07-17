@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +15,11 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Window;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.BounceInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.EditText;
@@ -86,6 +91,7 @@ public class ActMain extends AppCompatActivity {
             R.id.support,
             R.id.message})
     List<TextView> lbl;
+
     @BindViews({R.id.newsBtn,
             R.id.poolingBtn,
             R.id.searchBtn,
@@ -98,10 +104,16 @@ public class ActMain extends AppCompatActivity {
             R.id.supportBtn,
             R.id.messageBtn})
     List<LinearLayout> btn;
+
+    @BindView(R.id.bannerLayout)
+    LinearLayout layout;
+
     @BindView(R.id.SliderActMain)
     BannerSlider Slider;
+
     @BindView(R.id.RefreshMain)
     SwipeRefreshLayout Refresh;
+
     private long lastPressedTime;
     private static final int PERIOD = 2000;
 
@@ -114,6 +126,7 @@ public class ActMain extends AppCompatActivity {
     }
 
     private void init() {
+        setAnimation();
         for (int i = 0; i < lbl.size(); i++) {
             lbl.get(i).setTypeface(FontManager.GetTypeface(this, FontManager.DastNevis));
         }
@@ -125,9 +138,28 @@ public class ActMain extends AppCompatActivity {
         Refresh.setOnRefreshListener(() -> {
             HandelData();
             HandelSlider();
+            setAnimation();
             Refresh.setRefreshing(false);
         });
         HandelSlider();
+    }
+
+    private void setAnimation() {
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
+        alphaAnimation.setDuration(3000);
+        alphaAnimation.setFillAfter(true);
+        alphaAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+        ScaleAnimation scaleAnimation = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        scaleAnimation.setDuration(3000);
+        scaleAnimation.setFillAfter(true);
+        scaleAnimation.setInterpolator(new BounceInterpolator());
+        AnimationSet animationSet = new AnimationSet(false);
+        animationSet.addAnimation(alphaAnimation);
+        animationSet.addAnimation(scaleAnimation);
+        for (int i = 0; i < btn.size(); i++) {
+            btn.get(i).startAnimation(scaleAnimation);
+        }
+        layout.startAnimation(alphaAnimation);
     }
 
     @Override

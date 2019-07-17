@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.2"
+        android:layout_weight="0.25"
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="1">
@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
-            android:layout_weight="0.425"
+            android:layout_weight="0.4"
             android:background="@drawable/main_btn_background"
             android:gravity="center"
             android:orientation="horizontal"
@@ -29,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.3"
                 android:src="@drawable/bell" />
 
             <TextView
@@ -48,14 +48,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
-            android:layout_weight="0.15"
+            android:layout_weight="0.2"
             android:background="@drawable/main_btn_background"
             android:gravity="center">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="25dp"
+                android:layout_margin="30dp"
                 android:src="@drawable/search" />
         </LinearLayout>
 
@@ -64,7 +64,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
-            android:layout_weight="0.425"
+            android:layout_weight="0.4"
             android:background="@drawable/main_btn_background"
             android:gravity="center"
             android:orientation="horizontal"
@@ -75,7 +75,7 @@
                 android:id="@+id/support"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.35"
+                android:layout_weight="0.45"
                 android:gravity="center"
                 android:text="پشتیبانی"
                 android:textColor="#000"
@@ -86,7 +86,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:layout_weight="0.2"
+                android:layout_weight="0.3"
                 android:src="@drawable/support" />
         </LinearLayout>
     </LinearLayout>
@@ -94,7 +94,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.8"
+        android:layout_weight="0.75"
         android:orientation="horizontal"
         android:weightSum="1">
 
