@@ -145,11 +145,11 @@ public class ActMain extends AppCompatActivity {
     }
 
     private void setAnimation() {
-        AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f, 1.0f);
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0.5f, 1.0f);
         alphaAnimation.setDuration(3000);
         alphaAnimation.setFillAfter(true);
         alphaAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
-        ScaleAnimation scaleAnimation = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        ScaleAnimation scaleAnimation = new ScaleAnimation(0.5f, 1.0f, 0.5f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scaleAnimation.setDuration(3000);
         scaleAnimation.setFillAfter(true);
         scaleAnimation.setInterpolator(new BounceInterpolator());
