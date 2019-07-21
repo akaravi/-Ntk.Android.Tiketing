@@ -149,7 +149,7 @@ public class ActMain extends AppCompatActivity {
         alphaAnimation.setFillAfter(true);
         alphaAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
         ScaleAnimation scaleAnimation = new ScaleAnimation(0.5f, 1.0f, 0.5f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        scaleAnimation.setDuration(3000);
+        scaleAnimation.setDuration(2000);
         scaleAnimation.setFillAfter(true);
         scaleAnimation.setInterpolator(new BounceInterpolator());
         AnimationSet animationSet = new AnimationSet(false);
