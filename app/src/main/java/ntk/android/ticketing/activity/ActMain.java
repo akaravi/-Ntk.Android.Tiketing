@@ -137,7 +137,6 @@ public class ActMain extends AppCompatActivity {
 
         Refresh.setOnRefreshListener(() -> {
             HandelData();
-            HandelSlider();
             setAnimation();
             Refresh.setRefreshing(false);
         });
