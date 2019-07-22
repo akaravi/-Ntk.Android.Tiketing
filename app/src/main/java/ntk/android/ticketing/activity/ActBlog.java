@@ -1,5 +1,6 @@
 package ntk.android.ticketing.activity;
 
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -124,5 +125,10 @@ public class ActBlog extends AppCompatActivity {
     @OnClick(R.id.imgBackActBlog)
     public void ClickBack() {
         finish();
+    }
+
+    @OnClick(R.id.imgSearchActBlog)
+    public void ClickSearch(){
+        startActivity(new Intent(this,ActBlogSearch.class));
     }
 }

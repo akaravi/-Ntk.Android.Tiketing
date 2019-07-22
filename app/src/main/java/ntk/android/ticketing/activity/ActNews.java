@@ -1,5 +1,6 @@
 package ntk.android.ticketing.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -124,5 +125,10 @@ public class ActNews extends AppCompatActivity {
     @OnClick(R.id.imgBackActNews)
     public void ClickBack() {
         finish();
+    }
+
+    @OnClick(R.id.imgSearchActNews)
+    public void ClickSearch(){
+        startActivity(new Intent(this,ActNewsSearch.class));
     }
 }

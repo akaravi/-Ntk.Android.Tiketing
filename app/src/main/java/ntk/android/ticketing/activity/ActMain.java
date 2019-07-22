@@ -89,7 +89,8 @@ public class ActMain extends AppCompatActivity {
             R.id.blog,
             R.id.aboutUs,
             R.id.support,
-            R.id.message})
+            R.id.message,
+            R.id.search})
     List<TextView> lbl;
 
     @BindViews({R.id.newsBtn,

@@ -94,6 +94,14 @@
             android:name=".activity.ActSupport"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".activity.ActNewsSearch"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name=".activity.ActBlogSearch"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBar"/>
 
         <service android:name=".service.SeFirebase">
             <intent-filter>
