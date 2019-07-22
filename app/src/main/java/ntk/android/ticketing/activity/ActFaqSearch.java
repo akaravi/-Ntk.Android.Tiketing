@@ -25,41 +25,41 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.adapter.AdBlog;
+import ntk.android.ticketing.adapter.AdFaq;
 import ntk.android.ticketing.config.ConfigRestHeader;
 import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.FontManager;
-import ntk.base.api.blog.interfase.IBlog;
-import ntk.base.api.blog.model.BlogContent;
-import ntk.base.api.blog.model.BlogContentListRequest;
-import ntk.base.api.blog.model.BlogContentListResponse;
 import ntk.base.api.model.Filters;
+import ntk.base.api.ticket.interfase.ITicket;
+import ntk.base.api.ticket.model.TicketingFaqListRequest;
+import ntk.base.api.ticket.model.TicketingFaqListResponse;
+import ntk.base.api.ticket.model.TicketingTask;
 import ntk.base.api.utill.NTKUtill;
 import ntk.base.api.utill.RetrofitManager;
 
-public class ActBlogSearch extends AppCompatActivity {
+public class ActFaqSearch extends AppCompatActivity {
 
-    @BindView(R.id.txtSearchActBlogSearch)
+    @BindView(R.id.txtSearchActFaqSearch)
     EditText Txt;
 
-    @BindView(R.id.recyclerBlogSearch)
+    @BindView(R.id.recyclerFaqSearch)
     RecyclerView Rv;
 
-    @BindView(R.id.btnRefreshActBlogSearch)
+    @BindView(R.id.btnRefreshActFaqSearch)
     Button btnRefresh;
 
-    @BindView(R.id.mainLayoutActBlogSearch)
+    @BindView(R.id.mainLayoutActFaqSearch)
     CoordinatorLayout layout;
 
-    private ArrayList<BlogContent> blogs = new ArrayList<>();
-    private AdBlog adapter;
+    private ArrayList<TicketingTask> faqs = new ArrayList<>();
+    private AdFaq adapter;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_blog_search);
+        setContentView(R.layout.act_faq_search);
         ButterKnife.bind(this);
         init();
     }
@@ -76,7 +76,7 @@ public class ActBlogSearch extends AppCompatActivity {
             }
             return false;
         });
-        adapter = new AdBlog(this, blogs);
+        adapter = new AdFaq(this, faqs);
         Rv.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -84,50 +84,44 @@ public class ActBlogSearch extends AppCompatActivity {
     private void Search() {
         if (AppUtill.isNetworkAvailable(this)) {
             RetrofitManager manager = new RetrofitManager(this);
-            IBlog iBlog = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IBlog.class);
+            ITicket iTicket = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
 
-            BlogContentListRequest request = new BlogContentListRequest();
+
+            TicketingFaqListRequest request = new TicketingFaqListRequest();
             List<Filters> filters = new ArrayList<>();
-            Filters ft = new Filters();
-            ft.PropertyName = "Title";
-            ft.StringValue1 = Txt.getText().toString();
-            ft.ClauseType = NTKUtill.ClauseType_Or;
-            ft.SearchType = NTKUtill.Search_Type_Contains;
-            filters.add(ft);
+            Filters fa = new Filters();
+            fa.PropertyName = "Answer";
+            fa.StringValue1 = Txt.getText().toString();
+            fa.ClauseType = NTKUtill.ClauseType_Or;
+            fa.SearchType = NTKUtill.Search_Type_Contains;
+            filters.add(fa);
 
-            Filters fd = new Filters();
-            fd.PropertyName = "Description";
-            fd.StringValue1 = Txt.getText().toString();
-            fd.ClauseType = NTKUtill.ClauseType_Or;
-            fd.SearchType = NTKUtill.Search_Type_Contains;
-            filters.add(fd);
+            Filters fq = new Filters();
+            fq.PropertyName = "Question";
+            fq.StringValue1 = Txt.getText().toString();
+            fq.ClauseType = NTKUtill.ClauseType_Or;
+            fq.SearchType = NTKUtill.Search_Type_Contains;
+            filters.add(fq);
 
-            Filters fb = new Filters();
-            fb.PropertyName = "Body";
-            fb.StringValue1 = Txt.getText().toString();
-            fb.ClauseType = NTKUtill.ClauseType_Or;
-            fb.SearchType = NTKUtill.Search_Type_Contains;
-
-            filters.add(fb);
             request.filters = filters;
 
-            Observable<BlogContentListResponse> Call = iBlog.GetContentList(new ConfigRestHeader().GetHeaders(this), request);
+            Observable<TicketingFaqListResponse> Call = iTicket.GetTicketFaqList(new ConfigRestHeader().GetHeaders(this), request);
             Call.observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<BlogContentListResponse>() {
+                    .subscribe(new Observer<TicketingFaqListResponse>() {
                         @Override
                         public void onSubscribe(Disposable d) {
 
                         }
 
                         @Override
-                        public void onNext(BlogContentListResponse response) {
+                        public void onNext(TicketingFaqListResponse response) {
                             if (response.IsSuccess) {
                                 if (response.ListItems.size() != 0) {
-                                    blogs.addAll(response.ListItems);
+                                    faqs.addAll(response.ListItems);
                                     adapter.notifyDataSetChanged();
                                 } else {
-                                    Toasty.warning(ActBlogSearch.this, "نتیجه ای یافت نشد", Toasty.LENGTH_LONG, true).show();
+                                    Toasty.warning(ActFaqSearch.this, "نتیجه ای یافت نشد", Toasty.LENGTH_LONG, true).show();
                                 }
                             }
                         }
@@ -154,12 +148,12 @@ public class ActBlogSearch extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.imgBackActBlogSearch)
+    @OnClick(R.id.imgBackActFaqSearch)
     public void ClickBack() {
         finish();
     }
 
-    @OnClick(R.id.btnRefreshActBlogSearch)
+    @OnClick(R.id.btnRefreshActFaqSearch)
     public void ClickRefresh() {
         btnRefresh.setVisibility(View.GONE);
         init();

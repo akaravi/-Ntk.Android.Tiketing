@@ -1,5 +1,6 @@
 package ntk.android.ticketing.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -90,5 +91,10 @@ public class ActFaq extends AppCompatActivity {
     @OnClick(R.id.imgBackActFaq)
     public void ClickBack() {
         finish();
+    }
+
+    @OnClick(R.id.imgSearchActFaq)
+    public void ClickSearch() {
+        startActivity(new Intent(this, ActFaqSearch.class));
     }
 }
