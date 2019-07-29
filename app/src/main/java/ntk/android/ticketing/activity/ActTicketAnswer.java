@@ -1,11 +1,16 @@
 package ntk.android.ticketing.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -19,11 +24,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.codekidlabs.storagechooser.StorageChooser;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.gson.Gson;
-import com.tedpark.tedpermission.rx2.TedRx2Permission;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -34,7 +37,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.BindInt;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
@@ -81,9 +83,6 @@ public class ActTicketAnswer extends AppCompatActivity {
     @BindView(R.id.txtMessageActTicketAnswer)
     EditText txt;
 
-    @BindView(R.id.progressAttachActTicketAnswer)
-    ProgressBar progressBar;
-
     @BindView(R.id.btnSubmitActTicketAnswer)
     Button btn;
 
@@ -92,6 +91,7 @@ public class ActTicketAnswer extends AppCompatActivity {
     private List<String> attaches = new ArrayList<>();
     private AdAttach AdAtach;
     private String linkFileIds = "";
+    private static final int READ_REQUEST_CODE = 42;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -116,14 +116,14 @@ public class ActTicketAnswer extends AppCompatActivity {
     @Subscribe
     public void EventBus(EvRemoveAttach event) {
         attaches.remove(event.GetPosition());
-        adapter.notifyDataSetChanged();
+        AdAtach.notifyDataSetChanged();
     }
 
     private void init() {
         Lbl.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
-        Lbl.setText("پاسخ تیکت  "+getIntent().getLongExtra("TicketId", 0));
+        Lbl.setText("پاسخ تیکت  " + getIntent().getLongExtra("TicketId", 0));
         Rvs.get(0).setHasFixedSize(true);
-        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         Rvs.get(0).setLayoutManager(manager);
 
         adapter = new AdTicketAnswer(this, tickets);
@@ -133,7 +133,7 @@ public class ActTicketAnswer extends AppCompatActivity {
         HandelData(1);
 
         Rvs.get(1).setHasFixedSize(true);
-        Rvs.get(1).setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        Rvs.get(1).setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
         AdAtach = new AdAttach(this, attaches);
         Rvs.get(1).setAdapter(AdAtach);
         AdAtach.notifyDataSetChanged();
@@ -237,36 +237,68 @@ public class ActTicketAnswer extends AppCompatActivity {
         }
     }
 
-    @SuppressLint("CheckResult")
     @OnClick(R.id.RippleAttachActTicketAnswer)
     public void ClickAttach() {
         if (CheckPermission()) {
-            TedRx2Permission.with(this)
-                    .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    .request()
-                    .subscribe(tedPermissionResult -> {
-                        if (tedPermissionResult.isGranted()) {
-                            StorageChooser.Theme theme = new StorageChooser.Theme(getApplicationContext());
-                            theme.setScheme(getResources().getIntArray(R.array.paranoid_theme));
-                            StorageChooser chooser = new StorageChooser.Builder()
-                                    .withActivity(this)
-                                    .allowCustomPath(true)
-                                    .setType(StorageChooser.FILE_PICKER)
-                                    .disableMultiSelect()
-                                    .setTheme(theme)
-                                    .withMemoryBar(true)
-                                    .withFragmentManager(getFragmentManager())
-                                    .build();
-                            chooser.show();
-                            chooser.setOnSelectListener(this::UploadFile);
-                            progressBar.setVisibility(View.VISIBLE);
-                            btn.setVisibility(View.GONE);
-                        } else {
-                        }
-                    }, throwable -> {
-                    });
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*");
+            startActivityForResult(intent, READ_REQUEST_CODE);
         } else {
             ActivityCompat.requestPermissions(ActTicketAnswer.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 220);
+        }
+    }
+
+    public static String getFilePathFromUri(Context context, Uri _uri) {
+        String filePath = "";
+        if (_uri != null && "content".equals(_uri.getScheme())) {
+            try (Cursor cursor = context.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)) {
+                if (cursor == null) return _uri.getPath();
+                cursor.moveToFirst();
+                filePath = cursor.getString(0);
+            } catch (SecurityException e) {
+                filePath = "/storage/emulated/0" + _uri.getPath().replace("/storage/emulated/0", "");
+            }
+
+        } else {
+            filePath = _uri.getPath();
+        }
+        return filePath;
+    }
+
+    public static String getFilePathFromUriForServer(Context context, Uri _uri) {
+        String filePath = "";
+        if (_uri != null && "content".equals(_uri.getScheme())) {
+            try (Cursor cursor = context.getContentResolver().query(_uri,
+                    new String[]{MediaStore.Images.Media.DATA},
+                    null, null, null)) {
+                if (cursor == null) return _uri.getPath();
+                cursor.moveToFirst();
+                filePath = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA));
+            } catch (SecurityException e) {
+                filePath = "/storage/emulated/0" + _uri.getPath().replace("/storage/emulated/0", "");
+            }
+
+        } else {
+            filePath = _uri.getPath();
+        }
+        return filePath;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,
+                                 Intent resultData) {
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri uri;
+            if (resultData != null) {
+                uri = resultData.getData();
+                if (uri != null) {
+                    btn.setVisibility(View.GONE);
+                    attaches.add(getFilePathFromUri(ActTicketAnswer.this, uri));
+                    AdAtach.notifyDataSetChanged();
+                    UploadFileToServer(getFilePathFromUriForServer(ActTicketAnswer.this, uri));
+                }
+            }
         }
     }
 
@@ -276,39 +308,6 @@ public class ActTicketAnswer extends AppCompatActivity {
         } else {
             return true;
         }
-    }
-
-    private void UploadFile(String s) {
-        UploadFileToServer(s);
-        Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-
-        RetrofitManager manager = new RetrofitManager(ActTicketAnswer.this);
-        Observable<String> observable = manager.FileUpload(null, s, headers);
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(String url) {
-                        String[] strs = s.split("/");
-                        String FileName = strs[strs.length - 1];
-                        attaches.add(FileName + " - " + url);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Toasty.warning(ActTicketAnswer.this, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
     }
 
     private void UploadFileToServer(String url) {
@@ -328,22 +327,21 @@ public class ActTicketAnswer extends AppCompatActivity {
 
                         @Override
                         public void onNext(String model) {
-                            progressBar.setVisibility(View.GONE);
-                            btn.setVisibility(View.VISIBLE);
                             adapter.notifyDataSetChanged();
-                            linkFileIds = linkFileIds + model + ",";
+                            if (linkFileIds.equals("")) linkFileIds = model;
+                            else linkFileIds = linkFileIds + "," + model;
+                            btn.setVisibility(View.VISIBLE);
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            progressBar.setVisibility(View.GONE);
-                            btn.setVisibility(View.VISIBLE);
                             Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     init();
                                 }
                             }).show();
+                            btn.setVisibility(View.VISIBLE);
                         }
 
                         @Override
@@ -352,8 +350,6 @@ public class ActTicketAnswer extends AppCompatActivity {
                         }
                     });
         } else {
-            btn.setVisibility(View.VISIBLE);
-            progressBar.setVisibility(View.GONE);
             Toasty.warning(this, "عدم دسترسی به اینترنت", Toasty.LENGTH_LONG, true).show();
         }
     }

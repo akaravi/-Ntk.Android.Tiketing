@@ -2,10 +2,16 @@ package ntk.android.ticketing.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -109,6 +115,7 @@ public class ActSendTicket extends AppCompatActivity {
     private List<String> attaches = new ArrayList<>();
     private AdAttach adapter;
     private String linkFileIds = "";
+    private static final int READ_REQUEST_CODE = 42;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -152,7 +159,7 @@ public class ActSendTicket extends AppCompatActivity {
         Btn.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
 
         Rv.setHasFixedSize(true);
-        Rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        Rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
         adapter = new AdAttach(this, attaches);
         Rv.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -297,32 +304,74 @@ public class ActSendTicket extends AppCompatActivity {
     @OnClick(R.id.RippleAttachActSendTicket)
     public void ClickAttach() {
         if (CheckPermission()) {
-            TedRx2Permission.with(this)
-                    .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
-                    .request()
-                    .subscribe(tedPermissionResult -> {
-                        if (tedPermissionResult.isGranted()) {
-                            StorageChooser.Theme theme = new StorageChooser.Theme(getApplicationContext());
-                            theme.setScheme(getResources().getIntArray(R.array.paranoid_theme));
-                            StorageChooser chooser = new StorageChooser.Builder()
-                                    .withActivity(this)
-                                    .allowCustomPath(true)
-                                    .setType(StorageChooser.FILE_PICKER)
-                                    .disableMultiSelect()
-                                    .setTheme(theme)
-                                    .withMemoryBar(true)
-                                    .withFragmentManager(getFragmentManager())
-                                    .build();
-                            chooser.show();
-                            chooser.setOnSelectListener(this::UploadFile);
-                            progressBar.setVisibility(View.VISIBLE);
-                            Btn.setVisibility(View.GONE);
-                        } else {
-                        }
-                    }, throwable -> {
-                    });
+            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("*/*");
+            startActivityForResult(intent, READ_REQUEST_CODE);
         } else {
             ActivityCompat.requestPermissions(ActSendTicket.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 220);
+        }
+    }
+
+    public static String getFilePathFromUri(Context context, Uri _uri) {
+        String filePath = "";
+        if (_uri != null && "content".equals(_uri.getScheme())) {
+            try (Cursor cursor = context.getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,null, null, null, null)) {
+                if (cursor == null) return _uri.getPath();
+                cursor.moveToFirst();
+                filePath = cursor.getString(0);
+            } catch (SecurityException e) {
+                filePath = "/storage/emulated/0" + _uri.getPath().replace("/storage/emulated/0", "");
+            }
+
+        } else {
+            filePath = _uri.getPath();
+        }
+        return filePath;
+    }
+
+    public static String getFilePathFromUriForServer(Context context, Uri _uri) {
+        String filePath = "";
+        if (_uri != null && "content".equals(_uri.getScheme())) {
+            try (Cursor cursor = context.getContentResolver().query(_uri,
+                    new String[]
+                            {
+                                    MediaStore.Images.ImageColumns.DATA,
+                                    MediaStore.Images.Media.DATA,
+                                    MediaStore.Images.Media.MIME_TYPE,
+                                    MediaStore.Video.VideoColumns.DATA,
+                                    MediaStore.Video.Media.DATA,
+                                    MediaStore.Video.Media.MIME_TYPE,
+                                    MediaStore.Audio.AudioColumns.DATA,
+                                    MediaStore.Audio.Media.DATA,
+                                    MediaStore.Audio.Media.MIME_TYPE,
+                            }, null, null, null)) {
+                cursor.moveToFirst();
+                filePath = cursor.getString(0);
+            } catch (SecurityException e) {
+                filePath = "/storage/emulated/0" + _uri.getPath().replace("/storage/emulated/0", "");
+            }
+
+        } else {
+            filePath = _uri.getPath();
+        }
+        return filePath;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode,
+                                 Intent resultData) {
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            Uri uri;
+            if (resultData != null) {
+                uri = resultData.getData();
+                if (uri != null) {
+                    Btn.setVisibility(View.GONE);
+                    attaches.add(getFilePathFromUri(ActSendTicket.this, uri));
+                    adapter.notifyDataSetChanged();
+                    UploadFileToServer(getFilePathFromUriForServer(ActSendTicket.this, uri));
+                }
+            }
         }
     }
 
@@ -332,39 +381,6 @@ public class ActSendTicket extends AppCompatActivity {
         } else {
             return true;
         }
-    }
-
-    private void UploadFile(String s) {
-        UploadFileToServer(s);
-        Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-
-        RetrofitManager manager = new RetrofitManager(ActSendTicket.this);
-        Observable<String> observable = manager.FileUpload(null, s, headers);
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(String url) {
-                        String[] strs = s.split("/");
-                        String FileName = strs[strs.length - 1];
-                        attaches.add(FileName + " - " + url);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Toasty.warning(ActSendTicket.this, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
     }
 
     private void UploadFileToServer(String url) {
@@ -384,10 +400,10 @@ public class ActSendTicket extends AppCompatActivity {
 
                         @Override
                         public void onNext(String model) {
-                            linkFileIds = linkFileIds + model + ",";
-                            progressBar.setVisibility(View.GONE);
-                            Btn.setVisibility(View.VISIBLE);
                             adapter.notifyDataSetChanged();
+                            if (linkFileIds.equals("")) linkFileIds = model;
+                            else linkFileIds = linkFileIds + "," + model;
+                            Btn.setVisibility(View.VISIBLE);
                         }
 
                         @Override

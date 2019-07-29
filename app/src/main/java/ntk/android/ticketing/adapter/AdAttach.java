@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,9 +37,17 @@ public class AdAttach extends RecyclerView.Adapter<AdAttach.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.Lbl.setText(arrayList.get(position));
-        holder.Img.setOnClickListener(v -> EventBus.getDefault().post(new EvRemoveAttach(position)));
+        String[] strs = arrayList.get(position).split("/");
+        String FileName = strs[strs.length - 1];
+        holder.Lbl.setText(FileName);
+        holder.Delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(new EvRemoveAttach(position));
+            }
+        });
     }
+
 
     @Override
     public int getItemCount() {
@@ -51,8 +60,10 @@ public class AdAttach extends RecyclerView.Adapter<AdAttach.ViewHolder> {
         TextView Lbl;
 
         @BindView(R.id.imgRemoveRecyclerAttach)
-        ImageView Img;
+        Button Delete;
 
+        @BindView(R.id.imgRecyclerAttach)
+        ImageView Img;
 
         public ViewHolder(View view) {
             super(view);
