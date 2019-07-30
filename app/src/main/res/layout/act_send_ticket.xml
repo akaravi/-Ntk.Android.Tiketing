@@ -71,6 +71,12 @@
             android:layout_below="@id/toolbarFrService"
             android:background="@color/colorAccent" />
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true" />
+
         <Button
             android:id="@+id/btnSubmitActSendTicket"
             android:layout_width="match_parent"
@@ -280,13 +286,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scrollbars="none" />
-
-                <ProgressBar
-                    android:id="@+id/progressAttachActSendTicket"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:visibility="gone" />
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
