@@ -16,6 +16,7 @@ import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -106,6 +107,9 @@ public class ActDetailBlog extends AppCompatActivity {
     @BindView(R.id.ratingBarActDetailBlog)
     RatingBar Rate;
 
+    @BindView(R.id.WebViewBodyActDetailBlog)
+    WebView webViewBody;
+
     @BindView(R.id.PageActDetailBlog)
     LinearLayout Page;
 
@@ -133,6 +137,8 @@ public class ActDetailBlog extends AppCompatActivity {
             tv.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
         }
         Progress.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
+        webViewBody.getSettings().setJavaScriptEnabled(true);
+        webViewBody.getSettings().setBuiltInZoomControls(true);
         RvTab.setHasFixedSize(true);
         RvTab.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         RequestStr = getIntent().getExtras().getString("Request");
@@ -404,21 +410,12 @@ public class ActDetailBlog extends AppCompatActivity {
 
     private void SetDataOtherinfo(BlogContentOtherInfoListResponse model) {
         Info = model;
+        if (model.ListItems == null || model.ListItems.size() == 0) {
+            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            p.weight = 3;
+            return;
+        }
         List<BlogContentOtherInfo> Info = new ArrayList<>();
-        BlogContentOtherInfo i1 = new BlogContentOtherInfo();
-        i1.Title = "توضیحات";
-        i1.TypeId = 0;
-        i1.HtmlBody = this.model.Item.description;
-        if (this.model.Item.description != null) {
-            Info.add(i1);
-        }
-        BlogContentOtherInfo i = new BlogContentOtherInfo();
-        i.Title = "متن وبلاگ";
-        i.TypeId = 0;
-        i.HtmlBody = this.model.Item.Body;
-        if (this.model.Item.Body != null) {
-            Info.add(i);
-        }
 
         for (BlogContentOtherInfo ai : model.ListItems) {
             switch (ai.TypeId) {
@@ -480,6 +477,8 @@ public class ActDetailBlog extends AppCompatActivity {
             rating = 5.0;
         }
         Rate.setRating((float) rating);
+        if (model.Item.Body != null)
+            webViewBody.loadData("<html dir=\"rtl\" lang=\"\"><body>" + model.Item.Body + "</body></html>", "text/html; charset=utf-8", "UTF-8");
         if (model.Item.Favorited) {
             ((ImageView) findViewById(R.id.imgHeartActDetailBlog)).setImageResource(R.drawable.ic_fav_full);
         }

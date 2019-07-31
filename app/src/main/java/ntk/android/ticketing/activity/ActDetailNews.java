@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -14,7 +13,6 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -47,6 +45,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdCommentNews;
+import ntk.android.ticketing.adapter.AdNews;
 import ntk.android.ticketing.adapter.AdTabNews;
 import ntk.android.ticketing.config.ConfigRestHeader;
 import ntk.android.ticketing.config.ConfigStaticValue;
@@ -83,7 +82,9 @@ public class ActDetailNews extends AppCompatActivity {
             R.id.lblKeySeenActDetailNews,
             R.id.lblValueSeenActDetailNews,
             R.id.lblCommentActDetailNews,
-            R.id.lblProgressActDetailNews
+            R.id.lblProgressActDetailNews,
+            R.id.lblMenuActDetailNews,
+            R.id.lblAllMenuActDetailNews
     })
     List<TextView> Lbls;
 
@@ -96,6 +97,9 @@ public class ActDetailNews extends AppCompatActivity {
     @BindView(R.id.recyclerCommentActDetailNews)
     RecyclerView RvComment;
 
+    @BindView(R.id.recyclerMenuActDetailNews)
+    RecyclerView Rv;
+
     @BindView(R.id.ratingBarActDetailNews)
     RatingBar Rate;
 
@@ -104,6 +108,9 @@ public class ActDetailNews extends AppCompatActivity {
 
     @BindView(R.id.mainLayoutActDetailNews)
     CoordinatorLayout layout;
+
+    @BindView(R.id.WebViewBodyActDetailNews)
+    WebView webViewBody;
 
     private String RequestStr;
     private NewsContentResponse model;
@@ -128,6 +135,8 @@ public class ActDetailNews extends AppCompatActivity {
         Progress.getIndeterminateDrawable().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_IN);
         RvTab.setHasFixedSize(true);
         RvTab.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        webViewBody.getSettings().setJavaScriptEnabled(true);
+        webViewBody.getSettings().setBuiltInZoomControls(true);
         RequestStr = getIntent().getExtras().getString("Request");
         Request = new Gson().fromJson(RequestStr, NewsContentViewRequest.class);
         HandelDataContent(Request);
@@ -400,21 +409,12 @@ public class ActDetailNews extends AppCompatActivity {
 
     private void SetDataOtherinfo(NewsContentOtherInfoResponse model) {
         Info = model;
+        if (model.ListItems == null || model.ListItems.size() == 0) {
+            LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            p.weight = 3;
+            return;
+        }
         List<NewsContentOtherInfo> Info = new ArrayList<>();
-        NewsContentOtherInfo i1 = new NewsContentOtherInfo();
-        i1.Title = "توضیحات";
-        i1.TypeId = 0;
-        i1.HtmlBody = this.model.Item.description;
-        if (this.model.Item.description != null) {
-            Info.add(i1);
-        }
-        NewsContentOtherInfo i = new NewsContentOtherInfo();
-        i.Title = "متن اخبار";
-        i.TypeId = 0;
-        i.HtmlBody = this.model.Item.Body;
-        if (this.model.Item.Body != null) {
-            Info.add(i);
-        }
 
         for (NewsContentOtherInfo ai : model.ListItems) {
             switch (ai.TypeId) {
@@ -476,8 +476,20 @@ public class ActDetailNews extends AppCompatActivity {
             rating = 5.0;
         }
         Rate.setRating((float) rating);
+        if (model.Item.Body != null)
+            webViewBody.loadData("<html dir=\"rtl\" lang=\"\"><body>" + model.Item.Body + "</body></html>", "text/html; charset=utf-8", "UTF-8");
         if (model.Item.Favorited) {
             ((ImageView) findViewById(R.id.imgHeartActDetailNews)).setImageResource(R.drawable.ic_fav_full);
+        }
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
+        Rv.setLayoutManager(manager);
+
+        AdNews adBlog = new AdNews(this, model.ListItems);
+        Rv.setAdapter(adBlog);
+        adBlog.notifyDataSetChanged();
+        if (model.ListItems.isEmpty()) {
+            Lbls.get(6).setVisibility(View.GONE);
+            Lbls.get(7).setVisibility(View.GONE);
         }
     }
 
