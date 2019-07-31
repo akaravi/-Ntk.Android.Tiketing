@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="180dp">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/ImageRecyclerImage"
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:background="#99f04d4d"
+        android:background="#AB3F51B5"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit ="marquee_forever"
         android:focusable="true"

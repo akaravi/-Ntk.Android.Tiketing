@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -55,6 +57,7 @@ import io.reactivex.schedulers.Schedulers;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 import ntk.android.ticketing.BuildConfig;
 import ntk.android.ticketing.R;
+import ntk.android.ticketing.adapter.AdCoreImage;
 import ntk.android.ticketing.config.ConfigRestHeader;
 import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.event.toolbar.EVSearchClick;
@@ -110,7 +113,7 @@ public class ActMain extends AppCompatActivity {
     LinearLayout layout;
 
     @BindView(R.id.SliderActMain)
-    BannerSlider Slider;
+    RecyclerView Slider;
 
     @BindView(R.id.RefreshMain)
     SwipeRefreshLayout Refresh;
@@ -323,19 +326,26 @@ public class ActMain extends AppCompatActivity {
                     @Override
                     public void onNext(NewsContentResponse newsContentResponse) {
                         if (newsContentResponse.IsSuccess) {
-                            List<Banner> banners = new ArrayList<>();
-                            for (NewsContent news : newsContentResponse.ListItems) {
-                                banners.add(new RemoteBanner(news.imageSrc));
-                            }
-                            Slider.setBanners(banners);
-                            Slider.setOnBannerClickListener(new OnBannerClickListener() {
-                                @Override
-                                public void onClick(int position) {
-                                    NewsContentViewRequest request = new NewsContentViewRequest();
-                                    request.Id = newsContentResponse.ListItems.get(position).Id;
-                                    startActivity(new Intent(ActMain.this, ActDetailNews.class).putExtra("Request", new Gson().toJson(request)));
-                                }
-                            });
+
+                            AdCoreImage adapter = new AdCoreImage(ActMain.this, newsContentResponse.ListItems);
+                            Slider.setHasFixedSize(true);
+                            LinearLayoutManager manager = new LinearLayoutManager(ActMain.this, LinearLayoutManager.HORIZONTAL, true);
+                            Slider.setLayoutManager(manager);
+                            Slider.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+//                            List<Banner> banners = new ArrayList<>();
+//                            for (NewsContent news : newsContentResponse.ListItems) {
+//                                banners.add(new RemoteBanner(news.imageSrc));
+//                            }
+//                            Slider.setBanners(banners);
+//                            Slider.setOnBannerClickListener(new OnBannerClickListener() {
+//                                @Override
+//                                public void onClick(int position) {
+//                                    NewsContentViewRequest request = new NewsContentViewRequest();
+//                                    request.Id = newsContentResponse.ListItems.get(position).Id;
+//                                    startActivity(new Intent(ActMain.this, ActDetailNews.class).putExtra("Request", new Gson().toJson(request)));
+//                                }
+//                            });
                         }
                     }
 
