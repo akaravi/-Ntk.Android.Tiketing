@@ -49,9 +49,9 @@ public class ActAbout extends AppCompatActivity {
                                     .setImage(R.mipmap.ic_launcher)
                                     .addItem(new Element().setTitle(BuildConfig.VERSION_NAME))
                                     .addGroup("تماس با ما")
-                                    .setDescription(about.Content)
-                                    .addEmail(about.Email)
-                                    .addInstagram(about.Instagram)
+                                    .setDescription(about.Item.Content)
+                                    .addEmail(about.Item.Email)
+                                    .addInstagram(about.Item.Instagram)
                                     .create();
                             setContentView(aboutPage);
                         }
