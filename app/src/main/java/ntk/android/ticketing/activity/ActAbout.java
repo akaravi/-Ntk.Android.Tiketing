@@ -52,6 +52,8 @@ public class ActAbout extends AppCompatActivity {
                                     .setDescription(about.Item.Content)
                                     .addEmail(about.Item.Email)
                                     .addInstagram(about.Item.Instagram)
+                                    .addWebsite(about.Item.WebUrl)
+
                                     .create();
                             setContentView(aboutPage);
                         }
