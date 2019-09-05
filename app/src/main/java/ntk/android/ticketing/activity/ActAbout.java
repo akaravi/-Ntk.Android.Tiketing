@@ -49,11 +49,15 @@ public class ActAbout extends AppCompatActivity {
                                     .setImage(R.mipmap.ic_launcher)
                                     .addItem(new Element().setTitle(BuildConfig.VERSION_NAME))
                                     .addGroup("تماس با ما")
-                                    .setDescription(about.Item.Content)
+                                    .setDescription(about.Item.Content + "\n" + about.Item.Address)
                                     .addEmail(about.Item.Email)
                                     .addInstagram(about.Item.Instagram)
                                     .addWebsite(about.Item.WebUrl)
-
+                                    .addTelegram(about.Item.Telegram)
+                                    .addPhone(about.Item.MobileNo)
+                                    .addPhone(about.Item.OfficeNo)
+                                    .addPhone(about.Item.Tel1)
+                                    .addPhone(about.Item.Tel2)
                                     .create();
                             setContentView(aboutPage);
                         }

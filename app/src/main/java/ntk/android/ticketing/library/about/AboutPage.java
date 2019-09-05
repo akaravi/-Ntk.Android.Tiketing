@@ -53,25 +53,10 @@ public class AboutPage {
         return this;
     }
 
-    /**
-     * Convenience method for {@link AboutPage#addEmail(String, String)} but with
-     * a predefined title string
-     *
-     * @param email the email address to send to
-     * @return this AboutPage instance for builder pattern support
-     */
     public AboutPage addEmail(String email) {
         return addEmail(email, mContext.getString(R.string.about_contact_us));
     }
 
-    /**
-     * Add a predefined Element that opens the users default email client with a new email to the
-     * email address passed as parameter
-     *
-     * @param email the email address to send to
-     * @param title the title string to display on this item
-     * @return this AboutPage instance for builder pattern support
-     */
     public AboutPage addEmail(String email, String title) {
         Element emailElement = new Element();
         emailElement.setTitle(title);
@@ -87,25 +72,11 @@ public class AboutPage {
         return this;
     }
 
-    /**
-     * Convenience method for {@link AboutPage#addFacebook(String, String)} but with
-     * a predefined title string
-     *
-     * @param id the facebook id to display
-     * @return this AboutPage instance for builder pattern support
-     */
+
     public AboutPage addFacebook(String id) {
         return addFacebook(id, mContext.getString(R.string.about_facebook));
     }
 
-    /**
-     * Add a predefined Element that the opens Facebook app with a deep link to the specified user id
-     * If the Facebook application is not installed this will open a web page instead.
-     *
-     * @param id    the id of the Facebook user to display in the Facebook app
-     * @param title the title to display on this item
-     * @return this AboutPage instance for builder pattern support
-     */
     public AboutPage addFacebook(String id, String title) {
         Element facebookElement = new Element();
         facebookElement.setTitle(title);
@@ -143,26 +114,11 @@ public class AboutPage {
         return this;
     }
 
-    /**
-     * Convenience method for {@link AboutPage#addTwitter(String, String)} but with
-     * a predefined title string
-     *
-     * @param id the Twitter id to display
-     * @return this AboutPage instance for builder pattern support
-     */
+
     public AboutPage addTwitter(String id) {
         return addTwitter(id, mContext.getString(R.string.about_twitter));
     }
 
-
-    /**
-     * Add a predefined Element that the opens the Twitter app with a deep link to the specified user id
-     * If the Twitter application is not installed this will open a web page instead.
-     *
-     * @param id    the id of the Twitter user to display in the Twitter app
-     * @param title the title to display on this item
-     * @return this AboutPage instance for builder pattern support
-     */
     public AboutPage addTwitter(String id, String title) {
         Element twitterElement = new Element();
         twitterElement.setTitle(title);
@@ -186,25 +142,11 @@ public class AboutPage {
         return this;
     }
 
-    /**
-     * Convenience method for {@link AboutPage#addPlayStore(String, String)} but with
-     * a predefined title string
-     *
-     * @param id the package id of the app to display
-     * @return this AboutPage instance for builder pattern support
-     */
+
     public AboutPage addPlayStore(String id) {
         return addPlayStore(id, mContext.getString(R.string.about_play_store));
     }
 
-    /**
-     * Add a predefined Element that the opens the PlayStore app with a deep link to the
-     * specified app application id.
-     *
-     * @param id    the package id of the app to display
-     * @param title the title to display on this item
-     * @return this AboutPage instance for builder pattern support
-     */
     public AboutPage addPlayStore(String id, String title) {
         Element playStoreElement = new Element();
         playStoreElement.setTitle(title);
@@ -220,27 +162,11 @@ public class AboutPage {
         return this;
     }
 
-    /**
-     * Convenience method for {@link AboutPage#addYoutube(String, String)} but with
-     * a predefined title string
-     *
-     * @param id the id of the channel to deep link to
-     * @return this AboutPage instance for builder pattern support
-     */
+
     public AboutPage addYoutube(String id) {
         return addYoutube(id, mContext.getString(R.string.about_youtube));
     }
 
-    /**
-     * Add a predefined Element that the opens the Youtube app with a deep link to the
-     * specified channel id.
-     * <p>
-     * If the Youtube app is not installed this will open the Youtube web page instead.
-     *
-     * @param id    the id of the channel to deep link to
-     * @param title the title to display on this item
-     * @return this AboutPage instance for builder pattern support
-     */
     public AboutPage addYoutube(String id, String title) {
         Element youtubeElement = new Element();
         youtubeElement.setTitle(title);
@@ -262,27 +188,56 @@ public class AboutPage {
         return this;
     }
 
-    /**
-     * Convenience method for {@link AboutPage#addInstagram(String, String)} (String, String)} but with
-     * a predefined title string
-     *
-     * @param id the id of the instagram user to deep link to
-     * @return this AboutPage instance for builder pattern support
-     */
+
+    public AboutPage addTelegram(String id){
+        return addTelegram(id , mContext.getString(R.string.about_telegram));
+    }
+
+    public AboutPage addTelegram(String id, String title){
+        Element telegramElement = new Element();
+        telegramElement.setTitle(title);
+        telegramElement.setIconDrawable(R.drawable.about_icon_telegram);
+        telegramElement.setIconTint(R.color.about_instagram_color);
+        telegramElement.setValue(id);
+
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("http://telegram.org" + id));
+
+        if (AboutPageUtils.isAppInstalled(mContext, "org.telegram.messenger")) {
+            intent.setPackage("org.telegram.messenger");
+        }
+
+        telegramElement.setIntent(intent);
+        addItem(telegramElement);
+
+        return this;
+    }
+
+
+    public AboutPage addPhone(String id){
+        return addPhone(id , mContext.getString(R.string.about_phone));
+    }
+
+    public AboutPage addPhone(String id, String title){
+        Element phoneElement = new Element();
+        phoneElement.setTitle(title);
+        phoneElement.setIconDrawable(R.drawable.about_icon_phone);
+        phoneElement.setValue(id);
+
+        Intent intent = new Intent(Intent.ACTION_DIAL , Uri.parse("tel:" + id));
+
+        phoneElement.setIntent(intent);
+        addItem(phoneElement);
+
+        return this;
+    }
+
+
     public AboutPage addInstagram(String id) {
         return addInstagram(id, mContext.getString(R.string.about_instagram));
     }
 
-    /**
-     * Add a predefined Element that the opens the Instagram app with a deep link to the
-     * specified user id.
-     * <p>
-     * If the Instagram app is not installed this will open the Intagram web page instead.
-     *
-     * @param id    the user id to deep link to
-     * @param title the title to display on this item
-     * @return this AboutPage instance for builder pattern support
-     */
     public AboutPage addInstagram(String id, String title) {
         Element instagramElement = new Element();
         instagramElement.setTitle(title);
@@ -304,25 +259,11 @@ public class AboutPage {
         return this;
     }
 
-    /**
-     * Convenience method for {@link AboutPage#addGitHub(String, String)} but with
-     * a predefined title string
-     *
-     * @param id the id of the GitHub user to display
-     * @return this AboutPage instance for builder pattern support
-     */
+
     public AboutPage addGitHub(String id) {
         return addGitHub(id, mContext.getString(R.string.about_github));
     }
 
-    /**
-     * Add a predefined Element that the opens the a browser and displays the specified GitHub
-     * users profile page.
-     *
-     * @param id    the GitHub user to link to
-     * @param title the title to display on this item
-     * @return this AboutPage instance for builder pattern support
-     */
     public AboutPage addGitHub(String id, String title) {
         Element gitHubElement = new Element();
         gitHubElement.setTitle(title);
@@ -341,24 +282,11 @@ public class AboutPage {
         return this;
     }
 
-    /**
-     * Convenience method for {@link AboutPage#addWebsite(String, String)} but with
-     * a predefined title string
-     *
-     * @param url the URL to open in a browser
-     * @return this AboutPage instance for builder pattern support
-     */
+
     public AboutPage addWebsite(String url) {
         return addWebsite(url, mContext.getString(R.string.about_website));
     }
 
-    /**
-     * Add a predefined Element that the opens a browser and loads the specified URL
-     *
-     * @param url   the URL to open in a browser
-     * @param title the title to display on this item
-     * @return this AboutPage instance for builder pattern support
-     */
     public AboutPage addWebsite(String url, String title) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;
@@ -378,13 +306,7 @@ public class AboutPage {
         return this;
     }
 
-    /**
-     * Add a custom {@link Element} to this AboutPage
-     *
-     * @param element
-     * @return this AboutPage instance for builder pattern support
-     * @see Element
-     */
+
     public AboutPage addItem(Element element) {
         LinearLayout wrapper = (LinearLayout) mView.findViewById(R.id.about_providers);
         wrapper.addView(createItem(element));
@@ -392,12 +314,7 @@ public class AboutPage {
         return this;
     }
 
-    /**
-     * Set the header image to display in this AboutPage
-     *
-     * @param resource the resource id of the image to display
-     * @return this AboutPage instance for builder pattern support
-     */
+
     public AboutPage setImage(@DrawableRes int resource) {
         this.mImage = resource;
         return this;
