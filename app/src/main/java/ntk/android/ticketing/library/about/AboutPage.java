@@ -54,10 +54,14 @@ public class AboutPage {
     }
 
     public AboutPage addEmail(String email) {
-        return addEmail(email, mContext.getString(R.string.about_contact_us));
+        return addEmail(email, "");
     }
 
     public AboutPage addEmail(String email, String title) {
+        if(email==null || email.isEmpty())
+            return this;
+        if(title==null ||title.isEmpty() )
+            title=mContext.getString(R.string.about_contact_us);
         Element emailElement = new Element();
         emailElement.setTitle(title);
         emailElement.setIconDrawable(R.drawable.about_icon_email);
@@ -74,10 +78,14 @@ public class AboutPage {
 
 
     public AboutPage addFacebook(String id) {
-        return addFacebook(id, mContext.getString(R.string.about_facebook));
+        return addFacebook(id, "");
     }
 
     public AboutPage addFacebook(String id, String title) {
+        if(id==null || id.isEmpty())
+            return this;
+        if(title==null ||title.isEmpty())
+            title=mContext.getString(R.string.about_facebook);
         Element facebookElement = new Element();
         facebookElement.setTitle(title);
         facebookElement.setIconDrawable(R.drawable.about_icon_facebook);
@@ -120,6 +128,10 @@ public class AboutPage {
     }
 
     public AboutPage addTwitter(String id, String title) {
+        if(id==null || id.isEmpty())
+            return this;
+        if(title==null ||title.isEmpty())
+            title=mContext.getString(R.string.about_twitter);
         Element twitterElement = new Element();
         twitterElement.setTitle(title);
         twitterElement.setIconDrawable(R.drawable.about_icon_twitter);
@@ -148,6 +160,10 @@ public class AboutPage {
     }
 
     public AboutPage addPlayStore(String id, String title) {
+        if(id==null || id.isEmpty())
+            return this;
+        if(title==null ||title.isEmpty())
+            title=mContext.getString(R.string.about_play_store);
         Element playStoreElement = new Element();
         playStoreElement.setTitle(title);
         playStoreElement.setIconDrawable(R.drawable.about_icon_google_play);
@@ -168,6 +184,10 @@ public class AboutPage {
     }
 
     public AboutPage addYoutube(String id, String title) {
+        if(id==null || id.isEmpty())
+            return this;
+      if(title==null ||title.isEmpty())
+          title= mContext.getString(R.string.about_youtube);
         Element youtubeElement = new Element();
         youtubeElement.setTitle(title);
         youtubeElement.setIconDrawable(R.drawable.about_icon_youtube);
@@ -190,10 +210,14 @@ public class AboutPage {
 
 
     public AboutPage addTelegram(String id){
-        return addTelegram(id , mContext.getString(R.string.about_telegram));
+        return addTelegram(id , "");
     }
 
     public AboutPage addTelegram(String id, String title){
+        if(id==null || id.isEmpty())
+            return this;
+        if(title==null ||title.isEmpty())
+            title=mContext.getString(R.string.about_telegram);
         Element telegramElement = new Element();
         telegramElement.setTitle(title);
         telegramElement.setIconDrawable(R.drawable.about_icon_telegram);
@@ -220,6 +244,10 @@ public class AboutPage {
     }
 
     public AboutPage addPhone(String id, String title){
+        if(id==null || id.isEmpty())
+            return this;
+        if(title==null || title.isEmpty())
+            title=mContext.getString(R.string.about_phone);
         Element phoneElement = new Element();
         phoneElement.setTitle(title);
         phoneElement.setIconDrawable(R.drawable.about_icon_phone);
@@ -239,6 +267,10 @@ public class AboutPage {
     }
 
     public AboutPage addInstagram(String id, String title) {
+        if(id==null || id.isEmpty())
+            return this;
+        if(title==null ||title.isEmpty())
+            title=mContext.getString(R.string.about_instagram);
         Element instagramElement = new Element();
         instagramElement.setTitle(title);
         instagramElement.setIconDrawable(R.drawable.about_icon_instagram);
@@ -265,6 +297,11 @@ public class AboutPage {
     }
 
     public AboutPage addGitHub(String id, String title) {
+        if(id==null || id.isEmpty())
+            return this;
+        if(title==null ||title.isEmpty())
+            title=mContext.getString(R.string.about_github);
+
         Element gitHubElement = new Element();
         gitHubElement.setTitle(title);
         gitHubElement.setIconDrawable(R.drawable.about_icon_github);
@@ -288,6 +325,11 @@ public class AboutPage {
     }
 
     public AboutPage addWebsite(String url, String title) {
+        if(url==null || url.isEmpty())
+            return this;
+        if(title==null ||title.isEmpty())
+            title=mContext.getString(R.string.about_website);
+
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;
         }

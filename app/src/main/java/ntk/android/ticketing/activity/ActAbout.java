@@ -47,17 +47,20 @@ public class ActAbout extends AppCompatActivity {
                             View aboutPage = new AboutPage(ActAbout.this)
                                     .isRTL(true)
                                     .setImage(R.mipmap.ic_launcher)
-                                    .addItem(new Element().setTitle(BuildConfig.VERSION_NAME))
+
+                                    .setDescription(about.Item.Content)
+                                    .addGroup("آدرس")
+                                    .addItem(new Element().setTitle(about.Item.Address))
                                     .addGroup("تماس با ما")
-                                    .setDescription(about.Item.Content + "\n" + about.Item.Address)
-                                    .addEmail(about.Item.Email)
-                                    .addInstagram(about.Item.Instagram)
-                                    .addWebsite(about.Item.WebUrl)
-                                    .addTelegram(about.Item.Telegram)
-                                    .addPhone(about.Item.MobileNo)
-                                    .addPhone(about.Item.OfficeNo)
-                                    .addPhone(about.Item.Tel1)
-                                    .addPhone(about.Item.Tel2)
+                                    .addPhone(about.Item.MobileNo, about.Item.TitleMobileNo)
+                                    .addPhone(about.Item.OfficeNo, about.Item.TitleOfficeNo)
+                                    .addPhone(about.Item.Tel1, about.Item.TitleTel1)
+                                    .addPhone(about.Item.Tel2, about.Item.TitleTel2)
+                                    .addEmail(about.Item.Email, about.Item.TitleEmail)
+                                    .addInstagram(about.Item.Instagram, about.Item.TitleInstagram)
+                                    .addWebsite(about.Item.WebUrl, about.Item.TitleWebUrl)
+                                    .addTelegram(about.Item.Telegram, about.Item.TitleTelegram)
+                                    .addItem(new Element().setTitle(" "+BuildConfig.VERSION_NAME+" ver"))
                                     .create();
                             setContentView(aboutPage);
                         }
@@ -67,6 +70,7 @@ public class ActAbout extends AppCompatActivity {
                     public void onError(Throwable e) {
                         Toasty.warning(ActAbout.this, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
                     }
+
                     @Override
                     public void onComplete() {
 
