@@ -16,7 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.utill.FontManager;
-import ntk.base.api.blog.model.BlogContentOtherInfo;
+import ntk.base.api.blog.entity.BlogContentOtherInfo;
 
 public class AdTabBlog extends RecyclerView.Adapter<AdTabBlog.ViewHolder> {
 

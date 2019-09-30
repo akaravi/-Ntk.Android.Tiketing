@@ -64,13 +64,13 @@ import ntk.base.api.blog.model.BlogContentFavoriteAddRequest;
 import ntk.base.api.blog.model.BlogContentFavoriteAddResponse;
 import ntk.base.api.blog.model.BlogContentFavoriteRemoveRequest;
 import ntk.base.api.blog.model.BlogContentFavoriteRemoveResponse;
-import ntk.base.api.blog.model.BlogContentOtherInfo;
+import ntk.base.api.blog.entity.BlogContentOtherInfo;
 import ntk.base.api.blog.model.BlogContentOtherInfoListRequest;
 import ntk.base.api.blog.model.BlogContentOtherInfoListResponse;
 import ntk.base.api.blog.model.BlogContentResponse;
 import ntk.base.api.blog.model.BlogContentViewRequest;
-import ntk.base.api.core.model.CoreMain;
-import ntk.base.api.model.Filters;
+import ntk.base.api.core.entity.CoreMain;
+import ntk.base.api.baseModel.Filters;
 import ntk.base.api.utill.RetrofitManager;
 
 public class ActDetailBlog extends AppCompatActivity {

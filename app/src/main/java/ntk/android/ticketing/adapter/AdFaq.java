@@ -16,7 +16,7 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.utill.FontManager;
-import ntk.base.api.ticket.model.TicketingTask;
+import ntk.base.api.ticket.entity.TicketingTask;
 
 public class AdFaq extends RecyclerView.Adapter<AdFaq.ViewHolder> {
 

@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.utill.FontManager;
-import ntk.base.api.news.model.NewsContentOtherInfo;
+import ntk.base.api.news.entity.NewsContentOtherInfo;
 
 public class AdTabNews extends RecyclerView.Adapter<AdTabNews.ViewHolder> {
 

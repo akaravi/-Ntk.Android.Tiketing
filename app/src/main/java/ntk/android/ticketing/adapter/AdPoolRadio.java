@@ -26,11 +26,11 @@ import ntk.android.ticketing.config.ConfigRestHeader;
 import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.pooling.interfase.IPooling;
-import ntk.base.api.pooling.model.PoolingContent;
-import ntk.base.api.pooling.model.PoolingOption;
+import ntk.base.api.pooling.entity.PoolingContent;
+import ntk.base.api.pooling.entity.PoolingOption;
 import ntk.base.api.pooling.model.PoolingSubmitRequest;
 import ntk.base.api.pooling.model.PoolingSubmitResponse;
-import ntk.base.api.pooling.model.PoolingVote;
+import ntk.base.api.pooling.entity.PoolingVote;
 import ntk.base.api.utill.RetrofitManager;
 
 public class AdPoolRadio extends RecyclerView.Adapter<AdPoolRadio.ViewHolder> {

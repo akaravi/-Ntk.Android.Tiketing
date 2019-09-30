@@ -32,7 +32,7 @@ import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.EasyPreference;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.core.interfase.ICore;
-import ntk.base.api.core.model.CoreTheme;
+import ntk.base.api.core.entity.CoreTheme;
 import ntk.base.api.core.model.MainCoreResponse;
 import ntk.base.api.utill.RetrofitManager;
 

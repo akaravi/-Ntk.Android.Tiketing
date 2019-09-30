@@ -26,7 +26,7 @@ import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.blog.interfase.IBlog;
-import ntk.base.api.blog.model.BlogComment;
+import ntk.base.api.blog.entity.BlogComment;
 import ntk.base.api.blog.model.BlogCommentResponse;
 import ntk.base.api.blog.model.BlogCommentViewRequest;
 import ntk.base.api.utill.NTKClientAction;

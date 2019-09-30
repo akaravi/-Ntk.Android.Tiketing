@@ -33,11 +33,11 @@ import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.biography.interfase.IBiography;
 import ntk.base.api.biography.model.BiographyContentListRequest;
 import ntk.base.api.biography.model.BiographyContentResponse;
-import ntk.base.api.model.Filters;
+import ntk.base.api.baseModel.Filters;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingListRequest;
 import ntk.base.api.ticket.model.TicketingListResponse;
-import ntk.base.api.ticket.model.TicketingTask;
+import ntk.base.api.ticket.entity.TicketingTask;
 import ntk.base.api.utill.NTKUtill;
 import ntk.base.api.utill.RetrofitManager;
 

@@ -65,7 +65,7 @@ import ntk.android.ticketing.utill.FontManager;
 import ntk.android.ticketing.utill.Regex;
 import ntk.base.api.file.interfase.IFile;
 import ntk.base.api.ticket.interfase.ITicket;
-import ntk.base.api.ticket.model.TicketingDepartemen;
+import ntk.base.api.ticket.entity.TicketingDepartemen;
 import ntk.base.api.ticket.model.TicketingDepartemenList;
 import ntk.base.api.ticket.model.TicketingSubmitRequest;
 import ntk.base.api.ticket.model.TicketingSubmitResponse;

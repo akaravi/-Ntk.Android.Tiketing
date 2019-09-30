@@ -30,11 +30,11 @@ import ntk.android.ticketing.config.ConfigRestHeader;
 import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.FontManager;
-import ntk.base.api.model.Filters;
+import ntk.base.api.baseModel.Filters;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingFaqListRequest;
 import ntk.base.api.ticket.model.TicketingFaqListResponse;
-import ntk.base.api.ticket.model.TicketingTask;
+import ntk.base.api.ticket.entity.TicketingTask;
 import ntk.base.api.utill.NTKUtill;
 import ntk.base.api.utill.RetrofitManager;
 

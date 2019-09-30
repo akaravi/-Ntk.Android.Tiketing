@@ -31,10 +31,10 @@ import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.blog.interfase.IBlog;
-import ntk.base.api.blog.model.BlogContent;
+import ntk.base.api.blog.entity.BlogContent;
 import ntk.base.api.blog.model.BlogContentListRequest;
 import ntk.base.api.blog.model.BlogContentListResponse;
-import ntk.base.api.model.Filters;
+import ntk.base.api.baseModel.Filters;
 import ntk.base.api.utill.NTKUtill;
 import ntk.base.api.utill.RetrofitManager;
 
