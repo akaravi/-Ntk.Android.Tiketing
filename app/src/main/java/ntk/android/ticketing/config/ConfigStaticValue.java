@@ -3,6 +3,7 @@ package ntk.android.ticketing.config;
 import android.content.Context;
 
 import ntk.android.ticketing.utill.EasyPreference;
+import okhttp3.OkHttpClient;
 
 
 public class ConfigStaticValue {
@@ -10,8 +11,8 @@ public class ConfigStaticValue {
         privateContext=context;
         ApiBaseAppId = 0;
         ApiBaseUrl = null;
-//        ApiBaseUrl = "http://fda1fbd3.ngrok.io";
-
+//        ApiBaseUrl = "http://55d5f167.ngrok.io";
+//        new OkHttpClient.Builder().
 
     }
     private Context privateContext;

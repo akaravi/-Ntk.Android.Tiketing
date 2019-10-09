@@ -110,8 +110,9 @@ public class ActSendTicket extends AppCompatActivity {
 
     private TicketingSubmitRequest request = new TicketingSubmitRequest();
     private List<String> attaches = new ArrayList<>();
+    private List<String> fileId = new ArrayList<>();
     private AdAttach adapter;
-    private String linkFileIds = "";
+
     private static final int READ_REQUEST_CODE = 1520;
 
     @Override
@@ -237,8 +238,14 @@ public class ActSendTicket extends AppCompatActivity {
                                     request.Name = Txts.get(2).getText().toString();
                                     request.HtmlBody = Txts.get(1).getText().toString();
                                     request.Title = Txts.get(0).getText().toString();
-                                    request.uploadName = attaches;
-                                    request.LinkFileIds = linkFileIds;
+                                    String ids = "";
+                                    for (int i = 0; i < fileId.size(); i++) {
+                                        if (ids.equals(""))
+                                            ids = fileId.get(i);
+                                        else
+                                            ids += "," + fileId.get(i);
+                                    }
+                                    request.LinkFileIds = ids;
 
                                     RetrofitManager retro = new RetrofitManager(this);
                                     Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
@@ -432,14 +439,15 @@ public class ActSendTicket extends AppCompatActivity {
                         @Override
                         public void onNext(String model) {
                             adapter.notifyDataSetChanged();
-                            if (linkFileIds.equals("")) linkFileIds = model;
-                            else linkFileIds = linkFileIds + "," + model;
+                            fileId.add(model);
                             Btn.setVisibility(View.VISIBLE);
                         }
 
                         @Override
                         public void onError(Throwable e) {
                             Btn.setVisibility(View.VISIBLE);
+                            attaches.remove(attaches.size() - 1);
+                            adapter.notifyDataSetChanged();
                             Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -462,6 +470,7 @@ public class ActSendTicket extends AppCompatActivity {
     @Subscribe
     public void EventRemove(EvRemoveAttach event) {
         attaches.remove(event.GetPosition());
+        fileId.remove(event.GetPosition());
         adapter.notifyDataSetChanged();
     }
 }
