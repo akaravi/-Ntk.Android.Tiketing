@@ -64,6 +64,9 @@ import ntk.android.ticketing.utill.EasyPreference;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.android.ticketing.utill.Regex;
 import ntk.base.api.file.interfase.IFile;
+import ntk.base.api.member.interfase.IMember;
+import ntk.base.api.member.model.MemberUserActAddRequest;
+import ntk.base.api.member.model.MemberUserResponse;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.entity.TicketingDepartemen;
 import ntk.base.api.ticket.model.TicketingDepartemenList;
@@ -109,6 +112,7 @@ public class ActSendTicket extends AppCompatActivity {
     CoordinatorLayout layout;
 
     private TicketingSubmitRequest request = new TicketingSubmitRequest();
+    private MemberUserActAddRequest requestMember = new MemberUserActAddRequest();
     private List<String> attaches = new ArrayList<>();
     private List<String> fileId = new ArrayList<>();
     private AdAttach adapter;
@@ -238,6 +242,7 @@ public class ActSendTicket extends AppCompatActivity {
                                     request.Name = Txts.get(2).getText().toString();
                                     request.HtmlBody = Txts.get(1).getText().toString();
                                     request.Title = Txts.get(0).getText().toString();
+
                                     String ids = "";
                                     for (int i = 0; i < fileId.size(); i++) {
                                         if (ids.equals(""))
@@ -247,8 +252,48 @@ public class ActSendTicket extends AppCompatActivity {
                                     }
                                     request.LinkFileIds = ids;
 
+                                    requestMember.FirstName = Txts.get(2).getText().toString();
+                                    requestMember.LastName = Txts.get(2).getText().toString();
+                                    requestMember.PhoneNo = Txts.get(3).getText().toString();
+                                    requestMember.Email = Txts.get(4).getText().toString();
+
+
                                     RetrofitManager retro = new RetrofitManager(this);
                                     Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
+
+                                    IMember iMember = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IMember.class);
+                                    Observable<MemberUserResponse> CallMember = iMember.SetUserActAdd(headers, requestMember);
+                                    CallMember.observeOn(AndroidSchedulers.mainThread())
+                                            .subscribeOn(Schedulers.io())
+                                            .subscribe(new Observer<MemberUserResponse>() {
+                                                @Override
+                                                public void onSubscribe(Disposable d) {
+
+                                                }
+
+                                                @Override
+                                                public void onNext(MemberUserResponse model) {
+                                                    //Toasty.success(ActSendTicket.this, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
+                                                    //finish();
+                                                }
+
+                                                @Override
+                                                public void onError(Throwable e) {
+                                                    //Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
+                                                    //    @Override
+                                                    //    public void onClick(View v) {
+                                                    //        init();
+                                                    //    }
+                                                    ///}).show();
+                                                }
+
+                                                @Override
+                                                public void onComplete() {
+
+                                                }
+                                            });
+
+
                                     ITicket iTicket = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
                                     Observable<TicketingSubmitResponse> Call = iTicket.SetTicketSubmit(headers, request);
                                     Call.observeOn(AndroidSchedulers.mainThread())
