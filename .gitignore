@@ -12,9 +12,6 @@
 /build
 /captures
 .externalNativeBuild
-/.idea/*
-/.idea/*
 /.idea
 /Log.txt
 /.idea/gradle.xml
-/.idea/*
