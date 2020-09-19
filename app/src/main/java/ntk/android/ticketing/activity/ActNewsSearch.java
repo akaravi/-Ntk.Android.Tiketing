@@ -91,21 +91,21 @@ public class ActNewsSearch extends AppCompatActivity {
             List<Filters> filters = new ArrayList<>();
             Filters ft = new Filters();
             ft.PropertyName = "Title";
-            ft.StringValue1 = Txt.getText().toString();
+            ft.StringValue = Txt.getText().toString();
             ft.ClauseType = NTKUtill.ClauseType_Or;
             ft.SearchType = NTKUtill.Search_Type_Contains;
             filters.add(ft);
 
             Filters fd = new Filters();
             fd.PropertyName = "Description";
-            fd.StringValue1 = Txt.getText().toString();
+            fd.StringValue = Txt.getText().toString();
             fd.ClauseType = NTKUtill.ClauseType_Or;
             fd.SearchType = NTKUtill.Search_Type_Contains;
             filters.add(fd);
 
             Filters fb = new Filters();
             fb.PropertyName = "Body";
-            fb.StringValue1 = Txt.getText().toString();
+            fb.StringValue = Txt.getText().toString();
             fb.ClauseType = NTKUtill.ClauseType_Or;
             fb.SearchType = NTKUtill.Search_Type_Contains;
 
