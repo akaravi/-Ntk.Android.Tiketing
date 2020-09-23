@@ -134,10 +134,16 @@ public class ActRegister extends AppCompatActivity {
                         @Override
                         public void onNext(CoreUserResponse response) {
                             Loading.setVisibility(View.GONE);
-                            EasyPreference.with(ActRegister.this).addString("register", "1");
-                            findViewById(R.id.cardActRegister).setVisibility(View.VISIBLE);
-                            startActivity(new Intent(ActRegister.this, ActMain.class));
-                            finish();
+                            if(!response.IsSuccess) {
+                                Toasty.warning(ActRegister.this, response.ErrorMessage, Toasty.LENGTH_LONG, true).show();
+                                findViewById(R.id.cardActRegister).setVisibility(View.VISIBLE);
+                                return;
+                            }
+                                EasyPreference.with(ActRegister.this).addString("register", "1");
+                                findViewById(R.id.cardActRegister).setVisibility(View.VISIBLE);
+                                startActivity(new Intent(ActRegister.this, ActMain.class));
+                                finish();
+
                         }
 
                         @Override
@@ -169,7 +175,9 @@ public class ActRegister extends AppCompatActivity {
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
 
             CoreUserRegisterByMobileRequest request = new CoreUserRegisterByMobileRequest();
-            PhoneNumber = Txt.getText().toString();
+            if(PhoneNumber.length()==0) {
+                PhoneNumber = Txt.getText().toString();
+            }
             request.Mobile = PhoneNumber;
 
             Observable<CoreUserResponse> observable = iCore.RegisterWithMobile(headers, request);
@@ -184,6 +192,10 @@ public class ActRegister extends AppCompatActivity {
                         @Override
                         public void onNext(CoreUserResponse response) {
                             Loading.setVisibility(View.GONE);
+                            if(!response.IsSuccess) {
+                                Toasty.warning(ActRegister.this, response.ErrorMessage, Toasty.LENGTH_LONG, true).show();
+                                return;
+                            }
                             findViewById(R.id.cardActRegister).setVisibility(View.VISIBLE);
                             InputFilter[] filterArray = new InputFilter[1];
                             filterArray[0] = new InputFilter.LengthFilter(4);
@@ -205,7 +217,7 @@ public class ActRegister extends AppCompatActivity {
                                 @Override
                                 public void onFinish() {
                                     Lbls.get(1).setText("ارسال مجدد کد اعتبار سنجی ");
-                                    Lbls.get(1).setClickable(true);
+                                    Lbls.get(1).setClickable(false);
                                     Timer.cancel();
                                 }
                             }.start();
