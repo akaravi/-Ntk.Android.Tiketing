@@ -84,6 +84,10 @@ public class ActIntro extends AppCompatActivity {
                             Intro.ListItems = response.ListItems;
                             HandelIntro();
                         }
+                        else
+                        {
+                            startActivity(new Intent(ActIntro.this, ActRegister.class));
+                        }
                     }
 
                     @Override
