@@ -233,6 +233,7 @@ public class ActRegister extends AppCompatActivity {
                         public void onError(Throwable e) {
                             Loading.setVisibility(View.GONE);
                             Toasty.warning(ActRegister.this, "خطای سامانه مجددا تلاش کنید", Toasty.LENGTH_LONG, true).show();
+                            findViewById(R.id.cardActRegister).setVisibility(View.VISIBLE);
 
                         }
 
