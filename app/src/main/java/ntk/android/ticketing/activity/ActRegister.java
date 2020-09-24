@@ -63,6 +63,12 @@ public class ActRegister extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        String Preference= EasyPreference.with(ActRegister.this).getString("register", "");
+        if (Preference != null && !Preference.isEmpty() && !Preference.equals("null") && Preference.length()>0)
+        {
+            startActivity(new Intent(ActRegister.this, ActMain.class));
+            finish();
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_register);
         ButterKnife.bind(this);
