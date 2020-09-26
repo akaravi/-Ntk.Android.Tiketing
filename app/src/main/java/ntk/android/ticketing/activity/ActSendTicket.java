@@ -217,130 +217,135 @@ public class ActSendTicket extends AppCompatActivity {
 
     @OnClick(R.id.btnSubmitActSendTicket)
     public void ClickSubmit() {
+
         if (Txts.get(0).getText().toString().isEmpty()) {
             YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(0));
-        } else {
-            if (Txts.get(1).getText().toString().isEmpty()) {
-                YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(1));
-            } else {
-                if (Txts.get(2).getText().toString().isEmpty()) {
-                    YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(2));
-                } else {
-                    EasyPreference.with(this).addString("NameFamily", Txts.get(2).getText().toString());
-                    if (Txts.get(3).getText().toString().isEmpty()) {
-                        YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(3));
-                    } else {
-                        EasyPreference.with(this).addString("PhoneNumber", Txts.get(3).getText().toString());
-                        if (Txts.get(4).getText().toString().isEmpty()) {
-                            YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(4));
-                        } else {
-                            EasyPreference.with(this).addString("Email", Txts.get(4).getText().toString());
-                            if (Regex.ValidateEmail(Txts.get(4).getText().toString())) {
-                                if (AppUtill.isNetworkAvailable(this)) {
-                                    request.Email = Txts.get(4).getText().toString();
-                                    request.PhoneNo = Txts.get(3).getText().toString();
-                                    request.Name = Txts.get(2).getText().toString();
-                                    request.HtmlBody = Txts.get(1).getText().toString();
-                                    request.Title = Txts.get(0).getText().toString();
-
-                                    String ids = "";
-                                    for (int i = 0; i < fileId.size(); i++) {
-                                        if (ids.equals(""))
-                                            ids = fileId.get(i);
-                                        else
-                                            ids += "," + fileId.get(i);
-                                    }
-                                    request.LinkFileIds = ids;
-
-                                    requestMember.FirstName = Txts.get(2).getText().toString();
-                                    requestMember.LastName = Txts.get(2).getText().toString();
-                                    requestMember.PhoneNo = Txts.get(3).getText().toString();
-                                    requestMember.Email = Txts.get(4).getText().toString();
-
-
-                                    RetrofitManager retro = new RetrofitManager(this);
-                                    Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-
-                                    IMember iMember = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IMember.class);
-                                    Observable<MemberUserResponse> CallMember = iMember.SetUserActAdd(headers, requestMember);
-                                    CallMember.observeOn(AndroidSchedulers.mainThread())
-                                            .subscribeOn(Schedulers.io())
-                                            .subscribe(new Observer<MemberUserResponse>() {
-                                                @Override
-                                                public void onSubscribe(Disposable d) {
-
-                                                }
-
-                                                @Override
-                                                public void onNext(MemberUserResponse model) {
-                                                    //Toasty.success(ActSendTicket.this, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
-                                                    //finish();
-                                                }
-
-                                                @Override
-                                                public void onError(Throwable e) {
-                                                    //Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-                                                    //    @Override
-                                                    //    public void onClick(View v) {
-                                                    //        init();
-                                                    //    }
-                                                    ///}).show();
-                                                }
-
-                                                @Override
-                                                public void onComplete() {
-
-                                                }
-                                            });
-
-
-                                    ITicket iTicket = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
-                                    Observable<TicketingSubmitResponse> Call = iTicket.SetTicketSubmit(headers, request);
-                                    Call.observeOn(AndroidSchedulers.mainThread())
-                                            .subscribeOn(Schedulers.io())
-                                            .subscribe(new Observer<TicketingSubmitResponse>() {
-                                                @Override
-                                                public void onSubscribe(Disposable d) {
-
-                                                }
-
-                                                @Override
-                                                public void onNext(TicketingSubmitResponse model) {
-                                                    Toasty.success(ActSendTicket.this, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
-                                                    finish();
-                                                }
-
-                                                @Override
-                                                public void onError(Throwable e) {
-                                                    Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(View v) {
-                                                            init();
-                                                        }
-                                                    }).show();
-                                                }
-
-                                                @Override
-                                                public void onComplete() {
-
-                                                }
-                                            });
-                                } else {
-                                    Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            init();
-                                        }
-                                    }).show();
-                                }
-                            } else {
-                                Toasty.warning(this, "آدرس پست الکترونیکی صحیح نمیباشد", Toasty.LENGTH_LONG, true).show();
-                            }
-                        }
-                    }
-                }
-            }
+            return;
         }
+        if (Txts.get(1).getText().toString().isEmpty()) {
+            YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(1));
+            return;
+        }
+        if (Txts.get(2).getText().toString().isEmpty()) {
+            YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(2));
+            return;
+        }
+        EasyPreference.with(this).addString("NameFamily", Txts.get(2).getText().toString());
+        if (Txts.get(3).getText().toString().isEmpty()) {
+            YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(3));
+            return;
+        }
+        EasyPreference.with(this).addString("PhoneNumber", Txts.get(3).getText().toString());
+        if (Txts.get(4).getText().toString().isEmpty()) {
+            YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(4));
+            return;
+        }
+        EasyPreference.with(this).addString("Email", Txts.get(4).getText().toString());
+        if (Regex.ValidateEmail(Txts.get(4).getText().toString())) {
+            if (AppUtill.isNetworkAvailable(this)) {
+                request.Email = Txts.get(4).getText().toString();
+                request.PhoneNo = Txts.get(3).getText().toString();
+                request.Name = Txts.get(2).getText().toString();
+                request.HtmlBody = Txts.get(1).getText().toString();
+                request.Title = Txts.get(0).getText().toString();
+
+                String ids = "";
+                for (int i = 0; i < fileId.size(); i++) {
+                    if (ids.equals(""))
+                        ids = fileId.get(i);
+                    else
+                        ids += "," + fileId.get(i);
+                }
+                request.LinkFileIds = ids;
+
+                requestMember.FirstName = Txts.get(2).getText().toString();
+                requestMember.LastName = Txts.get(2).getText().toString();
+                requestMember.PhoneNo = Txts.get(3).getText().toString();
+                requestMember.Email = Txts.get(4).getText().toString();
+
+
+                RetrofitManager retro = new RetrofitManager(this);
+                Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
+
+//                IMember iMember = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IMember.class);
+//                Observable<MemberUserResponse> CallMember = iMember.SetUserActAdd(headers, requestMember);
+//                CallMember.observeOn(AndroidSchedulers.mainThread())
+//                        .subscribeOn(Schedulers.io())
+//                        .subscribe(new Observer<MemberUserResponse>() {
+//                            @Override
+//                            public void onSubscribe(Disposable d) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onNext(MemberUserResponse model) {
+//                                //Toasty.success(ActSendTicket.this, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
+//                                //finish();
+//                            }
+//
+//                            @Override
+//                            public void onError(Throwable e) {
+//                                //Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
+//                                //    @Override
+//                                //    public void onClick(View v) {
+//                                //        init();
+//                                //    }
+//                                ///}).show();
+//                            }
+//
+//                            @Override
+//                            public void onComplete() {
+//
+//                            }
+//                        });
+                ((Button) findViewById(R.id.btnSubmitActSendTicket)).setClickable(false);
+
+                ITicket iTicket = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
+                Observable<TicketingSubmitResponse> Call = iTicket.SetTicketSubmit(headers, request);
+                Call.observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new Observer<TicketingSubmitResponse>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(TicketingSubmitResponse model) {
+                                Toasty.success(ActSendTicket.this, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
+                                finish();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        init();
+                                    }
+                                }).show();
+                                ((Button) findViewById(R.id.btnSubmitActSendTicket)).setClickable(true);
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
+            } else {
+                Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        init();
+                    }
+                }).show();
+            }
+        } else {
+            Toasty.warning(this, "آدرس پست الکترونیکی صحیح نمیباشد", Toasty.LENGTH_LONG, true).show();
+            return;
+        }
+
+
     }
 
 
@@ -364,8 +369,7 @@ public class ActSendTicket extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public void onActivityResult(int requestCode, int resultCode,
-                                 Intent resultData) {
+    public void onActivityResult(int requestCode, int resultCode,Intent resultData) {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri;
             if (resultData != null) {

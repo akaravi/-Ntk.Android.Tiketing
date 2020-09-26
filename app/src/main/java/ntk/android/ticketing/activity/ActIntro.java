@@ -87,10 +87,20 @@ public class ActIntro extends AppCompatActivity {
                         else
                         {
                             EasyPreference.with(ActIntro.this).addBoolean("Intro", true);
-                            new Handler().postDelayed(() -> {
-                                startActivity(new Intent(ActIntro.this, ActRegister.class));
-                                finish();
-                            }, 3000);
+
+                            if( EasyPreference.with(ActIntro.this).getBoolean("Registered", false))
+                            {
+                                new Handler().postDelayed(() -> {
+                                    startActivity(new Intent(ActIntro.this, ActMain.class));
+                                    finish();
+                                }, 3000);
+                            }
+                            else {
+                                new Handler().postDelayed(() -> {
+                                    startActivity(new Intent(ActIntro.this, ActRegister.class));
+                                    finish();
+                                }, 3000);
+                            }
                         }
                     }
 

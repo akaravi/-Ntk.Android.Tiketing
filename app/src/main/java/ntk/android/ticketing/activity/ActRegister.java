@@ -20,10 +20,13 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
 import java.util.List;
 import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
@@ -63,9 +66,8 @@ public class ActRegister extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        String Preference= EasyPreference.with(ActRegister.this).getString("register", "");
-        if (Preference != null && !Preference.isEmpty() && !Preference.equals("null") && Preference.length()>0)
-        {
+        Boolean Registered = EasyPreference.with(ActRegister.this).getBoolean("Registered", false);
+        if (Registered) {
             startActivity(new Intent(ActRegister.this, ActMain.class));
             finish();
         }
@@ -140,15 +142,18 @@ public class ActRegister extends AppCompatActivity {
                         @Override
                         public void onNext(CoreUserResponse response) {
                             Loading.setVisibility(View.GONE);
-                            if(!response.IsSuccess) {
+                            if (!response.IsSuccess) {
                                 Toasty.warning(ActRegister.this, response.ErrorMessage, Toasty.LENGTH_LONG, true).show();
                                 findViewById(R.id.cardActRegister).setVisibility(View.VISIBLE);
                                 return;
                             }
-                                EasyPreference.with(ActRegister.this).addString("register", "1");
-                                findViewById(R.id.cardActRegister).setVisibility(View.VISIBLE);
-                                startActivity(new Intent(ActRegister.this, ActMain.class));
-                                finish();
+                            EasyPreference.with(ActRegister.this).addLong("UserId", response.Item.UserId);
+                            EasyPreference.with(ActRegister.this).addLong("MemberUserId", response.Item.MemberId);
+                            EasyPreference.with(ActRegister.this).addLong("SiteId", response.Item.SiteId);
+                            EasyPreference.with(ActRegister.this).addBoolean("Registered", true);
+
+                            startActivity(new Intent(ActRegister.this, ActMain.class));
+                            finish();
 
                         }
 
@@ -181,7 +186,7 @@ public class ActRegister extends AppCompatActivity {
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
 
             CoreUserRegisterByMobileRequest request = new CoreUserRegisterByMobileRequest();
-            if(PhoneNumber.length()==0) {
+            if (PhoneNumber.length() == 0) {
                 PhoneNumber = Txt.getText().toString();
             }
             request.Mobile = PhoneNumber;
@@ -198,7 +203,7 @@ public class ActRegister extends AppCompatActivity {
                         @Override
                         public void onNext(CoreUserResponse response) {
                             Loading.setVisibility(View.GONE);
-                            if(!response.IsSuccess) {
+                            if (!response.IsSuccess) {
                                 Toasty.warning(ActRegister.this, response.ErrorMessage, Toasty.LENGTH_LONG, true).show();
                                 return;
                             }
@@ -216,14 +221,14 @@ public class ActRegister extends AppCompatActivity {
                                 public void onTick(long l) {
                                     int seconds = (int) (l / 1000) % 60;
                                     int minutes = (int) ((l / (1000 * 60)) % 60);
-                                    Lbls.get(1).setClickable(true);
+                                    Lbls.get(1).setClickable(false);
                                     Lbls.get(1).setText(" لطفا منتظر دریافت کد اعتبار سنجی بمانید " + String.format("%d:%d", minutes, seconds));
                                 }
 
                                 @Override
                                 public void onFinish() {
                                     Lbls.get(1).setText("ارسال مجدد کد اعتبار سنجی ");
-                                    Lbls.get(1).setClickable(false);
+                                    Lbls.get(1).setClickable(true);
                                     Timer.cancel();
                                 }
                             }.start();

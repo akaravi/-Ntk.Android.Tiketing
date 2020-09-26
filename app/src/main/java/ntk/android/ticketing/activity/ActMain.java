@@ -140,7 +140,7 @@ public class ActMain extends AppCompatActivity {
                 R.color.colorAccent);
 
         Refresh.setOnRefreshListener(() -> {
-            HandelData();
+            CheckUpdate();
             setAnimation();
             Refresh.setRefreshing(false);
         });
@@ -169,7 +169,7 @@ public class ActMain extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        HandelData();
+        CheckUpdate();
     }
 
     @Override
@@ -201,39 +201,6 @@ public class ActMain extends AppCompatActivity {
         return false;
     }
 
-    private void HandelData() {
-        if (AppUtill.isNetworkAvailable(this)) {
-            RetrofitManager manager = new RetrofitManager(this);
-            ICore iCore = manager.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(ICore.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-            Observable<MainCoreResponse> observable = iCore.GetResponseMain(headers);
-            observable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<MainCoreResponse>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(MainCoreResponse mainCoreResponse) {
-                            EasyPreference.with(ActMain.this).addString("configapp", new Gson().toJson(mainCoreResponse.Item));
-                            CheckUpdate();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
-        } else {
-            CheckUpdate();
-        }
-    }
 
     private void CheckUpdate() {
         String st = EasyPreference.with(this).getString("configapp", "");

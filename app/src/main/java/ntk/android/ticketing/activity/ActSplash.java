@@ -31,6 +31,7 @@ import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.EasyPreference;
 import ntk.android.ticketing.utill.FontManager;
+import ntk.base.api.core.entity.CoreMain;
 import ntk.base.api.core.interfase.ICore;
 import ntk.base.api.core.entity.CoreTheme;
 import ntk.base.api.core.model.MainCoreResponse;
@@ -66,31 +67,7 @@ public class ActSplash extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         GetTheme();
-        if (!EasyPreference.with(this).getString("configapp", "").isEmpty()) {
-            if (EasyPreference.with(this).getBoolean("Intro", false)) {
-                if (EasyPreference.with(this).getString("register", "").equals("1")) {
-                    new Handler().postDelayed(() -> {
-                        Loading.setVisibility(View.GONE);
-                        startActivity(new Intent(ActSplash.this, ActMain.class));
-                        finish();
-                    }, 3000);
-                } else {
-                    new Handler().postDelayed(() -> {
-                        Loading.setVisibility(View.GONE);
-                        startActivity(new Intent(ActSplash.this, ActRegister.class));
-                        finish();
-                    }, 3000);
-                }
-            } else {
-                new Handler().postDelayed(() -> {
-                    Loading.setVisibility(View.GONE);
-                    startActivity(new Intent(ActSplash.this, ActIntro.class));
-                    finish();
-                }, 3000);
-            }
-        } else {
-            HandelData();
-        }
+        HandelData();
     }
 
     private void HandelData() {
@@ -109,23 +86,16 @@ public class ActSplash extends AppCompatActivity {
 
                         @Override
                         public void onNext(MainCoreResponse mainCoreResponse) {
-                            EasyPreference.with(ActSplash.this).addString("configapp", new Gson().toJson(mainCoreResponse.Item));
-                            Loading.cancelAnimation();
-                            Loading.setVisibility(View.GONE);
-//                            GetTheme();
-                            if (EasyPreference.with(ActSplash.this).getBoolean("Intro", false)) {
-                                new Handler().postDelayed(() -> {
-                                    Loading.setVisibility(View.GONE);
-                                    startActivity(new Intent(ActSplash.this, ActMain.class));
-                                    finish();
-                                }, 3000);
-                            } else {
-                                new Handler().postDelayed(() -> {
-                                    Loading.setVisibility(View.GONE);
-                                    startActivity(new Intent(ActSplash.this, ActIntro.class));
-                                    finish();
-                                }, 3000);
+                            if (!mainCoreResponse.IsSuccess) {
+                                Loading.cancelAnimation();
+                                Loading.setVisibility(View.GONE);
+                                BtnRefresh.setVisibility(View.VISIBLE);
+                                Toasty.warning(ActSplash.this, mainCoreResponse.ErrorMessage, Toasty.LENGTH_LONG, true).show();
+                                return;
+
                             }
+                            HandelDataAction(mainCoreResponse.Item);
+
                         }
 
 
@@ -148,6 +118,41 @@ public class ActSplash extends AppCompatActivity {
             BtnRefresh.setVisibility(View.VISIBLE);
             Toasty.warning(this, "عدم دسترسی به اینترنت", Toasty.LENGTH_LONG, true).show();
         }
+    }
+
+    private void HandelDataAction(CoreMain model) {
+
+        EasyPreference.with(ActSplash.this).addLong("MemberUserId", model.MemberUserId);
+        EasyPreference.with(ActSplash.this).addLong("UserId", model.UserId);
+        EasyPreference.with(ActSplash.this).addLong("SiteId", model.SiteId);
+        EasyPreference.with(ActSplash.this).addString("configapp", new Gson().toJson(model));
+        if (model.UserId <= 0)
+            EasyPreference.with(ActSplash.this).addBoolean("Registered", false);
+
+        Loading.cancelAnimation();
+        Loading.setVisibility(View.GONE);
+
+        if (!EasyPreference.with(ActSplash.this).getBoolean("Intro", false)) {
+            new Handler().postDelayed(() -> {
+                Loading.setVisibility(View.GONE);
+                startActivity(new Intent(ActSplash.this, ActIntro.class));
+                finish();
+            }, 3000);
+            return;
+        }
+        if (!EasyPreference.with(ActSplash.this).getBoolean("Registered", false)) {
+            new Handler().postDelayed(() -> {
+                Loading.setVisibility(View.GONE);
+                startActivity(new Intent(ActSplash.this, ActRegister.class));
+                finish();
+            }, 3000);
+            return;
+        }
+        new Handler().postDelayed(() -> {
+            Loading.setVisibility(View.GONE);
+            startActivity(new Intent(ActSplash.this, ActMain.class));
+            finish();
+        }, 3000);
     }
 
     private void GetTheme() {
