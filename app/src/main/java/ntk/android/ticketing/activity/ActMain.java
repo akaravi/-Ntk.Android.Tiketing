@@ -5,15 +5,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.MainThread;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
+import androidx.annotation.MainThread;
+import androidx.annotation.Nullable;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Window;
@@ -30,17 +30,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.codekidlabs.storagechooser.animators.MemorybarAnimation;
 import com.google.gson.Gson;
 import com.google.zxing.WriterException;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -67,19 +64,11 @@ import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.application.interfase.IApplication;
 import ntk.base.api.application.model.ApplicationScoreRequest;
 import ntk.base.api.application.model.ApplicationScoreResponse;
-import ntk.base.api.core.interfase.ICore;
 import ntk.base.api.core.entity.CoreMain;
-import ntk.base.api.core.model.MainCoreResponse;
 import ntk.base.api.news.interfase.INews;
-import ntk.base.api.news.entity.NewsContent;
 import ntk.base.api.news.model.NewsContentListRequest;
 import ntk.base.api.news.model.NewsContentResponse;
-import ntk.base.api.news.model.NewsContentViewRequest;
 import ntk.base.api.utill.RetrofitManager;
-import ss.com.bannerslider.banners.Banner;
-import ss.com.bannerslider.banners.RemoteBanner;
-import ss.com.bannerslider.events.OnBannerClickListener;
-import ss.com.bannerslider.views.BannerSlider;
 
 public class ActMain extends AppCompatActivity {
 

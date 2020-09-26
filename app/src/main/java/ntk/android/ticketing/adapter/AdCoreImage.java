@@ -2,7 +2,7 @@ package ntk.android.ticketing.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.ActDetailNews;
-import ntk.android.ticketing.activity.ActMain;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.news.entity.NewsContent;
 import ntk.base.api.news.model.NewsContentViewRequest;
