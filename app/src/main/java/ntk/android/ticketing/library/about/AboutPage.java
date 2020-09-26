@@ -350,7 +350,7 @@ public class AboutPage {
 
 
     public AboutPage addItem(Element element) {
-        LinearLayout wrapper = (LinearLayout) mView.findViewById(R.id.about_providers);
+        LinearLayout wrapper = mView.findViewById(R.id.about_providers);
         wrapper.addView(createItem(element));
         wrapper.addView(getSeparator(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelSize(R.dimen.about_separator_height)));
         return this;
@@ -434,9 +434,9 @@ public class AboutPage {
      * @return the inflated {@link View} of this AboutPage
      */
     public View create() {
-        TextView description = (TextView) mView.findViewById(R.id.description);
+        TextView description = mView.findViewById(R.id.description);
         description.setTypeface(FontManager.GetTypeface(mContext, FontManager.IranSans));
-        ImageView image = (ImageView) mView.findViewById(R.id.image);
+        ImageView image = mView.findViewById(R.id.image);
         if (mImage > 0) {
             image.setImageResource(mImage);
         }

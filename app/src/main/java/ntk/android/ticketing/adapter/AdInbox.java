@@ -87,7 +87,7 @@ public class AdInbox extends RecyclerView.Adapter<AdInbox.ViewHolder> {
             ((TextView) dialog.findViewById(R.id.lbl1PernissionDialog)).setText("توجه");
             ((TextView) dialog.findViewById(R.id.lbl2PernissionDialog)).setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
             ((TextView) dialog.findViewById(R.id.lbl2PernissionDialog)).setText("پیام مورد نظر حذف گردد؟");
-            Button Ok = (Button) dialog.findViewById(R.id.btnOkPermissionDialog);
+            Button Ok = dialog.findViewById(R.id.btnOkPermissionDialog);
             Ok.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
             Ok.setOnClickListener(view1 -> {
                 RoomDb.getRoomDb(context).NotificationDoa().Delete(arrayList.get(position));
@@ -96,7 +96,7 @@ public class AdInbox extends RecyclerView.Adapter<AdInbox.ViewHolder> {
                 notifyDataSetChanged();
                 dialog.dismiss();
             });
-            Button Cancel = (Button) dialog.findViewById(R.id.btnCancelPermissionDialog);
+            Button Cancel = dialog.findViewById(R.id.btnCancelPermissionDialog);
             Cancel.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
             Cancel.setOnClickListener(view12 -> dialog.dismiss());
             dialog.show();

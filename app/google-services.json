@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "893852902485",
-    "firebase_url": "https://ntk-cms.firebaseio.com",
-    "project_id": "ntk-cms",
-    "storage_bucket": "ntk-cms.appspot.com"
+    "project_number": "635635571578",
+    "firebase_url": "https://karavi-cms.firebaseio.com",
+    "project_id": "karavi-cms",
+    "storage_bucket": "karavi-cms.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:893852902485:android:7c9294d5c9c4adcd",
+        "mobilesdk_app_id": "1:635635571578:android:031ee037699a7fc161d4c3",
         "android_client_info": {
-          "package_name": "ntk.android.ticketing.APPNTK"
+          "package_name": "ntk.android.ticketing"
         }
       },
       "oauth_client": [
         {
-          "client_id": "893852902485-2ueq70m43of0nqrnmhc7nellvcv2nsbj.apps.googleusercontent.com",
+          "client_id": "635635571578-0b5f18mrgsfehc5g6aet57pc0kgn6f2u.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCebGPsbhfoLJVBrZITvXqLlvgwWsk1PyA"
+          "current_key": "AIzaSyAxOTKmGheeGQpDrh9lwxr-XRNHl18OO3Y"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "893852902485-2ueq70m43of0nqrnmhc7nellvcv2nsbj.apps.googleusercontent.com",
+              "client_id": "635635571578-0b5f18mrgsfehc5g6aet57pc0kgn6f2u.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

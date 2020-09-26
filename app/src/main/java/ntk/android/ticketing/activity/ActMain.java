@@ -228,7 +228,7 @@ public class ActMain extends AppCompatActivity {
         ((TextView) dialog.findViewById(R.id.lbl1PernissionDialog)).setText("توجه");
         ((TextView) dialog.findViewById(R.id.lbl2PernissionDialog)).setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
         ((TextView) dialog.findViewById(R.id.lbl2PernissionDialog)).setText("نسخه جدید اپلیکیشن اومده دوست داری آبدیت بشه؟؟");
-        Button Ok = (Button) dialog.findViewById(R.id.btnOkPermissionDialog);
+        Button Ok = dialog.findViewById(R.id.btnOkPermissionDialog);
         Ok.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
         Ok.setOnClickListener(view1 -> {
             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -236,7 +236,7 @@ public class ActMain extends AppCompatActivity {
             startActivity(i);
             dialog.dismiss();
         });
-        Button Cancel = (Button) dialog.findViewById(R.id.btnCancelPermissionDialog);
+        Button Cancel = dialog.findViewById(R.id.btnCancelPermissionDialog);
         Cancel.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
         Cancel.setOnClickListener(view12 -> dialog.dismiss());
         dialog.show();
@@ -256,7 +256,7 @@ public class ActMain extends AppCompatActivity {
         ((TextView) dialog.findViewById(R.id.lbl1PernissionDialogUpdate)).setText("توجه");
         ((TextView) dialog.findViewById(R.id.lbl2PernissionDialogUpdate)).setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
         ((TextView) dialog.findViewById(R.id.lbl2PernissionDialogUpdate)).setText("نسخه جدید اپلیکیشن اومده حتما باید آبدیت بشه");
-        Button Ok = (Button) dialog.findViewById(R.id.btnOkPermissionDialogUpdate);
+        Button Ok = dialog.findViewById(R.id.btnOkPermissionDialogUpdate);
         Ok.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
         Ok.setOnClickListener(view1 -> {
             Intent i = new Intent(Intent.ACTION_VIEW);

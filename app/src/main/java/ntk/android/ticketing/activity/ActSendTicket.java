@@ -298,7 +298,7 @@ public class ActSendTicket extends AppCompatActivity {
 //
 //                            }
 //                        });
-                ((Button) findViewById(R.id.btnSubmitActSendTicket)).setClickable(false);
+                findViewById(R.id.btnSubmitActSendTicket).setClickable(false);
 
                 ITicket iTicket = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
                 Observable<TicketingSubmitResponse> Call = iTicket.SetTicketSubmit(headers, request);
@@ -324,7 +324,7 @@ public class ActSendTicket extends AppCompatActivity {
                                         init();
                                     }
                                 }).show();
-                                ((Button) findViewById(R.id.btnSubmitActSendTicket)).setClickable(true);
+                                findViewById(R.id.btnSubmitActSendTicket).setClickable(true);
                             }
 
                             @Override

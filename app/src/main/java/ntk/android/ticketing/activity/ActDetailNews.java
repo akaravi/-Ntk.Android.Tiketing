@@ -511,7 +511,7 @@ public class ActDetailNews extends AppCompatActivity {
         TextView Lbl = dialog.findViewById(R.id.lblTitleDialogAddComment);
         Lbl.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
 
-        EditText Txt[] = new EditText[2];
+        EditText[] Txt = new EditText[2];
 
         Txt[0] = dialog.findViewById(R.id.txtNameDialogAddComment);
         Txt[0].setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
