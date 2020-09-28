@@ -6,7 +6,6 @@
     "storage_bucket": "ntk-cms.appspot.com"
   },
   "client": [
-
     {
       "client_info": {
         "mobilesdk_app_id": "1:893852902485:android:ec240a8c1aed8232",
@@ -212,9 +211,38 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:893852902485:android:7c9294d5c9c4adcd",
+        "mobilesdk_app_id": "1:893852902485:android:3b3183e41c78cdc3d2e0dc",
         "android_client_info": {
-          "package_name": "ntk.android.tiketing.APPNTK"
+          "package_name": "ntk.android.ticketing.APPNTK"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "893852902485-2ueq70m43of0nqrnmhc7nellvcv2nsbj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCebGPsbhfoLJVBrZITvXqLlvgwWsk1PyA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "893852902485-2ueq70m43of0nqrnmhc7nellvcv2nsbj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893852902485:android:64aac45624148ab6",
+        "android_client_info": {
+          "package_name": "ntk.android.vitrin.APPNTK"
         }
       },
       "oauth_client": [
@@ -239,7 +267,6 @@
         }
       }
     }
-
   ],
   "configuration_version": "1"
 }
