@@ -6,15 +6,14 @@ android {
     defaultConfig {
         applicationId "ntk.android.ticketing.APPNTK"//change for packagename for api
         minSdkVersion 17
-        targetSdkVersion 27
+        targetSdkVersion 28
+        multiDexEnabled true
         versionCode 1  //Build Version NTK
         versionName "1.0"//Splash Version Lable
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary = true
         }
-        multiDexEnabled true
-
     }
     signingConfigs {
         release {
