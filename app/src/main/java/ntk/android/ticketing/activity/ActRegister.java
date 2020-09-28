@@ -58,6 +58,7 @@ public class ActRegister extends AppCompatActivity {
     EditText Txt;
 
     @BindViews({R.id.lblVerificationActRegister,
+            R.id.lblNoPhoneActRegister,
             R.id.lblCounterActRegister})
     List<TextView> Lbls;
 
@@ -258,6 +259,12 @@ public class ActRegister extends AppCompatActivity {
         Register();
     }
 
+    @OnClick(R.id.RowNoPhoneActRegister)
+    public void ClickNoPhone() {
+        EasyPreference.with(this).addString("register", "1");
+        startActivity(new Intent(this, ActMain.class));
+        finish();
+    }
 
     private boolean CheckPermission() {
         if (Build.VERSION.SDK_INT >= 23) {
