@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "ntk.android.ticketing.APPNTK"//change for packagename for api
         minSdkVersion 17
-        targetSdkVersion 28
+        targetSdkVersion 27
         multiDexEnabled true
         versionCode 1  //Build Version NTK
         versionName "1.0"//Splash Version Lable
