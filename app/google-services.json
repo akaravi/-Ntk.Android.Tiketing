@@ -6,11 +6,12 @@
     "storage_bucket": "ntk-cms.appspot.com"
   },
   "client": [
+
     {
       "client_info": {
         "mobilesdk_app_id": "1:893852902485:android:ec240a8c1aed8232",
         "android_client_info": {
-          "package_name": "ntk.android.academy"
+          "package_name": "ntk.android.academy.APPNTK"
         }
       },
       "oauth_client": [
@@ -39,7 +40,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:893852902485:android:231a9eae81face9e",
         "android_client_info": {
-          "package_name": "ntk.android.baseSample"
+          "package_name": "ntk.android.baseSample.APPNTK"
         }
       },
       "oauth_client": [
@@ -68,7 +69,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:893852902485:android:1c459b6f7a2aafed",
         "android_client_info": {
-          "package_name": "ntk.android.biography"
+          "package_name": "ntk.android.biography.APPNTK"
         }
       },
       "oauth_client": [
@@ -97,7 +98,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:893852902485:android:84c25ccaf93762cb",
         "android_client_info": {
-          "package_name": "ntk.android.cpanel"
+          "package_name": "ntk.android.cpanel.APPNTK"
         }
       },
       "oauth_client": [
@@ -126,7 +127,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:893852902485:android:fec7a65cbf64a700",
         "android_client_info": {
-          "package_name": "ntk.android.estate"
+          "package_name": "ntk.android.estate.APPNTK"
         }
       },
       "oauth_client": [
@@ -155,7 +156,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:893852902485:android:1a57510b1c2702e4d2e0dc",
         "android_client_info": {
-          "package_name": "ntk.android.hypershop"
+          "package_name": "ntk.android.hypershop.APPNTK"
         }
       },
       "oauth_client": [
@@ -184,7 +185,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:893852902485:android:553b29931114b748",
         "android_client_info": {
-          "package_name": "ntk.android.news"
+          "package_name": "ntk.android.news.APPNTK"
         }
       },
       "oauth_client": [
@@ -213,36 +214,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:893852902485:android:7c9294d5c9c4adcd",
         "android_client_info": {
-          "package_name": "ntk.android.tiketing"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "893852902485-2ueq70m43of0nqrnmhc7nellvcv2nsbj.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCebGPsbhfoLJVBrZITvXqLlvgwWsk1PyA"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "893852902485-2ueq70m43of0nqrnmhc7nellvcv2nsbj.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:893852902485:android:64aac45624148ab6",
-        "android_client_info": {
-          "package_name": "ntk.android.vitrin"
+          "package_name": "ntk.android.tiketing.APPNTK"
         }
       },
       "oauth_client": [
@@ -267,6 +239,7 @@
         }
       }
     }
+
   ],
   "configuration_version": "1"
 }
