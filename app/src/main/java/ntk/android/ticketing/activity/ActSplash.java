@@ -90,6 +90,7 @@ public class ActSplash extends AppCompatActivity {
                                 Loading.cancelAnimation();
                                 Loading.setVisibility(View.GONE);
                                 BtnRefresh.setVisibility(View.VISIBLE);
+                                //replace with layout
                                 Toasty.warning(ActSplash.this, mainCoreResponse.ErrorMessage, Toasty.LENGTH_LONG, true).show();
                                 return;
 
@@ -101,6 +102,7 @@ public class ActSplash extends AppCompatActivity {
 
                         @Override
                         public void onError(Throwable e) {
+                            //replace with layout
                             Loading.cancelAnimation();
                             Loading.setVisibility(View.GONE);
                             BtnRefresh.setVisibility(View.VISIBLE);
@@ -116,6 +118,7 @@ public class ActSplash extends AppCompatActivity {
         } else {
             Loading.setVisibility(View.GONE);
             BtnRefresh.setVisibility(View.VISIBLE);
+            //replace with layout error
             Toasty.warning(this, "عدم دسترسی به اینترنت", Toasty.LENGTH_LONG, true).show();
         }
     }
