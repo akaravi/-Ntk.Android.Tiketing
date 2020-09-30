@@ -1,4 +1,4 @@
-
+package ntk.android.ticketing.view
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet

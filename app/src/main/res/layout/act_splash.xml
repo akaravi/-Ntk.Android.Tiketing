@@ -13,19 +13,6 @@
         android:contentDescription="@null"
         android:src="@drawable/logo" />
 
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnRefreshActSplash"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/imgLogoActSplash"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/button_accent"
-        android:text="تلاش مجدد"
-        android:textColor="@color/colorWhite"
-        android:visibility="gone" />
-
     <TextView
         android:id="@+id/lblVersionActSplash"
         android:layout_width="wrap_content"
