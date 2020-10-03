@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
@@ -191,6 +193,9 @@ public class ActMain extends AppCompatActivity {
     }
 
 
+    /**
+     * check new version availability
+     */
     private void CheckUpdate() {
         String st = EasyPreference.with(this).getString("configapp", "");
         CoreMain mcr = new Gson().fromJson(st, CoreMain.class);
@@ -203,10 +208,13 @@ public class ActMain extends AppCompatActivity {
         }
     }
 
+    /**
+     * optional update if user want
+     */
     private void Update() {
         String st = EasyPreference.with(this).getString("configapp", "");
         CoreMain mcr = new Gson().fromJson(st, CoreMain.class);
-        final Dialog dialog = new Dialog(this);
+        Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCanceledOnTouchOutside(true);
         Window window = dialog.getWindow();
@@ -231,6 +239,9 @@ public class ActMain extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * force update app
+     */
     private void UpdateFore() {
         String st = EasyPreference.with(this).getString("configapp", "");
         CoreMain mcr = new Gson().fromJson(st, CoreMain.class);
@@ -282,12 +293,13 @@ public class ActMain extends AppCompatActivity {
                     @Override
                     public void onNext(NewsContentResponse newsContentResponse) {
                         if (newsContentResponse.IsSuccess) {
-
+                            SnapHelper snapHelper = new PagerSnapHelper();
                             AdCoreImage adapter = new AdCoreImage(ActMain.this, newsContentResponse.ListItems);
                             Slider.setHasFixedSize(true);
                             LinearLayoutManager manager = new LinearLayoutManager(ActMain.this, LinearLayoutManager.HORIZONTAL, true);
                             Slider.setLayoutManager(manager);
                             Slider.setAdapter(adapter);
+                            snapHelper.attachToRecyclerView(Slider);
                             adapter.notifyDataSetChanged();
 //                            List<Banner> banners = new ArrayList<>();
 //                            for (NewsContent news : newsContentResponse.ListItems) {
