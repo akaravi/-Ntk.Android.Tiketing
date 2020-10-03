@@ -293,6 +293,7 @@ public class ActMain extends AppCompatActivity {
                     @Override
                     public void onNext(NewsContentResponse newsContentResponse) {
                         if (newsContentResponse.IsSuccess) {
+                            findViewById(R.id.linear).setBackground(null);
                             SnapHelper snapHelper = new PagerSnapHelper();
                             AdCoreImage adapter = new AdCoreImage(ActMain.this, newsContentResponse.ListItems);
                             Slider.setHasFixedSize(true);
