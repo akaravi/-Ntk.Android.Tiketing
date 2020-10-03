@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -42,6 +40,7 @@ public class ActSplash extends BaseActivity {
     @BindView(R.id.lblVersionActSplash)
     TextView Lbl;
 
+    long startTime;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +48,8 @@ public class ActSplash extends BaseActivity {
         setContentView(R.layout.act_splash);
         ButterKnife.bind(this);
         init();
+        getData();
+        startTime = System.currentTimeMillis();
     }
 
     @SuppressLint("SetTextI18n")
@@ -58,11 +59,6 @@ public class ActSplash extends BaseActivity {
         btnTryAgain.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        getData();
-    }
 
     /**
      * get all needed data
@@ -95,6 +91,7 @@ public class ActSplash extends BaseActivity {
 
                     @Override
                     public void onNext(CoreTheme theme) {
+                        //todo check successfully on coreTheme
                         EasyPreference.with(ActSplash.this).addString("Theme", new Gson().toJson(theme.Item.ThemeConfigJson));
                         //now can get main response
                         requestMainData();
@@ -131,9 +128,7 @@ public class ActSplash extends BaseActivity {
                     @Override
                     public void onNext(MainCoreResponse mainCoreResponse) {
                         if (!mainCoreResponse.IsSuccess) {
-//                                Loading.cancelAnimation();
-//                                Loading.setVisibility(View.GONE);
-                            btnTryAgain.setVisibility(View.VISIBLE);
+                            switcher.showErrorView();
                             //replace with layout
                             Toasty.warning(ActSplash.this, mainCoreResponse.ErrorMessage, Toasty.LENGTH_LONG, true).show();
                             return;
@@ -147,9 +142,7 @@ public class ActSplash extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         //replace with layout
-//                            Loading.cancelAnimation();
-//                            Loading.setVisibility(View.GONE);
-                        btnTryAgain.setVisibility(View.VISIBLE);
+                        switcher.showErrorView();
                         Toasty.warning(ActSplash.this, "خطای سامانه مجددا تلاش کنید", Toasty.LENGTH_LONG, true).show();
 
                     }
@@ -182,7 +175,7 @@ public class ActSplash extends BaseActivity {
 //                Loading.setVisibility(View.GONE);
                 startActivity(new Intent(ActSplash.this, ActIntro.class));
                 finish();
-            }, 3000);
+            }, System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000-System.currentTimeMillis() - startTime);
             return;
         }
         if (!EasyPreference.with(ActSplash.this).getBoolean("Registered", false)) {
@@ -190,14 +183,14 @@ public class ActSplash extends BaseActivity {
 //                Loading.setVisibility(View.GONE);
                 startActivity(new Intent(ActSplash.this, ActRegister.class));
                 finish();
-            }, 3000);
+            },  System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000-System.currentTimeMillis() - startTime);
             return;
         }
         new Handler().postDelayed(() -> {
 //            Loading.setVisibility(View.GONE);
             startActivity(new Intent(ActSplash.this, ActMain.class));
             finish();
-        }, 3000);
+        },  System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000-System.currentTimeMillis() - startTime);
     }
 
     /**

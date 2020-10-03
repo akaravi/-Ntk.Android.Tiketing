@@ -3,11 +3,11 @@ package ntk.android.ticketing.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -27,6 +27,7 @@ import io.reactivex.schedulers.Schedulers;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.config.ConfigRestHeader;
 import ntk.android.ticketing.config.ConfigStaticValue;
+import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.EasyPreference;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.application.interfase.IApplication;
@@ -34,7 +35,7 @@ import ntk.base.api.application.model.ApplicationIntroRequest;
 import ntk.base.api.application.model.ApplicationIntroResponse;
 import ntk.base.api.utill.RetrofitManager;
 
-public class ActIntro extends AppCompatActivity {
+public class ActIntro extends BaseActivity {
 
     @BindViews({R.id.lblTitleActIntro, R.id.lblDescriptionActIntro, R.id.lblBtnAfterActIntro})
     List<TextView> Lbls;
@@ -45,7 +46,7 @@ public class ActIntro extends AppCompatActivity {
     private ApplicationIntroResponse Intro = new ApplicationIntroResponse();
     private int CountIntro = 0;
     private Handler handler = new Handler();
-
+    long startTime;
     public int Help = 0;
 
     @Override
@@ -53,6 +54,7 @@ public class ActIntro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_intro);
         ButterKnife.bind(this);
+        startTime = System.currentTimeMillis();
         init();
     }
 
@@ -65,61 +67,71 @@ public class ActIntro extends AppCompatActivity {
         Lbls.get(0).setTypeface(FontManager.GetTypeface(this, FontManager.IranSansBold));
         Lbls.get(1).setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
         Lbls.get(2).setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
-        RetrofitManager manager = new RetrofitManager(this);
-        IApplication iApplication = manager.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(IApplication.class);
-        Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-        ApplicationIntroRequest request = new ApplicationIntroRequest();
-        Observable<ApplicationIntroResponse> Call = iApplication.GetApplicationIntro(headers, request);
-        Call.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<ApplicationIntroResponse>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+        getdata();
+    }
 
-                    }
+    private void getdata() {
+        if (AppUtill.isNetworkAvailable(this)) {
+            switcher.showProgressView();
+            RetrofitManager manager = new RetrofitManager(this);
+            IApplication iApplication = manager.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(IApplication.class);
+            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
+            ApplicationIntroRequest request = new ApplicationIntroRequest();
+            Observable<ApplicationIntroResponse> Call = iApplication.GetApplicationIntro(headers, request);
+            Call.observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new Observer<ApplicationIntroResponse>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
 
-                    @Override
-                    public void onNext(ApplicationIntroResponse response) {
-                        if (Intro.ListItems != null && response.ListItems.size() != 0) {
-                            Intro.ListItems = response.ListItems;
-                            HandelIntro();
                         }
-                        else
-                        {
-                            EasyPreference.with(ActIntro.this).addBoolean("Intro", true);
 
-                            if( EasyPreference.with(ActIntro.this).getBoolean("Registered", false))
-                            {
-                                new Handler().postDelayed(() -> {
-                                    startActivity(new Intent(ActIntro.this, ActMain.class));
-                                    finish();
-                                }, 3000);
-                            }
-                            else {
-                                new Handler().postDelayed(() -> {
-                                    startActivity(new Intent(ActIntro.this, ActRegister.class));
-                                    finish();
-                                }, 3000);
+                        @Override
+                        public void onNext(ApplicationIntroResponse response) {
+                            if (response.IsSuccess) {
+                                if (Intro.ListItems != null && response.ListItems.size() != 0) {
+                                    Intro.ListItems = response.ListItems;
+                                    HandelIntro();
+                                } else {
+                                    EasyPreference.with(ActIntro.this).addBoolean("Intro", true);
+
+                                    if (EasyPreference.with(ActIntro.this).getBoolean("Registered", false)) {
+                                        new Handler().postDelayed(() -> {
+                                            startActivity(new Intent(ActIntro.this, ActMain.class));
+                                            finish();
+                                        }, System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000 - System.currentTimeMillis() - startTime);
+                                    } else {
+                                        new Handler().postDelayed(() -> {
+                                            startActivity(new Intent(ActIntro.this, ActRegister.class));
+                                            finish();
+                                        }, System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000 - System.currentTimeMillis() - startTime);
+                                    }
+                                }
+                            } else {
+                                switcher.showErrorView();
                             }
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Toasty.error(ActIntro.this, "خطا در اتصال به مرکز", Toasty.LENGTH_LONG, true).show();
-                    }
+                        @Override
+                        public void onError(Throwable e) {
+                            Toasty.error(ActIntro.this, "خطا در اتصال به مرکز", Toasty.LENGTH_LONG, true).show();
+                        }
 
-                    @Override
-                    public void onComplete() {
+                        @Override
+                        public void onComplete() {
 
-                    }
-                });
+                        }
+                    });
+        } else {
+            switcher.showErrorView();
+        }
     }
 
     private void HandelIntro() {
         ImageLoader.getInstance().displayImage(Intro.ListItems.get(CountIntro).MainImageSrc, Img);
         Lbls.get(0).setText(Intro.ListItems.get(CountIntro).Title);
         Lbls.get(1).setText(Intro.ListItems.get(CountIntro).Description);
+        switcher.showContentView();
     }
 
     @OnClick(R.id.btnBeforeActIntro)
