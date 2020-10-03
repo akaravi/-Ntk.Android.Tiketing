@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    <ntk.android.ticketing.view.fixedSwipeLayout
         android:id="@+id/RefreshMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -38,5 +38,5 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.55" />
         </LinearLayout>
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </ntk.android.ticketing.view.fixedSwipeLayout>
 </RelativeLayout>
