@@ -63,7 +63,6 @@ import ntk.base.api.ticket.entity.TicketingAnswer;
 import ntk.base.api.ticket.model.TicketingAnswerListRequest;
 import ntk.base.api.ticket.model.TicketingAnswerResponse;
 import ntk.base.api.ticket.model.TicketingAnswerSubmitRequest;
-import ntk.base.api.ticket.model.TicketingAnswerSubmitResponse;
 import ntk.base.api.utill.RetrofitManager;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;

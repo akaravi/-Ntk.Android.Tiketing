@@ -66,11 +66,11 @@ import ntk.android.ticketing.utill.Regex;
 import ntk.base.api.baseModel.FilterModel;
 import ntk.base.api.file.interfase.IFile;
 import ntk.base.api.member.model.MemberUserActAddRequest;
+import ntk.base.api.ticket.entity.TicketingTask;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.entity.TicketingDepartemen;
 import ntk.base.api.ticket.model.TicketingDepartemenResponse;
 import ntk.base.api.ticket.model.TicketingTaskResponse;
-import ntk.base.api.ticket.model.TicketingTaskSubmitRequest;
 
 import ntk.base.api.utill.RetrofitManager;
 import okhttp3.MediaType;
@@ -111,7 +111,7 @@ public class ActSendTicket extends AppCompatActivity {
     @BindView(R.id.mainLayoutActSendTicket)
     CoordinatorLayout layout;
 
-    private TicketingTaskSubmitRequest request = new TicketingTaskSubmitRequest();
+    private TicketingTask request = new TicketingTask();
     private MemberUserActAddRequest requestMember = new MemberUserActAddRequest();
     private List<String> attaches = new ArrayList<>();
     private List<String> fileId = new ArrayList<>();
@@ -245,7 +245,7 @@ public class ActSendTicket extends AppCompatActivity {
             if (AppUtill.isNetworkAvailable(this)) {
                 request.Email = Txts.get(4).getText().toString();
                 request.PhoneNo = Txts.get(3).getText().toString();
-                request.Name = Txts.get(2).getText().toString();
+                request.FullName = Txts.get(2).getText().toString();
                 request.HtmlBody = Txts.get(1).getText().toString();
                 request.Title = Txts.get(0).getText().toString();
 
@@ -370,6 +370,7 @@ public class ActSendTicket extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onActivityResult(int requestCode, int resultCode,Intent resultData) {
+        super.onActivityResult(requestCode, resultCode, resultData);
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri;
             if (resultData != null) {
