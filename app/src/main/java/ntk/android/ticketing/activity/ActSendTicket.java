@@ -63,13 +63,15 @@ import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.EasyPreference;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.android.ticketing.utill.Regex;
+import ntk.base.api.baseModel.FilterModel;
 import ntk.base.api.file.interfase.IFile;
 import ntk.base.api.member.model.MemberUserActAddRequest;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.entity.TicketingDepartemen;
-import ntk.base.api.ticket.model.TicketingDepartemenList;
-import ntk.base.api.ticket.model.TicketingSubmitRequest;
-import ntk.base.api.ticket.model.TicketingSubmitResponse;
+import ntk.base.api.ticket.model.TicketingDepartemenResponse;
+import ntk.base.api.ticket.model.TicketingTaskResponse;
+import ntk.base.api.ticket.model.TicketingTaskSubmitRequest;
+
 import ntk.base.api.utill.RetrofitManager;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -109,7 +111,7 @@ public class ActSendTicket extends AppCompatActivity {
     @BindView(R.id.mainLayoutActSendTicket)
     CoordinatorLayout layout;
 
-    private TicketingSubmitRequest request = new TicketingSubmitRequest();
+    private TicketingTaskSubmitRequest request = new TicketingTaskSubmitRequest();
     private MemberUserActAddRequest requestMember = new MemberUserActAddRequest();
     private List<String> attaches = new ArrayList<>();
     private List<String> fileId = new ArrayList<>();
@@ -178,21 +180,21 @@ public class ActSendTicket extends AppCompatActivity {
             }
         });
 
-
+        FilterModel request=new FilterModel();
         RetrofitManager retro = new RetrofitManager(this);
         ITicket iTicket = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
         Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-        Observable<TicketingDepartemenList> Call = iTicket.GetTicketDepartman(headers);
+        Observable<TicketingDepartemenResponse> Call = iTicket.GetTicketDepartmanActList(headers,request);
         Call.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<TicketingDepartemenList>() {
+                .subscribe(new Observer<TicketingDepartemenResponse>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(TicketingDepartemenList model) {
+                    public void onNext(TicketingDepartemenResponse model) {
                         List<String> list = new ArrayList<>();
                         for (TicketingDepartemen td : model.ListItems) {
                             list.add(td.Title);
@@ -299,17 +301,17 @@ public class ActSendTicket extends AppCompatActivity {
                 findViewById(R.id.btnSubmitActSendTicket).setClickable(false);
 
                 ITicket iTicket = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
-                Observable<TicketingSubmitResponse> Call = iTicket.SetTicketSubmit(headers, request);
+                Observable<TicketingTaskResponse> Call = iTicket.SetTicketTaskActSubmit(headers, request);
                 Call.observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
-                        .subscribe(new Observer<TicketingSubmitResponse>() {
+                        .subscribe(new Observer<TicketingTaskResponse>() {
                             @Override
                             public void onSubscribe(Disposable d) {
 
                             }
 
                             @Override
-                            public void onNext(TicketingSubmitResponse model) {
+                            public void onNext(TicketingTaskResponse model) {
                                 Toasty.success(ActSendTicket.this, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
                                 finish();
                             }

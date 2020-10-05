@@ -32,7 +32,7 @@ import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.EndlessRecyclerViewScrollListener;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingListRequest;
-import ntk.base.api.ticket.model.TicketingListResponse;
+import ntk.base.api.ticket.model.TicketingTaskResponse;
 import ntk.base.api.ticket.entity.TicketingTask;
 import ntk.base.api.utill.NTKUtill;
 import ntk.base.api.utill.RetrofitManager;
@@ -128,17 +128,17 @@ public class ActSupport extends AppCompatActivity {
             request.SortType = NTKUtill.Descnding_Sort;
             request.SortColumn = "Id";
 
-            Observable<TicketingListResponse> Call = iTicket.GetTicketList(headers, request);
+            Observable<TicketingTaskResponse> Call = iTicket.GetTicketTaskActList(headers, request);
             Call.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<TicketingListResponse>() {
+                    .subscribe(new Observer<TicketingTaskResponse>() {
                         @Override
                         public void onSubscribe(Disposable d) {
 
                         }
 
                         @Override
-                        public void onNext(TicketingListResponse model) {
+                        public void onNext(TicketingTaskResponse model) {
                             tickets.addAll(model.ListItems);
                             adapter.notifyDataSetChanged();
                             TotalTag = model.TotalRowCount;

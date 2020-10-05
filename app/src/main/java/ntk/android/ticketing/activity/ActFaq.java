@@ -25,8 +25,8 @@ import ntk.android.ticketing.config.ConfigRestHeader;
 import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.ticket.interfase.ITicket;
-import ntk.base.api.ticket.model.TicketingFaqListRequest;
-import ntk.base.api.ticket.model.TicketingFaqListResponse;
+import ntk.base.api.ticket.model.TicketingFaqRequest;
+import ntk.base.api.ticket.model.TicketingFaqResponse;
 import ntk.base.api.utill.RetrofitManager;
 
 public class ActFaq extends AppCompatActivity {
@@ -56,20 +56,20 @@ public class ActFaq extends AppCompatActivity {
         ITicket iTicket = retro.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
         Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
 
-        TicketingFaqListRequest request = new TicketingFaqListRequest();
+        TicketingFaqRequest request = new TicketingFaqRequest();
         request.RowPerPage = 100;
 
-        Observable<TicketingFaqListResponse> Call = iTicket.GetTicketFaqList(headers, request);
+        Observable<TicketingFaqResponse> Call = iTicket.GetTicketFaqActList(headers, request);
         Call.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<TicketingFaqListResponse>() {
+                .subscribe(new Observer<TicketingFaqResponse>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(TicketingFaqListResponse model) {
+                    public void onNext(TicketingFaqResponse model) {
                         AdFaq adapter = new AdFaq(ActFaq.this, model.ListItems);
                         Rv.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
