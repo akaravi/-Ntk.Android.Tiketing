@@ -113,8 +113,7 @@ dependencies {
     implementation 'com.github.codekidX:storage-chooser:2.0.4.2'
 
 
-    implementation 'com.github.akaravi:ntk.android.base:1.0.45'
-
+    implementation 'com.github.akaravi:ntk.android.base:1.0.50'
 
     implementation 'com.github.akaravi:ntk.android.base:1.0.50'
 
