@@ -16,14 +16,14 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.utill.FontManager;
-import ntk.base.api.ticket.entity.TicketingTask;
+import ntk.base.api.ticket.entity.TicketingFaq;
 
 public class AdFaq extends RecyclerView.Adapter<AdFaq.ViewHolder> {
 
-    private List<TicketingTask> arrayList;
+    private List<TicketingFaq> arrayList;
     private Context context;
 
-    public AdFaq(Context context, List<TicketingTask> arrayList) {
+    public AdFaq(Context context, List<TicketingFaq> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -36,7 +36,7 @@ public class AdFaq extends RecyclerView.Adapter<AdFaq.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.Lbls.get(0).setText(arrayList.get(position).Question);
+        holder.Lbls.get(0).setText(arrayList.get(position) .Question);
         holder.Lbls.get(1).setText(arrayList.get(position).Answer);
         holder.Root.get(0).setOnClickListener(view -> {
             if (holder.Web.getVisibility() == View.GONE) {

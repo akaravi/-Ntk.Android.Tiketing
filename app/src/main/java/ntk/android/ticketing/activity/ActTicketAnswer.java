@@ -61,9 +61,8 @@ import ntk.base.api.file.interfase.IFile;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.entity.TicketingAnswer;
 import ntk.base.api.ticket.model.TicketingAnswerListRequest;
-import ntk.base.api.ticket.model.TicketingAnswerListResponse;
+import ntk.base.api.ticket.model.TicketingAnswerResponse;
 import ntk.base.api.ticket.model.TicketingAnswerSubmitRequest;
-import ntk.base.api.ticket.model.TicketingAnswerSubmitResponse;
 import ntk.base.api.utill.RetrofitManager;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -146,17 +145,17 @@ public class ActTicketAnswer extends AppCompatActivity {
             RetrofitManager retro = new RetrofitManager(this);
             ITicket iTicket = retro.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-            Observable<TicketingAnswerListResponse> Call = iTicket.GetTicketAnswerList(headers, new Gson().fromJson(getIntent().getExtras().getString("Request"), TicketingAnswerListRequest.class));
+            Observable<TicketingAnswerResponse> Call = iTicket.GetTicketAnswerActList(headers, new Gson().fromJson(getIntent().getExtras().getString("Request"), TicketingAnswerListRequest.class));
             Call.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<TicketingAnswerListResponse>() {
+                    .subscribe(new Observer<TicketingAnswerResponse>() {
                         @Override
                         public void onSubscribe(Disposable d) {
 
                         }
 
                         @Override
-                        public void onNext(TicketingAnswerListResponse model) {
+                        public void onNext(TicketingAnswerResponse model) {
                             tickets.addAll(model.ListItems);
                             adapter.notifyDataSetChanged();
                         }
@@ -199,21 +198,21 @@ public class ActTicketAnswer extends AppCompatActivity {
             if (AppUtill.isNetworkAvailable(this)) {
                 TicketingAnswerSubmitRequest request = new TicketingAnswerSubmitRequest();
                 request.HtmlBody = txt.getText().toString();
-                request.LinkTicketId = getIntent().getLongExtra("TicketId", 0);
+                request.LinkTaskId = getIntent().getLongExtra("TicketId", 0);
                 request.LinkFileIds = linkFileIds;
                 RetrofitManager retro = new RetrofitManager(this);
                 Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
                 ITicket iTicket = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
-                Observable<TicketingAnswerSubmitResponse> Call = iTicket.GetTicketAnswerSubmit(headers, request);
+                Observable<TicketingAnswerResponse> Call = iTicket.GetTicketAnswerActSubmit(headers, request);
                 Call.observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
-                        .subscribe(new Observer<TicketingAnswerSubmitResponse>() {
+                        .subscribe(new Observer<TicketingAnswerResponse>() {
                             @Override
                             public void onSubscribe(Disposable d) {
                             }
 
                             @Override
-                            public void onNext(TicketingAnswerSubmitResponse model) {
+                            public void onNext(TicketingAnswerResponse model) {
                                 Toasty.success(ActTicketAnswer.this, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
                                 finish();
                             }

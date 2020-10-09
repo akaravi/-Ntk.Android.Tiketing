@@ -33,7 +33,7 @@ import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.baseModel.Filters;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingListRequest;
-import ntk.base.api.ticket.model.TicketingListResponse;
+import ntk.base.api.ticket.model.TicketingTaskResponse;
 import ntk.base.api.ticket.entity.TicketingTask;
 import ntk.base.api.utill.NTKUtill;
 import ntk.base.api.utill.RetrofitManager;
@@ -113,17 +113,17 @@ public class ActSearch extends AppCompatActivity {
 
             request.filters = filters;
 
-            Observable<TicketingListResponse> Call = iTicket.GetTicketList(new ConfigRestHeader().GetHeaders(this), request);
+            Observable<TicketingTaskResponse> Call = iTicket.GetTicketTaskActList(new ConfigRestHeader().GetHeaders(this), request);
             Call.observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<TicketingListResponse>() {
+                    .subscribe(new Observer<TicketingTaskResponse>() {
                         @Override
                         public void onSubscribe(Disposable d) {
 
                         }
 
                         @Override
-                        public void onNext(TicketingListResponse response) {
+                        public void onNext(TicketingTaskResponse response) {
                             if (response.IsSuccess) {
                                 if (response.ListItems.size() != 0) {
                                     tickets.addAll(response.ListItems);

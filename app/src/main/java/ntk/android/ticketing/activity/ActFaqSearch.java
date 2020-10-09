@@ -31,9 +31,10 @@ import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.baseModel.Filters;
+import ntk.base.api.ticket.entity.TicketingFaq;
 import ntk.base.api.ticket.interfase.ITicket;
-import ntk.base.api.ticket.model.TicketingFaqListRequest;
-import ntk.base.api.ticket.model.TicketingFaqListResponse;
+import ntk.base.api.ticket.model.TicketingFaqRequest;
+import ntk.base.api.ticket.model.TicketingFaqResponse;
 import ntk.base.api.ticket.entity.TicketingTask;
 import ntk.base.api.utill.NTKUtill;
 import ntk.base.api.utill.RetrofitManager;
@@ -52,7 +53,7 @@ public class ActFaqSearch extends AppCompatActivity {
     @BindView(R.id.mainLayoutActFaqSearch)
     CoordinatorLayout layout;
 
-    private ArrayList<TicketingTask> faqs = new ArrayList<>();
+    private ArrayList<TicketingFaq> faqs = new ArrayList<>();
     private AdFaq adapter;
 
 
@@ -87,7 +88,7 @@ public class ActFaqSearch extends AppCompatActivity {
             ITicket iTicket = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
 
 
-            TicketingFaqListRequest request = new TicketingFaqListRequest();
+            TicketingFaqRequest request = new TicketingFaqRequest();
             List<Filters> filters = new ArrayList<>();
             Filters fa = new Filters();
             fa.PropertyName = "Answer";
@@ -105,17 +106,17 @@ public class ActFaqSearch extends AppCompatActivity {
 
             request.filters = filters;
 
-            Observable<TicketingFaqListResponse> Call = iTicket.GetTicketFaqList(new ConfigRestHeader().GetHeaders(this), request);
+            Observable<TicketingFaqResponse> Call = iTicket.GetTicketFaqActList(new ConfigRestHeader().GetHeaders(this), request);
             Call.observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<TicketingFaqListResponse>() {
+                    .subscribe(new Observer<TicketingFaqResponse>() {
                         @Override
                         public void onSubscribe(Disposable d) {
 
                         }
 
                         @Override
-                        public void onNext(TicketingFaqListResponse response) {
+                        public void onNext(TicketingFaqResponse response) {
                             if (response.IsSuccess) {
                                 if (response.ListItems.size() != 0) {
                                     faqs.addAll(response.ListItems);
