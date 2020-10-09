@@ -6,7 +6,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.view.Switcher;
+import ntk.android.ticketing.view.swicherview.Switcher;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected boolean usedSwicher = true;
@@ -36,7 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             builder.addEmptyView(findViewById(R.id.activity_BaseError))
                     .addProgressView(findViewById(R.id.activity_BaseLoading))
                     .addContentView(activity)
-                    .addErrorView(findViewById(R.id.activity_BaseError)).setErrorLabel(findViewById(R.id.tvError))
+                    .addErrorView(findViewById(R.id.activity_BaseError)).setErrorLabel((R.id.tvError))
                     .addProgressView(findViewById(R.id.sub_loading));
             switcher = builder.build();
             btnTryAgain = findViewById(R.id.btnTryAgain);
