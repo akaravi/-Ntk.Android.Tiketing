@@ -115,9 +115,6 @@ dependencies {
 
     implementation 'com.github.akaravi:ntk.android.base:1.0.50'
 
-    implementation 'com.github.akaravi:ntk.android.base:1.0.50'
-
-
 }
 repositories {
     mavenCentral()
