@@ -207,7 +207,7 @@ public class ActSendTicket extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        //todo show error dialog 
+                        //todo show error dialog
                         Toasty.warning(ActSendTicket.this, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
                     }
 
