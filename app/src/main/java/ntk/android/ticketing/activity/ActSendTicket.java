@@ -77,7 +77,7 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class ActSendTicket extends AppCompatActivity {
+public class ActSendTicket extends BaseActivity {
 
     @BindViews({R.id.SpinnerService,
             R.id.SpinnerState})
@@ -179,7 +179,9 @@ public class ActSendTicket extends AppCompatActivity {
 
             }
         });
-
+        if(request.Priority==0){
+            spinners.get(1).setSelection(0);
+        }
         FilterModel request=new FilterModel();
         RetrofitManager retro = new RetrofitManager(this);
         ITicket iTicket = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
@@ -205,6 +207,7 @@ public class ActSendTicket extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        //todo show error dialog 
                         Toasty.warning(ActSendTicket.this, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
                     }
 
@@ -220,29 +223,37 @@ public class ActSendTicket extends AppCompatActivity {
 
         if (Txts.get(0).getText().toString().isEmpty()) {
             YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(0));
-            return;
+            Toasty.warning(ActSendTicket.this, "موضوع درخواست خود را وارد کنید", Toasty.LENGTH_LONG, true).show();
+             return;
         }
         if (Txts.get(1).getText().toString().isEmpty()) {
             YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(1));
+            Toasty.warning(ActSendTicket.this, "متن درخواست خود را وارد کنید", Toasty.LENGTH_LONG, true).show();
             return;
         }
         if (Txts.get(2).getText().toString().isEmpty()) {
             YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(2));
-            return;
+            Toasty.warning(ActSendTicket.this, "نام و نام خانوادگی را وارد کنید", Toasty.LENGTH_LONG, true).show();
+             return;
         }
         EasyPreference.with(this).addString("NameFamily", Txts.get(2).getText().toString());
         if (Txts.get(3).getText().toString().isEmpty()) {
             YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(3));
+            Toasty.warning(ActSendTicket.this, "شماره تلفن همراه را وارد کنید", Toasty.LENGTH_LONG, true).show();
             return;
         }
         EasyPreference.with(this).addString("PhoneNumber", Txts.get(3).getText().toString());
         if (Txts.get(4).getText().toString().isEmpty()) {
             YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(4));
+            Toasty.warning(ActSendTicket.this, "پست الکترونیک را وارد کنید", Toasty.LENGTH_LONG, true).show();
+        }
+        if (Regex.ValidateEmail(Txts.get(4).getText().toString())) {
+            Toasty.warning(this, "آدرس پست الکترونیکی صحیح نمیباشد", Toasty.LENGTH_LONG, true).show();
             return;
         }
         EasyPreference.with(this).addString("Email", Txts.get(4).getText().toString());
-        if (Regex.ValidateEmail(Txts.get(4).getText().toString())) {
             if (AppUtill.isNetworkAvailable(this)) {
+                //todo show dialog loading
                 request.Email = Txts.get(4).getText().toString();
                 request.PhoneNo = Txts.get(3).getText().toString();
                 request.FullName = Txts.get(2).getText().toString();
@@ -333,6 +344,7 @@ public class ActSendTicket extends AppCompatActivity {
                             }
                         });
             } else {
+
                 Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -340,10 +352,7 @@ public class ActSendTicket extends AppCompatActivity {
                     }
                 }).show();
             }
-        } else {
-            Toasty.warning(this, "آدرس پست الکترونیکی صحیح نمیباشد", Toasty.LENGTH_LONG, true).show();
-            return;
-        }
+
 
 
     }
