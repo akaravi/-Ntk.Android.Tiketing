@@ -29,7 +29,7 @@ import ntk.base.api.ticket.model.TicketingFaqRequest;
 import ntk.base.api.ticket.model.TicketingFaqResponse;
 import ntk.base.api.utill.RetrofitManager;
 
-public class ActFaq extends AppCompatActivity {
+public class ActFaq extends BaseActivity {
 
     @BindView(R.id.lblTitleActFaq)
     TextView Lbl;
@@ -51,7 +51,7 @@ public class ActFaq extends AppCompatActivity {
 
         Rv.setHasFixedSize(true);
         Rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
+        //todo show loading
         RetrofitManager retro = new RetrofitManager(this);
         ITicket iTicket = retro.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
         Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
