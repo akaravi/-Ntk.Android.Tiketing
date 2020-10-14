@@ -382,7 +382,7 @@ public class ActMain extends AppCompatActivity {
             } else {
                 if (AppUtill.isNetworkAvailable(this)) {
                     request.ScoreComment = Txt.getText().toString();
-
+                    //todo show loading
                     RetrofitManager manager = new RetrofitManager(this);
                     IApplication iCore = manager.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(IApplication.class);
                     Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);

@@ -92,6 +92,7 @@ public class ActBlog extends AppCompatActivity {
         request.RowPerPage = 20;
         request.CurrentPageNumber = i;
         Observable<BlogContentListResponse> call = iBlog.GetContentList(new ConfigRestHeader().GetHeaders(this), request);
+       //todo show loading
         call.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<BlogContentListResponse>() {

@@ -57,6 +57,7 @@ public class ActNews extends AppCompatActivity {
     }
 
     private void init() {
+        //todo show loading
         LblTitle.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
         Rv.setHasFixedSize(true);
         LinearLayoutManager LMC = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
