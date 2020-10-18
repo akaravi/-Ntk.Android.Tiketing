@@ -141,7 +141,7 @@ public class ActSupport extends BaseActivity {
                             tickets.addAll(model.ListItems);
                             adapter.notifyDataSetChanged();
                             TotalTag = model.TotalRowCount;
-                            TotalTag=0;//todo test
+                       
                             if (TotalTag > 0)
                                 switcher.showContentView();
                             else
