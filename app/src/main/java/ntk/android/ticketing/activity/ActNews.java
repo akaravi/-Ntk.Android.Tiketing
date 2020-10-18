@@ -2,12 +2,12 @@ package ntk.android.ticketing.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
+
 import androidx.annotation.Nullable;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.widget.TextView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import es.dmoral.toasty.Toasty;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -25,15 +24,16 @@ import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdNews;
 import ntk.android.ticketing.config.ConfigRestHeader;
 import ntk.android.ticketing.config.ConfigStaticValue;
+import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.EndlessRecyclerViewScrollListener;
 import ntk.android.ticketing.utill.FontManager;
-import ntk.base.api.news.interfase.INews;
 import ntk.base.api.news.entity.NewsContent;
+import ntk.base.api.news.interfase.INews;
 import ntk.base.api.news.model.NewsContentListRequest;
 import ntk.base.api.news.model.NewsContentResponse;
 import ntk.base.api.utill.RetrofitManager;
 
-public class ActNews extends AppCompatActivity {
+public class ActNews extends BaseActivity {
 
     @BindView(R.id.lblTitleActNews)
     TextView LblTitle;
@@ -86,41 +86,53 @@ public class ActNews extends AppCompatActivity {
     }
 
     private void RestCall(int i) {
-        RetrofitManager manager = new RetrofitManager(this);
-        INews iNews = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(INews.class);
+        if (AppUtill.isNetworkAvailable(this)) {
 
-        NewsContentListRequest request = new NewsContentListRequest();
-        request.RowPerPage = 20;
-        request.CurrentPageNumber = i;
-        Observable<NewsContentResponse> call = iNews.GetContentList(new ConfigRestHeader().GetHeaders(this), request);
-        call.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<NewsContentResponse>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+            RetrofitManager manager = new RetrofitManager(this);
+            INews iNews = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(INews.class);
 
-                    }
+            NewsContentListRequest request = new NewsContentListRequest();
+            request.RowPerPage = 20;
+            request.CurrentPageNumber = i;
+            switcher.showProgressView();
+            Observable<NewsContentResponse> call = iNews.GetContentList(new ConfigRestHeader().GetHeaders(this), request);
+            call.observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new Observer<NewsContentResponse>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
 
-                    @Override
-                    public void onNext(NewsContentResponse newsContentResponse) {
-                        if (newsContentResponse.IsSuccess) {
-                            news.addAll(newsContentResponse.ListItems);
-                            Total = newsContentResponse.TotalRowCount;
-                            adapter.notifyDataSetChanged();
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Toasty.warning(ActNews.this, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
+                        @Override
+                        public void onNext(NewsContentResponse newsContentResponse) {
+                            if (newsContentResponse.IsSuccess) {
+                                news.addAll(newsContentResponse.ListItems);
+                                Total = newsContentResponse.TotalRowCount;
+                                adapter.notifyDataSetChanged();
+                                if (Total > 0)
+                                    switcher.showContentView();
+                                else
+                                    switcher.showEmptyView();
 
-                    }
+                            }
+                        }
 
-                    @Override
-                    public void onComplete() {
+                        @Override
+                        public void onError(Throwable e) {
+                            switcher.showErrorView("خطای سامانه مجددا تلاش کنید", () -> init());
 
-                    }
-                });
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } else {
+            switcher.showErrorView("عدم دسترسی به اینترنت", () -> init());
+
+        }
     }
 
     @OnClick(R.id.imgBackActNews)
@@ -129,7 +141,7 @@ public class ActNews extends AppCompatActivity {
     }
 
     @OnClick(R.id.imgSearchActNews)
-    public void ClickSearch(){
-        startActivity(new Intent(this,ActNewsSearch.class));
+    public void ClickSearch() {
+        startActivity(new Intent(this, ActNewsSearch.class));
     }
 }
