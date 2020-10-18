@@ -3,6 +3,8 @@ package ntk.android.ticketing.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -353,6 +355,7 @@ public class ActMain extends AppCompatActivity {
         ApplicationScoreRequest request = new ApplicationScoreRequest();
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCanceledOnTouchOutside(true);
         Window window = dialog.getWindow();
         window.setLayout(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
@@ -377,7 +380,7 @@ public class ActMain extends AppCompatActivity {
         Btn.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
         Btn.setOnClickListener(v -> {
             if (Txt.getText().toString().isEmpty()) {
-                Toast.makeText(this, "لطفا نظر خود را وارد نمایید", Toast.LENGTH_SHORT).show();
+                Toasty.warning(this, "لطفا نظر خود را وارد نمایید", Toasty.LENGTH_LONG, true).show();
             } else {
                 if (AppUtill.isNetworkAvailable(this)) {
                     request.ScoreComment = Txt.getText().toString();

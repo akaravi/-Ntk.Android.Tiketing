@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dp"
+    android:background="@drawable/main_btn_background"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorAccent">
+        android:background="@drawable/background_comment_title">
 
         <TextView
             android:id="@+id/lblTitleDialogComment"
@@ -50,7 +51,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:background="@color/colorAccent"
+        android:background="@drawable/button_accent"
         android:text="ثبت"
         android:textColor="@color/colorWhite"
         android:textSize="17sp" />
