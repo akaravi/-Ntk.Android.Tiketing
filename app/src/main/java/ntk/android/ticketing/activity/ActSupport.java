@@ -38,7 +38,7 @@ import ntk.base.api.utill.NTKUtill;
 import ntk.base.api.utill.RetrofitManager;
 
 
-public class ActSupport extends AppCompatActivity {
+public class ActSupport extends BaseActivity {
 
     @BindView(R.id.recyclerFrSupport)
     RecyclerView Rv;
@@ -127,7 +127,7 @@ public class ActSupport extends AppCompatActivity {
             request.CurrentPageNumber = i;
             request.SortType = NTKUtill.Descnding_Sort;
             request.SortColumn = "Id";
-
+            switcher.showProgressView();
             Observable<TicketingTaskResponse> Call = iTicket.GetTicketTaskActList(headers, request);
             Call.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -142,16 +142,18 @@ public class ActSupport extends AppCompatActivity {
                             tickets.addAll(model.ListItems);
                             adapter.notifyDataSetChanged();
                             TotalTag = model.TotalRowCount;
+                            switcher.showContentView();
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    init();
-                                }
-                            }).show();
+                            switcher.showErrorView("خطای سامانه مجددا تلاش کنید",() ->init());
+//                            Snackbar.make(layout, , Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    ;
+//                                }
+//                            }).show();
                         }
 
                         @Override
@@ -160,12 +162,14 @@ public class ActSupport extends AppCompatActivity {
                         }
                     });
         } else {
-            Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    init();
-                }
-            }).show();
+            switcher.showErrorView("عدم دسترسی به اینترنت",() ->init());
+//
+//            Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    init();
+//                }
+//            }).show();
         }
     }
 
