@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.MainThread;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.SnapHelper;
@@ -171,7 +170,7 @@ public class ActMain extends AppCompatActivity {
 
     @Subscribe
     public void EvClickSearch(EVSearchClick click) {
-        startActivity(new Intent(this, ActSearch.class));
+        startActivity(new Intent(this, ActTicketSearch.class));
     }
 
     @Override
@@ -336,7 +335,7 @@ public class ActMain extends AppCompatActivity {
 
     @OnClick(R.id.searchBtn)
     public void onSearchClick() {
-        this.startActivity(new Intent(this, ActSearch.class));
+        this.startActivity(new Intent(this, ActTicketSearch.class));
     }
 
     @OnClick(R.id.messageBtn)

@@ -80,7 +80,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActSearch"
+            android:name=".activity.ActTicketSearch"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
