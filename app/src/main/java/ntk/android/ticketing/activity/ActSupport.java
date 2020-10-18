@@ -2,16 +2,15 @@ package ntk.android.ticketing.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.View;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -30,10 +29,10 @@ import ntk.android.ticketing.config.ConfigRestHeader;
 import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.EndlessRecyclerViewScrollListener;
+import ntk.base.api.ticket.entity.TicketingTask;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingListRequest;
 import ntk.base.api.ticket.model.TicketingTaskResponse;
-import ntk.base.api.ticket.entity.TicketingTask;
 import ntk.base.api.utill.NTKUtill;
 import ntk.base.api.utill.RetrofitManager;
 
@@ -142,18 +141,17 @@ public class ActSupport extends BaseActivity {
                             tickets.addAll(model.ListItems);
                             adapter.notifyDataSetChanged();
                             TotalTag = model.TotalRowCount;
-                            switcher.showContentView();
+                            TotalTag=0;//todo test
+                            if (TotalTag > 0)
+                                switcher.showContentView();
+                            else
+                                switcher.showEmptyView();
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            switcher.showErrorView("خطای سامانه مجددا تلاش کنید",() ->init());
-//                            Snackbar.make(layout, , Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-//                                @Override
-//                                public void onClick(View v) {
-//                                    ;
-//                                }
-//                            }).show();
+                            switcher.showErrorView("خطای سامانه مجددا تلاش کنید", () -> init());
+
                         }
 
                         @Override
@@ -162,14 +160,8 @@ public class ActSupport extends BaseActivity {
                         }
                     });
         } else {
-            switcher.showErrorView("عدم دسترسی به اینترنت",() ->init());
-//
-//            Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    init();
-//                }
-//            }).show();
+            switcher.showErrorView("عدم دسترسی به اینترنت", () -> init());
+
         }
     }
 

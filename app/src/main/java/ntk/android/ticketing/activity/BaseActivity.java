@@ -34,7 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             activity.setLayoutResource(layoutResID);
             activity.inflate();
             Switcher.Builder builder = new Switcher.Builder(this);
-            builder.addEmptyView(findViewById(R.id.activity_BaseError))
+            builder.addEmptyView(findViewById(R.id.activity_BaseEmpty))
                     .addProgressView(findViewById(R.id.activity_BaseLoading))
                     .addContentView(activity)
                     .addErrorView(findViewById(R.id.activity_BaseError)).setErrorLabel((R.id.tvError))

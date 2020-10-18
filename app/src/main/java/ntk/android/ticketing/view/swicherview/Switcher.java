@@ -314,8 +314,8 @@ public class Switcher {
                     .setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View view, MotionEvent motionEvent) {
-                            listener.onErrorViewClicked();
                             view.setOnTouchListener(null);
+                            listener.onErrorViewClicked();
                             return false;
                         }
                     });
