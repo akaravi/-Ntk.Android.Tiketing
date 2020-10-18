@@ -1,16 +1,15 @@
 package ntk.android.ticketing.activity;
 
-import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import es.dmoral.toasty.Toasty;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -35,11 +33,10 @@ import ntk.base.api.ticket.entity.TicketingFaq;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingFaqRequest;
 import ntk.base.api.ticket.model.TicketingFaqResponse;
-import ntk.base.api.ticket.entity.TicketingTask;
 import ntk.base.api.utill.NTKUtill;
 import ntk.base.api.utill.RetrofitManager;
 
-public class ActFaqSearch extends AppCompatActivity {
+public class ActFaqSearch extends BaseActivity {
 
     @BindView(R.id.txtSearchActFaqSearch)
     EditText Txt;
@@ -55,7 +52,7 @@ public class ActFaqSearch extends AppCompatActivity {
 
     private ArrayList<TicketingFaq> faqs = new ArrayList<>();
     private AdFaq adapter;
-
+    boolean searchLock;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,69 +80,74 @@ public class ActFaqSearch extends AppCompatActivity {
     }
 
     private void Search() {
-        if (AppUtill.isNetworkAvailable(this)) {
-            RetrofitManager manager = new RetrofitManager(this);
-            ITicket iTicket = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
+        if (!searchLock) {
+            searchLock = true;
+            if (AppUtill.isNetworkAvailable(this)) {
+                RetrofitManager manager = new RetrofitManager(this);
+                ITicket iTicket = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
 
 
-            TicketingFaqRequest request = new TicketingFaqRequest();
-            List<Filters> filters = new ArrayList<>();
-            Filters fa = new Filters();
-            fa.PropertyName = "Answer";
-            fa.StringValue = Txt.getText().toString();
-            fa.ClauseType = NTKUtill.ClauseType_Or;
-            fa.SearchType = NTKUtill.Search_Type_Contains;
-            filters.add(fa);
+                TicketingFaqRequest request = new TicketingFaqRequest();
+                List<Filters> filters = new ArrayList<>();
+                Filters fa = new Filters();
+                fa.PropertyName = "Answer";
+                fa.StringValue = Txt.getText().toString();
+                fa.ClauseType = NTKUtill.ClauseType_Or;
+                fa.SearchType = NTKUtill.Search_Type_Contains;
+                filters.add(fa);
 
-            Filters fq = new Filters();
-            fq.PropertyName = "Question";
-            fq.StringValue = Txt.getText().toString();
-            fq.ClauseType = NTKUtill.ClauseType_Or;
-            fq.SearchType = NTKUtill.Search_Type_Contains;
-            filters.add(fq);
+                Filters fq = new Filters();
+                fq.PropertyName = "Question";
+                fq.StringValue = Txt.getText().toString();
+                fq.ClauseType = NTKUtill.ClauseType_Or;
+                fq.SearchType = NTKUtill.Search_Type_Contains;
+                filters.add(fq);
 
-            request.filters = filters;
+                request.filters = filters;
+                switcher.showProgressView();
+                Observable<TicketingFaqResponse> Call = iTicket.GetTicketFaqActList(new ConfigRestHeader().GetHeaders(this), request);
+                Call.observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new Observer<TicketingFaqResponse>() {
+                            @Override
+                            public void onSubscribe(Disposable d) {
 
-            Observable<TicketingFaqResponse> Call = iTicket.GetTicketFaqActList(new ConfigRestHeader().GetHeaders(this), request);
-            Call.observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<TicketingFaqResponse>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(TicketingFaqResponse response) {
-                            if (response.IsSuccess) {
-                                if (response.ListItems.size() != 0) {
-                                    faqs.addAll(response.ListItems);
-                                    adapter.notifyDataSetChanged();
-                                } else {
-                                    Toasty.warning(ActFaqSearch.this, "نتیجه ای یافت نشد", Toasty.LENGTH_LONG, true).show();
-                                }
                             }
-                        }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            btnRefresh.setVisibility(View.VISIBLE);
-                            Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    init();
+                            @Override
+                            public void onNext(TicketingFaqResponse response) {
+                                if (response.IsSuccess) {
+                                    if (response.ListItems.size() != 0) {
+                                        faqs.addAll(response.ListItems);
+                                        adapter.notifyDataSetChanged();
+                                        switcher.showContentView();
+                                    } else {
+                                        switcher.showEmptyView();
+                                    }
+                                } else {
+                                    switcher.showErrorView(response.ErrorMessage, () -> init());
                                 }
-                            }).show();
-                        }
 
-                        @Override
-                        public void onComplete() {
+                            }
 
-                        }
-                    });
-        } else {
-            btnRefresh.setVisibility(View.VISIBLE);
-            Toasty.warning(this, "عدم دسترسی به اینترنت", Toasty.LENGTH_LONG, true).show();
+                            @Override
+                            public void onError(Throwable e) {
+                                searchLock = false;
+                                btnRefresh.setVisibility(View.VISIBLE);
+                                switcher.showErrorView("خطا در دسترسی به سامانه", () -> init());
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
+            } else {
+                btnRefresh.setVisibility(View.VISIBLE);
+                searchLock = false;
+                switcher.showErrorView("عدم دسترسی به اینترنت", () -> Search());
+            }
         }
     }
 
