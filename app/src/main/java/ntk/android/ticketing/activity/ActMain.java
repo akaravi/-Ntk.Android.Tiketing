@@ -380,7 +380,7 @@ public class ActMain extends AppCompatActivity {
         Btn.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
         Btn.setOnClickListener(v -> {
             if (Txt.getText().toString().isEmpty()) {
-                Toasty.warning(this, "لطفا نظر خود را وارد نمایید", Toasty.LENGTH_LONG, true).show();
+                Toasty.error(this, "لطفا نظر خود را وارد نمایید", Toasty.LENGTH_LONG, true).show();
             } else {
                 if (AppUtill.isNetworkAvailable(this)) {
                     request.ScoreComment = Txt.getText().toString();
@@ -417,7 +417,7 @@ public class ActMain extends AppCompatActivity {
                                 }
                             });
                 } else {
-                    Toast.makeText(this, "عدم دسترسی به اینترنت", Toast.LENGTH_SHORT).show();
+                    Toasty.error(this, "عدم دسترسی به اینترنت", Toasty.LENGTH_LONG, true).show();
                 }
                 dialog.dismiss();
             }
