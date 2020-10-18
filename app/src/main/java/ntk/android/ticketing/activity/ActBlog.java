@@ -1,13 +1,13 @@
 package ntk.android.ticketing.activity;
 
 import android.content.Intent;
-import androidx.annotation.Nullable;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.widget.TextView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import es.dmoral.toasty.Toasty;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -25,15 +24,16 @@ import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdBlog;
 import ntk.android.ticketing.config.ConfigRestHeader;
 import ntk.android.ticketing.config.ConfigStaticValue;
+import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.EndlessRecyclerViewScrollListener;
 import ntk.android.ticketing.utill.FontManager;
-import ntk.base.api.blog.interfase.IBlog;
 import ntk.base.api.blog.entity.BlogContent;
+import ntk.base.api.blog.interfase.IBlog;
 import ntk.base.api.blog.model.BlogContentListRequest;
 import ntk.base.api.blog.model.BlogContentListResponse;
 import ntk.base.api.utill.RetrofitManager;
 
-public class ActBlog extends AppCompatActivity {
+public class ActBlog extends BaseActivity {
 
     @BindView(R.id.lblTitleActBlog)
     TextView LblTitle;
@@ -85,42 +85,53 @@ public class ActBlog extends AppCompatActivity {
     }
 
     private void RestCall(int i) {
-        RetrofitManager manager = new RetrofitManager(this);
-        IBlog iBlog = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IBlog.class);
+        if (AppUtill.isNetworkAvailable(this)) {
+            switcher.showProgressView();
+            RetrofitManager manager = new RetrofitManager(this);
+            IBlog iBlog = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IBlog.class);
 
-        BlogContentListRequest request = new BlogContentListRequest();
-        request.RowPerPage = 20;
-        request.CurrentPageNumber = i;
-        Observable<BlogContentListResponse> call = iBlog.GetContentList(new ConfigRestHeader().GetHeaders(this), request);
-       //todo show loading
-        call.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<BlogContentListResponse>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+            BlogContentListRequest request = new BlogContentListRequest();
+            request.RowPerPage = 20;
+            request.CurrentPageNumber = i;
+            Observable<BlogContentListResponse> call = iBlog.GetContentList(new ConfigRestHeader().GetHeaders(this), request);
+            //todo show loading
+            call.observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new Observer<BlogContentListResponse>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
 
-                    }
-
-                    @Override
-                    public void onNext(BlogContentListResponse blogContentResponse) {
-                        if (blogContentResponse.IsSuccess) {
-                            blog.addAll(blogContentResponse.ListItems);
-                            Total = blogContentResponse.TotalRowCount;
-                            adapter.notifyDataSetChanged();
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Toasty.warning(ActBlog.this, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
+                        @Override
+                        public void onNext(BlogContentListResponse blogContentResponse) {
+                            if (blogContentResponse.IsSuccess) {
+                                blog.addAll(blogContentResponse.ListItems);
+                                Total = blogContentResponse.TotalRowCount;
+                                adapter.notifyDataSetChanged();
+                                if (Total > 0)
+                                    switcher.showContentView();
+                                else
+                                    switcher.showEmptyView();
 
-                    }
+                            }
+                        }
 
-                    @Override
-                    public void onComplete() {
+                        @Override
+                        public void onError(Throwable e) {
+                            switcher.showErrorView("خطای سامانه مجددا تلاش کنید", () -> init());
 
-                    }
-                });
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } else {
+            switcher.showErrorView("عدم دسترسی به اینترنت", () -> init());
+
+        }
     }
 
     @OnClick(R.id.imgBackActBlog)
@@ -129,7 +140,7 @@ public class ActBlog extends AppCompatActivity {
     }
 
     @OnClick(R.id.imgSearchActBlog)
-    public void ClickSearch(){
-        startActivity(new Intent(this,ActBlogSearch.class));
+    public void ClickSearch() {
+        startActivity(new Intent(this, ActBlogSearch.class));
     }
 }

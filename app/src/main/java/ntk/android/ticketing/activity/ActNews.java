@@ -87,14 +87,14 @@ public class ActNews extends BaseActivity {
 
     private void RestCall(int i) {
         if (AppUtill.isNetworkAvailable(this)) {
-
+            switcher.showProgressView();
             RetrofitManager manager = new RetrofitManager(this);
             INews iNews = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(INews.class);
 
             NewsContentListRequest request = new NewsContentListRequest();
             request.RowPerPage = 20;
             request.CurrentPageNumber = i;
-            switcher.showProgressView();
+
             Observable<NewsContentResponse> call = iNews.GetContentList(new ConfigRestHeader().GetHeaders(this), request);
             call.observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
