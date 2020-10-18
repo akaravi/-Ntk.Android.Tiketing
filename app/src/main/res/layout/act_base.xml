@@ -3,7 +3,11 @@
     android:id="@+id/relative"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <ViewStub
+        android:id="@+id/activity_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
     <include
         android:id="@+id/activity_BaseError"
         layout="@layout/sub_base_error"
@@ -27,10 +31,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" />
 
-    <ViewStub
-        android:id="@+id/activity_stub"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
+
 
 </FrameLayout>

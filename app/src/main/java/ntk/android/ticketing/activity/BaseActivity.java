@@ -6,6 +6,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import ntk.android.ticketing.R;
+import ntk.android.ticketing.utill.FontManager;
 import ntk.android.ticketing.view.swicherview.Switcher;
 
 public abstract class BaseActivity extends AppCompatActivity {
@@ -40,6 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     .addProgressView(findViewById(R.id.sub_loading));
             switcher = builder.build();
             btnTryAgain = findViewById(R.id.btnTryAgain);
+            btnTryAgain.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
         }
     }
 }

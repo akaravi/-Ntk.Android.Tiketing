@@ -307,9 +307,9 @@ public class Switcher {
 
     private void showErrorView(final OnErrorViewListener listener) {
         for (View errorView : errorViews) {
-            errorView.setClickable(true);
+//            errorView.setClickable(true);
             errorView.setAlpha(1);
-            errorView.setEnabled(true);
+//            errorView.setEnabled(true);
             errorView.findViewById(R.id.btnTryAgain)
                     .setOnTouchListener(new View.OnTouchListener() {
                         @Override
@@ -319,18 +319,18 @@ public class Switcher {
                             return false;
                         }
                     });
-            progressViews.get(0).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(view.getContext(), "LOADING", Toast.LENGTH_SHORT).show();
-                }
-            });
-            contentViews.get(0).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(view.getContext(), "Content", Toast.LENGTH_SHORT).show();
-                }
-            });
+//            progressViews.get(0).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Toast.makeText(view.getContext(), "LOADING", Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//            contentViews.get(0).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Toast.makeText(view.getContext(), "Content", Toast.LENGTH_SHORT).show();
+//                }
+//            });
         }
     }
 

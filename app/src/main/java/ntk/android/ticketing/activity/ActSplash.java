@@ -56,7 +56,7 @@ public class ActSplash extends BaseActivity {
     private void init() {
         Lbl.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
         Lbl.setText("نسخه  " + (int) Float.parseFloat(BuildConfig.VERSION_NAME) + "." + BuildConfig.VERSION_CODE);
-        btnTryAgain.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
+
     }
 
 
