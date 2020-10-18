@@ -19,12 +19,13 @@ import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdPoolCategory;
 import ntk.android.ticketing.config.ConfigRestHeader;
 import ntk.android.ticketing.config.ConfigStaticValue;
+import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.pooling.interfase.IPooling;
 import ntk.base.api.pooling.model.PoolingCategoryResponse;
 import ntk.base.api.utill.RetrofitManager;
 
-public class ActPooling extends AppCompatActivity {
+public class ActPooling extends BaseActivity {
 
     @BindView(R.id.lblTitleActPooling)
     TextView LblTitle;
@@ -44,9 +45,10 @@ public class ActPooling extends AppCompatActivity {
         LblTitle.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
         Rv.setHasFixedSize(true);
         Rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
-
-        RetrofitManager manager = new RetrofitManager(this);
+        if (AppUtill.isNetworkAvailable(this)) {
+            // show loading
+            switcher.showProgressView();
+            RetrofitManager manager = new RetrofitManager(this);
         IPooling iPooling = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IPooling.class);
         Observable<PoolingCategoryResponse> call = iPooling.GetCategoryList(new ConfigRestHeader().GetHeaders(this));
         call.observeOn(AndroidSchedulers.mainThread())
@@ -63,12 +65,17 @@ public class ActPooling extends AppCompatActivity {
                             AdPoolCategory adapter = new AdPoolCategory(ActPooling.this, poolingCategoryResponse.ListItems);
                             Rv.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
+                            if (adapter.getItemCount() > 0)
+                                switcher.showContentView();
+                            else
+                                switcher.showEmptyView();
+
                         }
                     }
 
                     @Override
                     public void onError(Throwable e){
-                        Toasty.warning(ActPooling.this, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
+                        switcher.showErrorView("خطای سامانه مجددا تلاش کنید", () -> init());
 
                     }
 
@@ -76,7 +83,10 @@ public class ActPooling extends AppCompatActivity {
                     public void onComplete() {
 
                     }
-                });
+                }); } else {
+            switcher.showErrorView("عدم دسترسی به اینترنت", () -> init());
+
+        }
     }
 
     @OnClick(R.id.imgBackActPooling)
