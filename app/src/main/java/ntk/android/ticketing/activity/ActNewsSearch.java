@@ -38,7 +38,7 @@ import ntk.base.api.news.model.NewsContentResponse;
 import ntk.base.api.utill.NTKUtill;
 import ntk.base.api.utill.RetrofitManager;
 
-public class ActNewsSearch extends AppCompatActivity {
+public class ActNewsSearch extends BaseActivity {
 
     @BindView(R.id.txtSearchActNewsSearch)
     EditText Txt;
@@ -54,7 +54,7 @@ public class ActNewsSearch extends AppCompatActivity {
 
     private ArrayList<NewsContent> news = new ArrayList<>();
     private AdNews adapter;
-
+    boolean searchLock;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +82,8 @@ public class ActNewsSearch extends AppCompatActivity {
     }
 
     private void Search() {
+        if (!searchLock) {
+            searchLock = true;
         if (AppUtill.isNetworkAvailable(this)) {
             RetrofitManager manager = new RetrofitManager(this);
             INews iNews = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(INews.class);
@@ -112,7 +114,7 @@ public class ActNewsSearch extends AppCompatActivity {
             filters.add(fb);
 
             request.filters = filters;
-
+            switcher.showProgressView();
             Observable<NewsContentResponse> Call = iNews.GetContentList(new ConfigRestHeader().GetHeaders(this), request);
             Call.observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -124,25 +126,26 @@ public class ActNewsSearch extends AppCompatActivity {
 
                         @Override
                         public void onNext(NewsContentResponse response) {
+                            searchLock = false;
                             if (response.IsSuccess) {
                                 if (response.ListItems.size() != 0) {
                                     news.addAll(response.ListItems);
                                     adapter.notifyDataSetChanged();
+                                    switcher.showContentView();
                                 } else {
-                                    Toasty.warning(ActNewsSearch.this, "نتیجه ای یافت نشد", Toasty.LENGTH_LONG, true).show();
+                                    switcher.showEmptyView();
                                 }
+                            } else {
+                                switcher.showErrorView(response.ErrorMessage, () -> init());
                             }
                         }
 
                         @Override
                         public void onError(Throwable e) {
+                            searchLock = false;
                             btnRefresh.setVisibility(View.VISIBLE);
-                            Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    init();
-                                }
-                            }).show();
+                            switcher.showErrorView("خطا در دسترسی به سامانه", () -> init());
+
                         }
 
                         @Override
@@ -152,7 +155,9 @@ public class ActNewsSearch extends AppCompatActivity {
                     });
         } else {
             btnRefresh.setVisibility(View.VISIBLE);
-            Toasty.warning(this, "عدم دسترسی به اینترنت", Toasty.LENGTH_LONG, true).show();
+            searchLock = false;
+            switcher.showErrorView("عدم دسترسی به اینترنت", () -> Search());
+        }
         }
     }
 

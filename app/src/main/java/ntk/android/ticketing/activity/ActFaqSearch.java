@@ -116,6 +116,7 @@ public class ActFaqSearch extends BaseActivity {
 
                             @Override
                             public void onNext(TicketingFaqResponse response) {
+                                searchLock = false;
                                 if (response.IsSuccess) {
                                     if (response.ListItems.size() != 0) {
                                         faqs.addAll(response.ListItems);
