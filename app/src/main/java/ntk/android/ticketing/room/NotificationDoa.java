@@ -12,10 +12,10 @@ import ntk.android.ticketing.model.NotificationModel;
 @Dao
 public interface NotificationDoa {
 
-    @Query("SELECT * FROM NotificationModel ORDER BY ID DESC")
+    @Query("SELECT * FROM Notification ORDER BY ID DESC")
     List<NotificationModel> All();
 
-    @Query("SELECT * FROM NotificationModel WHERE IsRead == 0 ORDER BY ID DESC")
+    @Query("SELECT * FROM Notification WHERE IsRead == 0 ORDER BY ID DESC")
     List<NotificationModel> AllUnRead();
 
     @Insert
