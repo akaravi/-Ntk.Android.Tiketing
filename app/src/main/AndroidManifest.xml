@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name=".Tickting"
+        android:name=".TicketingApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -32,11 +32,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.ActIntro"
+            android:name=".activity.IntroActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
-            android:name=".activity.ActMain"
+            android:name=".activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
@@ -44,76 +44,76 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
-            android:name=".activity.ActAbout"
+            android:name=".activity.AboutUsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity
-            android:name=".activity.ActSendTicket"
+            android:name=".activity.NewTicketActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActNews"
+            android:name=".activity.NewsListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActPooling"
+            android:name=".activity.PoolingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActDetailPooling"
+            android:name=".activity.PoolingDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActInbox"
+            android:name=".activity.NotificationsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActDetailNews"
+            android:name=".activity.NewsDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActFaq"
+            android:name=".activity.FaqActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActTicketAnswer"
+            android:name=".activity.TicketAnswerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActTicketSearch"
+            android:name=".activity.TicketSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActBlog"
+            android:name=".activity.BlogActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActDetailBlog"
+            android:name=".activity.BlogDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActSupport"
+            android:name=".activity.TicketListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActNewsSearch"
+            android:name=".activity.NewsSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActBlogSearch"
+            android:name=".activity.BlogSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActFaqSearch"
+            android:name=".activity.FaqSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
 
-        <service android:name=".service.SeFirebase">
+        <service android:name=".service.FirebaseService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".service.SeRegisterId">
+        <service android:name=".service.RegisterIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -130,7 +130,7 @@
         </provider>
 
         <receiver
-            android:name=".service.SeSms"
+            android:name=".service.SmsService"
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter android:priority="15000">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />

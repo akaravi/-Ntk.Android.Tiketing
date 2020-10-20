@@ -14,7 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.activity.ActDetailPooling;
+import ntk.android.ticketing.activity.PoolingDetailActivity;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.baseModel.Filters;
 import ntk.base.api.pooling.entity.PoolingCategory;
@@ -47,7 +47,7 @@ public class AdPoolCategory extends RecyclerView.Adapter<AdPoolCategory.ViewHold
             f.IntValue1 = arrayList.get(position).Id;
             filters.add(f);
             request.filters = filters;
-            Intent intent = new Intent(context, ActDetailPooling.class);
+            Intent intent = new Intent(context, PoolingDetailActivity.class);
             intent.putExtra("Request", new Gson().toJson(request));
             intent.putExtra("Title", arrayList.get(position).Title);
             context.startActivity(intent);

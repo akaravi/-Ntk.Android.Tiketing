@@ -18,7 +18,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.activity.ActDetailNews;
+import ntk.android.ticketing.activity.NewsDetailActivity;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.news.entity.NewsContent;
 import ntk.base.api.news.model.NewsContentViewRequest;
@@ -49,7 +49,7 @@ public class AdCoreImage extends RecyclerView.Adapter<AdCoreImage.ViewHolder> {
             public void onClick(View v) {
                 NewsContentViewRequest request = new NewsContentViewRequest();
                 request.Id = list.get(position).Id;
-                context.startActivity(new Intent(context, ActDetailNews.class).putExtra("Request", new Gson().toJson(request)));
+                context.startActivity(new Intent(context, NewsDetailActivity.class).putExtra("Request", new Gson().toJson(request)));
             }
         });
 

@@ -173,7 +173,7 @@ public class ActSplash extends BaseActivity {
         if (!EasyPreference.with(ActSplash.this).getBoolean("Intro", false)) {
             new Handler().postDelayed(() -> {
 //                Loading.setVisibility(View.GONE);
-                startActivity(new Intent(ActSplash.this, ActIntro.class));
+                startActivity(new Intent(ActSplash.this, IntroActivity.class));
                 finish();
             }, System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000-System.currentTimeMillis() - startTime);
             return;
@@ -188,7 +188,7 @@ public class ActSplash extends BaseActivity {
         }
         new Handler().postDelayed(() -> {
 //            Loading.setVisibility(View.GONE);
-            startActivity(new Intent(ActSplash.this, ActMain.class));
+            startActivity(new Intent(ActSplash.this, MainActivity.class));
             finish();
         },  System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000-System.currentTimeMillis() - startTime);
     }

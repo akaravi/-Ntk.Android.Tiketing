@@ -5,10 +5,10 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import android.content.Context;
 import ntk.android.ticketing.BuildConfig;
-import ntk.android.ticketing.model.Notify;
+import ntk.android.ticketing.model.NotificationModel;
 
 
-@Database(entities = {Notify.class}, version = 1, exportSchema = false)
+@Database(entities = {NotificationModel.class}, version = 1, exportSchema = false)
 public abstract class RoomDb extends RoomDatabase {
 
     public abstract NotificationDoa NotificationDoa();

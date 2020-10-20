@@ -16,7 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.event.EvRemoveAttach;
+import ntk.android.ticketing.event.RemoveAttachEvent;
 import ntk.android.ticketing.utill.FontManager;
 
 public class AdAttach extends RecyclerView.Adapter<AdAttach.ViewHolder> {
@@ -43,7 +43,7 @@ public class AdAttach extends RecyclerView.Adapter<AdAttach.ViewHolder> {
         holder.Delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EventBus.getDefault().post(new EvRemoveAttach(position));
+                EventBus.getDefault().post(new RemoveAttachEvent(position));
             }
         });
     }

@@ -7,24 +7,24 @@ import androidx.room.Update;
 import androidx.room.Delete;
 import java.util.List;
 
-import ntk.android.ticketing.model.Notify;
+import ntk.android.ticketing.model.NotificationModel;
 
 @Dao
 public interface NotificationDoa {
 
-    @Query("SELECT * FROM Notification ORDER BY ID DESC")
-    List<Notify> All();
+    @Query("SELECT * FROM NotificationModel ORDER BY ID DESC")
+    List<NotificationModel> All();
 
-    @Query("SELECT * FROM Notification WHERE IsRead == 0 ORDER BY ID DESC")
-    List<Notify> AllUnRead();
+    @Query("SELECT * FROM NotificationModel WHERE IsRead == 0 ORDER BY ID DESC")
+    List<NotificationModel> AllUnRead();
 
     @Insert
-    void Insert(Notify notify);
+    void Insert(NotificationModel notificationModel);
 
     @Update
-    void Update(Notify notify);
+    void Update(NotificationModel notificationModel);
 
     @Delete
-    void Delete(Notify notify);
+    void Delete(NotificationModel notificationModel);
 
 }

@@ -24,16 +24,16 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.model.Notify;
+import ntk.android.ticketing.model.NotificationModel;
 import ntk.android.ticketing.room.RoomDb;
 import ntk.android.ticketing.utill.FontManager;
 
 public class AdInbox extends RecyclerView.Adapter<AdInbox.ViewHolder> {
 
-    private ArrayList<Notify> arrayList;
+    private ArrayList<NotificationModel> arrayList;
     private Context context;
 
-    public AdInbox(Context context, ArrayList<Notify> arrayList) {
+    public AdInbox(Context context, ArrayList<NotificationModel> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }

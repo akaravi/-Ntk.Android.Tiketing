@@ -40,7 +40,7 @@ import io.reactivex.schedulers.Schedulers;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.config.ConfigRestHeader;
 import ntk.android.ticketing.config.ConfigStaticValue;
-import ntk.android.ticketing.event.EvMessage;
+import ntk.android.ticketing.event.MessageEvent;
 import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.EasyPreference;
 import ntk.android.ticketing.utill.FontManager;
@@ -69,7 +69,7 @@ public class ActRegister extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Boolean Registered = EasyPreference.with(ActRegister.this).getBoolean("Registered", false);
         if (Registered) {
-            startActivity(new Intent(ActRegister.this, ActMain.class));
+            startActivity(new Intent(ActRegister.this, MainActivity.class));
             finish();
         }
         super.onCreate(savedInstanceState);
@@ -153,7 +153,7 @@ public class ActRegister extends AppCompatActivity {
                             EasyPreference.with(ActRegister.this).addLong("SiteId", response.Item.SiteId);
                             EasyPreference.with(ActRegister.this).addBoolean("Registered", true);
 
-                            startActivity(new Intent(ActRegister.this, ActMain.class));
+                            startActivity(new Intent(ActRegister.this, MainActivity.class));
                             finish();
 
                         }
@@ -262,7 +262,7 @@ public class ActRegister extends AppCompatActivity {
     @OnClick(R.id.RowNoPhoneActRegister)
     public void ClickNoPhone() {
         EasyPreference.with(this).addString("register", "1");
-        startActivity(new Intent(this, ActMain.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
@@ -301,7 +301,7 @@ public class ActRegister extends AppCompatActivity {
     }
 
     @Subscribe
-    public void SetMessage(EvMessage event) {
+    public void SetMessage(MessageEvent event) {
         Txt.setText(event.GetMessage());
     }
 }

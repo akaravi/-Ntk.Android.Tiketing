@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.activity.ActTicketAnswer;
+import ntk.android.ticketing.activity.TicketAnswerActivity;
 import ntk.android.ticketing.utill.AppUtill;
 import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.baseModel.Filters;
@@ -77,7 +77,7 @@ public class AdTicket extends RecyclerView.Adapter<AdTicket.ViewHolder> {
             f.IntValue1 = arrayList.get(position).Id;
             filters.add(f);
             request.filters = filters;
-            Intent intent = new Intent(context, ActTicketAnswer.class);
+            Intent intent = new Intent(context, TicketAnswerActivity.class);
             intent.putExtra("Request", new Gson().toJson(request));
             intent.putExtra("TicketId", arrayList.get(position).Id);
             context.startActivity(intent);

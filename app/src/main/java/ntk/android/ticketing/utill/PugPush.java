@@ -12,10 +12,10 @@ import androidx.core.app.NotificationCompat;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import org.greenrobot.eventbus.EventBus;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.Tickting;
+import ntk.android.ticketing.TicketingApp;
 import ntk.android.ticketing.activity.ActSplash;
-import ntk.android.ticketing.event.EvNotify;
-import ntk.android.ticketing.model.Notify;
+import ntk.android.ticketing.event.notificationEvent;
+import ntk.android.ticketing.model.NotificationModel;
 
 /**
  * Created by Mehrdad Safari on 20-Mar-17.
@@ -23,7 +23,7 @@ import ntk.android.ticketing.model.Notify;
 
 public class PugPush {
 
-    public static void ShowNotification(Context context, Notify notification) {
+    public static void ShowNotification(Context context, NotificationModel notification) {
         notification.ID = (int) System.currentTimeMillis() + 1;
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder mBuilder;
@@ -57,8 +57,8 @@ public class PugPush {
         }
 
         notificationManager.notify(notification.ID, mBuilder.build());
-        if (Tickting.Inbox) {
-            EventBus.getDefault().post(new EvNotify(true));
+        if (TicketingApp.Inbox) {
+            EventBus.getDefault().post(new notificationEvent(true));
         }
     }
 }
