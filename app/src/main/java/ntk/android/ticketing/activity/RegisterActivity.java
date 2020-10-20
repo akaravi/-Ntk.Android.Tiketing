@@ -261,7 +261,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     @OnClick(R.id.RowNoPhoneActRegister)
     public void ClickNoPhone() {
-        EasyPreference.with(this).addString("register", "1");
+        EasyPreference.with(this).addBoolean("register_not_interested", true);
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }

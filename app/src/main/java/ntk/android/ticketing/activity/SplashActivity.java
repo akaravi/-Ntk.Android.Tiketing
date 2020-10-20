@@ -175,22 +175,26 @@ public class SplashActivity extends BaseActivity {
 //                Loading.setVisibility(View.GONE);
                 startActivity(new Intent(SplashActivity.this, IntroActivity.class));
                 finish();
-            }, System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000-System.currentTimeMillis() - startTime);
+            }, System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000 - System.currentTimeMillis() - startTime);
             return;
         }
         if (!EasyPreference.with(SplashActivity.this).getBoolean("Registered", false)) {
             new Handler().postDelayed(() -> {
 //                Loading.setVisibility(View.GONE);
-                startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
+                boolean register_not_interested = EasyPreference.with(this).getBoolean("register_not_interested", false);
+                if (register_not_interested)
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                else
+                    startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
                 finish();
-            },  System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000-System.currentTimeMillis() - startTime);
+            }, System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000 - System.currentTimeMillis() - startTime);
             return;
         }
         new Handler().postDelayed(() -> {
 //            Loading.setVisibility(View.GONE);
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
-        },  System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000-System.currentTimeMillis() - startTime);
+        }, System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000 - System.currentTimeMillis() - startTime);
     }
 
     /**
