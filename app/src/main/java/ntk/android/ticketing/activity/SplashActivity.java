@@ -34,7 +34,7 @@ import ntk.base.api.core.interfase.ICore;
 import ntk.base.api.core.model.MainCoreResponse;
 import ntk.base.api.utill.RetrofitManager;
 
-public class ActSplash extends BaseActivity {
+public class SplashActivity extends BaseActivity {
 
 
     @BindView(R.id.lblVersionActSplash)
@@ -92,7 +92,7 @@ public class ActSplash extends BaseActivity {
                     @Override
                     public void onNext(CoreTheme theme) {
                         //todo check successfully on coreTheme
-                        EasyPreference.with(ActSplash.this).addString("Theme", new Gson().toJson(theme.Item.ThemeConfigJson));
+                        EasyPreference.with(SplashActivity.this).addString("Theme", new Gson().toJson(theme.Item.ThemeConfigJson));
                         //now can get main response
                         requestMainData();
                     }
@@ -130,7 +130,7 @@ public class ActSplash extends BaseActivity {
                         if (!mainCoreResponse.IsSuccess) {
                             switcher.showErrorView();
                             //replace with layout
-                            Toasty.warning(ActSplash.this, mainCoreResponse.ErrorMessage, Toasty.LENGTH_LONG, true).show();
+                            Toasty.warning(SplashActivity.this, mainCoreResponse.ErrorMessage, Toasty.LENGTH_LONG, true).show();
                             return;
 
                         }
@@ -143,7 +143,7 @@ public class ActSplash extends BaseActivity {
                     public void onError(Throwable e) {
                         //replace with layout
                         switcher.showErrorView();
-                        Toasty.warning(ActSplash.this, "خطای سامانه مجددا تلاش کنید", Toasty.LENGTH_LONG, true).show();
+                        Toasty.warning(SplashActivity.this, "خطای سامانه مجددا تلاش کنید", Toasty.LENGTH_LONG, true).show();
 
                     }
 
@@ -160,35 +160,35 @@ public class ActSplash extends BaseActivity {
      */
     private void HandelDataAction(CoreMain model) {
 
-        EasyPreference.with(ActSplash.this).addLong("MemberUserId", model.MemberUserId);
-        EasyPreference.with(ActSplash.this).addLong("UserId", model.UserId);
-        EasyPreference.with(ActSplash.this).addLong("SiteId", model.SiteId);
-        EasyPreference.with(ActSplash.this).addString("configapp", new Gson().toJson(model));
+        EasyPreference.with(SplashActivity.this).addLong("MemberUserId", model.MemberUserId);
+        EasyPreference.with(SplashActivity.this).addLong("UserId", model.UserId);
+        EasyPreference.with(SplashActivity.this).addLong("SiteId", model.SiteId);
+        EasyPreference.with(SplashActivity.this).addString("configapp", new Gson().toJson(model));
         if (model.UserId <= 0)
-            EasyPreference.with(ActSplash.this).addBoolean("Registered", false);
+            EasyPreference.with(SplashActivity.this).addBoolean("Registered", false);
 
 //        Loading.cancelAnimation();
 //        Loading.setVisibility(View.GONE);
 
-        if (!EasyPreference.with(ActSplash.this).getBoolean("Intro", false)) {
+        if (!EasyPreference.with(SplashActivity.this).getBoolean("Intro", false)) {
             new Handler().postDelayed(() -> {
 //                Loading.setVisibility(View.GONE);
-                startActivity(new Intent(ActSplash.this, IntroActivity.class));
+                startActivity(new Intent(SplashActivity.this, IntroActivity.class));
                 finish();
             }, System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000-System.currentTimeMillis() - startTime);
             return;
         }
-        if (!EasyPreference.with(ActSplash.this).getBoolean("Registered", false)) {
+        if (!EasyPreference.with(SplashActivity.this).getBoolean("Registered", false)) {
             new Handler().postDelayed(() -> {
 //                Loading.setVisibility(View.GONE);
-                startActivity(new Intent(ActSplash.this, ActRegister.class));
+                startActivity(new Intent(SplashActivity.this, RegisterActivity.class));
                 finish();
             },  System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000-System.currentTimeMillis() - startTime);
             return;
         }
         new Handler().postDelayed(() -> {
 //            Loading.setVisibility(View.GONE);
-            startActivity(new Intent(ActSplash.this, MainActivity.class));
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
         },  System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000-System.currentTimeMillis() - startTime);
     }

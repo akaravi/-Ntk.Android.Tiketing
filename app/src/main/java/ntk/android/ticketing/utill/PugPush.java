@@ -13,7 +13,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.greenrobot.eventbus.EventBus;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.TicketingApp;
-import ntk.android.ticketing.activity.ActSplash;
+import ntk.android.ticketing.activity.SplashActivity;
 import ntk.android.ticketing.event.notificationEvent;
 import ntk.android.ticketing.model.NotificationModel;
 
@@ -35,7 +35,7 @@ public class PugPush {
             mBuilder = new NotificationCompat.Builder(context);
         }
         PendingIntent intent = null;
-        Intent i = new Intent(context, ActSplash.class);
+        Intent i = new Intent(context, SplashActivity.class);
         i.setData(Uri.parse(notification.Content));
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent = PendingIntent.getActivity(context, 0, i, 0);

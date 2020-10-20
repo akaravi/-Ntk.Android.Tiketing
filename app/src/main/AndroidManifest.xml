@@ -22,7 +22,7 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:supportsRtl">
         <activity
-            android:name=".activity.ActSplash"
+            android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar">
             <intent-filter>
@@ -40,7 +40,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
         <activity
-            android:name=".activity.ActRegister"
+            android:name=".activity.RegisterActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
         <activity

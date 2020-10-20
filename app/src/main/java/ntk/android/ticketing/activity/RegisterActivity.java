@@ -49,7 +49,7 @@ import ntk.base.api.core.model.CoreUserRegisterByMobileRequest;
 import ntk.base.api.core.model.CoreUserResponse;
 import ntk.base.api.utill.RetrofitManager;
 
-public class ActRegister extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
     @BindView(R.id.progressActRegister)
     ProgressBar Loading;
@@ -67,9 +67,9 @@ public class ActRegister extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        Boolean Registered = EasyPreference.with(ActRegister.this).getBoolean("Registered", false);
+        Boolean Registered = EasyPreference.with(RegisterActivity.this).getBoolean("Registered", false);
         if (Registered) {
-            startActivity(new Intent(ActRegister.this, MainActivity.class));
+            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
             finish();
         }
         super.onCreate(savedInstanceState);
@@ -98,7 +98,7 @@ public class ActRegister extends AppCompatActivity {
                     if (CheckPermission()) {
                         Register();
                     } else {
-                        ActivityCompat.requestPermissions(ActRegister.this, new String[]{Manifest.permission.RECEIVE_SMS}, 100);
+                        ActivityCompat.requestPermissions(RegisterActivity.this, new String[]{Manifest.permission.RECEIVE_SMS}, 100);
                     }
                 } else {
                     Toast.makeText(this, "عدم دسترسی به اینترنت", Toast.LENGTH_SHORT).show();
@@ -144,16 +144,16 @@ public class ActRegister extends AppCompatActivity {
                         public void onNext(CoreUserResponse response) {
                             Loading.setVisibility(View.GONE);
                             if (!response.IsSuccess) {
-                                Toasty.warning(ActRegister.this, response.ErrorMessage, Toasty.LENGTH_LONG, true).show();
+                                Toasty.warning(RegisterActivity.this, response.ErrorMessage, Toasty.LENGTH_LONG, true).show();
                                 findViewById(R.id.cardActRegister).setVisibility(View.VISIBLE);
                                 return;
                             }
-                            EasyPreference.with(ActRegister.this).addLong("UserId", response.Item.UserId);
-                            EasyPreference.with(ActRegister.this).addLong("MemberUserId", response.Item.MemberId);
-                            EasyPreference.with(ActRegister.this).addLong("SiteId", response.Item.SiteId);
-                            EasyPreference.with(ActRegister.this).addBoolean("Registered", true);
+                            EasyPreference.with(RegisterActivity.this).addLong("UserId", response.Item.UserId);
+                            EasyPreference.with(RegisterActivity.this).addLong("MemberUserId", response.Item.MemberId);
+                            EasyPreference.with(RegisterActivity.this).addLong("SiteId", response.Item.SiteId);
+                            EasyPreference.with(RegisterActivity.this).addBoolean("Registered", true);
 
-                            startActivity(new Intent(ActRegister.this, MainActivity.class));
+                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                             finish();
 
                         }
@@ -162,7 +162,7 @@ public class ActRegister extends AppCompatActivity {
                         public void onError(Throwable e) {
                             findViewById(R.id.cardActRegister).setVisibility(View.VISIBLE);
                             Loading.setVisibility(View.GONE);
-                            Toasty.warning(ActRegister.this, "خطای سامانه مجددا تلاش کنید", Toasty.LENGTH_LONG, true).show();
+                            Toasty.warning(RegisterActivity.this, "خطای سامانه مجددا تلاش کنید", Toasty.LENGTH_LONG, true).show();
 
                         }
 
@@ -205,7 +205,7 @@ public class ActRegister extends AppCompatActivity {
                         public void onNext(CoreUserResponse response) {
                             Loading.setVisibility(View.GONE);
                             if (!response.IsSuccess) {
-                                Toasty.warning(ActRegister.this, response.ErrorMessage, Toasty.LENGTH_LONG, true).show();
+                                Toasty.warning(RegisterActivity.this, response.ErrorMessage, Toasty.LENGTH_LONG, true).show();
                                 return;
                             }
                             findViewById(R.id.cardActRegister).setVisibility(View.VISIBLE);
@@ -238,7 +238,7 @@ public class ActRegister extends AppCompatActivity {
                         @Override
                         public void onError(Throwable e) {
                             Loading.setVisibility(View.GONE);
-                            Toasty.warning(ActRegister.this, "خطای سامانه مجددا تلاش کنید", Toasty.LENGTH_LONG, true).show();
+                            Toasty.warning(RegisterActivity.this, "خطای سامانه مجددا تلاش کنید", Toasty.LENGTH_LONG, true).show();
                             findViewById(R.id.cardActRegister).setVisibility(View.VISIBLE);
 
                         }

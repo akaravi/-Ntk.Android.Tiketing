@@ -102,7 +102,7 @@ public class IntroActivity extends BaseActivity {
                                         }, System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000 - System.currentTimeMillis() - startTime);
                                     } else {
                                         new Handler().postDelayed(() -> {
-                                            startActivity(new Intent(IntroActivity.this, ActRegister.class));
+                                            startActivity(new Intent(IntroActivity.this, RegisterActivity.class));
                                             finish();
                                         }, System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000 - System.currentTimeMillis() - startTime);
                                     }
@@ -161,7 +161,7 @@ public class IntroActivity extends BaseActivity {
             handler.removeCallbacksAndMessages(null);
             if (Help == 0) {
                 EasyPreference.with(this).addBoolean("Intro", true);
-                startActivity(new Intent(IntroActivity.this, ActRegister.class));
+                startActivity(new Intent(IntroActivity.this, RegisterActivity.class));
                 finish();
             } else {
                 finish();
