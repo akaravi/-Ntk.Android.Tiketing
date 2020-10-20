@@ -93,18 +93,23 @@ public class IntroActivity extends BaseActivity {
                                     Intro.ListItems = response.ListItems;
                                     HandelIntro();
                                 } else {
-                                    EasyPreference.with(IntroActivity.this).addBoolean("Intro", true);
-
-                                    if (EasyPreference.with(IntroActivity.this).getBoolean("Registered", false)) {
-                                        new Handler().postDelayed(() -> {
-                                            startActivity(new Intent(IntroActivity.this, MainActivity.class));
-                                            finish();
-                                        }, System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000 - System.currentTimeMillis() - startTime);
+                                    if (Help != 0) {
+                                        startActivity(new Intent(IntroActivity.this, MainActivity.class));
+                                        finish();
                                     } else {
-                                        new Handler().postDelayed(() -> {
-                                            startActivity(new Intent(IntroActivity.this, RegisterActivity.class));
-                                            finish();
-                                        }, System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000 - System.currentTimeMillis() - startTime);
+                                        EasyPreference.with(IntroActivity.this).addBoolean("Intro", true);
+
+                                        if (EasyPreference.with(IntroActivity.this).getBoolean("Registered", false)) {
+                                            new Handler().postDelayed(() -> {
+                                                startActivity(new Intent(IntroActivity.this, MainActivity.class));
+                                                finish();
+                                            }, System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000 - System.currentTimeMillis() - startTime);
+                                        } else {
+                                            new Handler().postDelayed(() -> {
+                                                startActivity(new Intent(IntroActivity.this, RegisterActivity.class));
+                                                finish();
+                                            }, System.currentTimeMillis() - startTime >= 3000 ? 100 : 3000 - System.currentTimeMillis() - startTime);
+                                        }
                                     }
                                 }
                             } else {
