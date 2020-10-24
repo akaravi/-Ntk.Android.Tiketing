@@ -14,14 +14,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.textfield.TextInputLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -29,8 +21,17 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -65,12 +66,11 @@ import ntk.android.ticketing.utill.Regex;
 import ntk.base.api.baseModel.FilterModel;
 import ntk.base.api.file.interfase.IFile;
 import ntk.base.api.member.model.MemberUserActAddRequest;
+import ntk.base.api.ticket.entity.TicketingDepartemen;
 import ntk.base.api.ticket.entity.TicketingTask;
 import ntk.base.api.ticket.interfase.ITicket;
-import ntk.base.api.ticket.entity.TicketingDepartemen;
 import ntk.base.api.ticket.model.TicketingDepartemenResponse;
 import ntk.base.api.ticket.model.TicketingTaskResponse;
-
 import ntk.base.api.utill.RetrofitManager;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -178,14 +178,14 @@ public class NewTicketActivity extends BaseActivity {
 
             }
         });
-        if(request.Priority==0){
+        if (request.Priority == 0) {
             spinners.get(1).setSelection(0);
         }
-        FilterModel request=new FilterModel();
+        FilterModel request = new FilterModel();
         RetrofitManager retro = new RetrofitManager(this);
         ITicket iTicket = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
         Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-        Observable<TicketingDepartemenResponse> Call = iTicket.GetTicketDepartmanActList(headers,request);
+        Observable<TicketingDepartemenResponse> Call = iTicket.GetTicketDepartmanActList(headers, request);
         Call.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<TicketingDepartemenResponse>() {
@@ -223,7 +223,7 @@ public class NewTicketActivity extends BaseActivity {
         if (Txts.get(0).getText().toString().isEmpty()) {
             YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(0));
             Toasty.warning(NewTicketActivity.this, "موضوع درخواست خود را وارد کنید", Toasty.LENGTH_LONG, true).show();
-             return;
+            return;
         }
         if (Txts.get(1).getText().toString().isEmpty()) {
             YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(1));
@@ -233,7 +233,7 @@ public class NewTicketActivity extends BaseActivity {
         if (Txts.get(2).getText().toString().isEmpty()) {
             YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(2));
             Toasty.warning(NewTicketActivity.this, "نام و نام خانوادگی را وارد کنید", Toasty.LENGTH_LONG, true).show();
-             return;
+            return;
         }
         EasyPreference.with(this).addString("NameFamily", Txts.get(2).getText().toString());
         if (Txts.get(3).getText().toString().isEmpty()) {
@@ -241,41 +241,48 @@ public class NewTicketActivity extends BaseActivity {
             Toasty.warning(NewTicketActivity.this, "شماره تلفن همراه را وارد کنید", Toasty.LENGTH_LONG, true).show();
             return;
         }
+        if (!Txts.get(3).getText().toString().startsWith("09")) {
+            YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(3));
+            Toasty.warning(NewTicketActivity.this, "شماره تلفن همراه را به صورت صحیح وارد کنید", Toasty.LENGTH_LONG, true).show();
+            return;
+        }
         EasyPreference.with(this).addString("PhoneNumber", Txts.get(3).getText().toString());
         if (Txts.get(4).getText().toString().isEmpty()) {
             YoYo.with(Techniques.Tada).duration(700).playOn(Txts.get(4));
             Toasty.warning(NewTicketActivity.this, "پست الکترونیک را وارد کنید", Toasty.LENGTH_LONG, true).show();
+            return;
         }
-        if (Regex.ValidateEmail(Txts.get(4).getText().toString())) {
+        if (!Regex.ValidateEmail(Txts.get(4).getText().toString())) {
             Toasty.warning(this, "آدرس پست الکترونیکی صحیح نمیباشد", Toasty.LENGTH_LONG, true).show();
             return;
         }
         EasyPreference.with(this).addString("Email", Txts.get(4).getText().toString());
-            if (AppUtill.isNetworkAvailable(this)) {
-                //todo show dialog loading
-                request.Email = Txts.get(4).getText().toString();
-                request.PhoneNo = Txts.get(3).getText().toString();
-                request.FullName = Txts.get(2).getText().toString();
-                request.HtmlBody = Txts.get(1).getText().toString();
-                request.Title = Txts.get(0).getText().toString();
+        if (AppUtill.isNetworkAvailable(this)) {
+            //show dialog loading
+            switcher.showLoadDialog(this, false);
+            request.Email = Txts.get(4).getText().toString();
+            request.PhoneNo = Txts.get(3).getText().toString();
+            request.FullName = Txts.get(2).getText().toString();
+            request.HtmlBody = Txts.get(1).getText().toString();
+            request.Title = Txts.get(0).getText().toString();
 
-                String ids = "";
-                for (int i = 0; i < fileId.size(); i++) {
-                    if (ids.equals(""))
-                        ids = fileId.get(i);
-                    else
-                        ids += "," + fileId.get(i);
-                }
-                request.LinkFileIds = ids;
+            String ids = "";
+            for (int i = 0; i < fileId.size(); i++) {
+                if (ids.equals(""))
+                    ids = fileId.get(i);
+                else
+                    ids += "," + fileId.get(i);
+            }
+            request.LinkFileIds = ids;
 
-                requestMember.FirstName = Txts.get(2).getText().toString();
-                requestMember.LastName = Txts.get(2).getText().toString();
-                requestMember.PhoneNo = Txts.get(3).getText().toString();
-                requestMember.Email = Txts.get(4).getText().toString();
+            requestMember.FirstName = Txts.get(2).getText().toString();
+            requestMember.LastName = Txts.get(2).getText().toString();
+            requestMember.PhoneNo = Txts.get(3).getText().toString();
+            requestMember.Email = Txts.get(4).getText().toString();
 
 
-                RetrofitManager retro = new RetrofitManager(this);
-                Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
+            RetrofitManager retro = new RetrofitManager(this);
+            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
 
 //                IMember iMember = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IMember.class);
 //                Observable<MemberUserResponse> CallMember = iMember.SetUserActAdd(headers, requestMember);
@@ -308,50 +315,51 @@ public class NewTicketActivity extends BaseActivity {
 //
 //                            }
 //                        });
-                findViewById(R.id.btnSubmitActSendTicket).setClickable(false);
+            findViewById(R.id.btnSubmitActSendTicket).setClickable(false);
 
-                ITicket iTicket = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
-                Observable<TicketingTaskResponse> Call = iTicket.SetTicketTaskActSubmit(headers, request);
-                Call.observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
-                        .subscribe(new Observer<TicketingTaskResponse>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
+            ITicket iTicket = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
+            Observable<TicketingTaskResponse> Call = iTicket.SetTicketTaskActSubmit(headers, request);
+            Call.observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new Observer<TicketingTaskResponse>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
 
-                            }
+                        }
 
-                            @Override
-                            public void onNext(TicketingTaskResponse model) {
-                                Toasty.success(NewTicketActivity.this, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
-                                finish();
-                            }
+                        @Override
+                        public void onNext(TicketingTaskResponse model) {
+                            switcher.hideLoadDialog();
+                            Toasty.success(NewTicketActivity.this, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
+                            finish();
+                        }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        init();
-                                    }
-                                }).show();
-                                findViewById(R.id.btnSubmitActSendTicket).setClickable(true);
-                            }
+                        @Override
+                        public void onError(Throwable e) {
+                            switcher.hideLoadDialog();
+                            Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    init();
+                                }
+                            }).show();
+                            findViewById(R.id.btnSubmitActSendTicket).setClickable(true);
+                        }
 
-                            @Override
-                            public void onComplete() {
+                        @Override
+                        public void onComplete() {
 
-                            }
-                        });
-            } else {
+                        }
+                    });
+        } else {
 
-                Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        init();
-                    }
-                }).show();
-            }
-
+            Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    init();
+                }
+            }).show();
+        }
 
 
     }
@@ -377,7 +385,7 @@ public class NewTicketActivity extends BaseActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public void onActivityResult(int requestCode, int resultCode,Intent resultData) {
+    public void onActivityResult(int requestCode, int resultCode, Intent resultData) {
         super.onActivityResult(requestCode, resultCode, resultData);
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri;

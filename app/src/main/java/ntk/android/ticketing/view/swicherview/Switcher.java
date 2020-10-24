@@ -1,11 +1,12 @@
 package ntk.android.ticketing.view.swicherview;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.IdRes;
 
@@ -30,6 +31,7 @@ public class Switcher {
     private List<View> emptyViews = new ArrayList<>();
     private List<View> progressViews = new ArrayList<>();
     private View toolbarProgress;
+    Dialog dialog;
 //    private List<View> reqestViews = new ArrayList<>();
 
     private Integer errorLabel;//for customization of Error
@@ -84,6 +86,21 @@ public class Switcher {
 //            }
 //        }
 //    }
+
+    public void showLoadDialog(Context context, boolean cancleable) {
+        dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_load);
+        dialog.setCanceledOnTouchOutside(cancleable);
+
+        dialog.show();
+    }
+
+    public void hideLoadDialog() {
+        if (dialog != null && dialog.isShowing())
+            dialog.dismiss();
+        dialog = null;
+    }
 
     public void hideToolbarProgress() {
 
