@@ -13,27 +13,29 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,24 +51,26 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import ntk.android.base.config.ConfigRestHeader;
+import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.utill.AppUtill;
+import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdAttach;
 import ntk.android.ticketing.adapter.AdTicketAnswer;
-import ntk.android.ticketing.config.ConfigRestHeader;
-import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.event.RemoveAttachEvent;
-import ntk.android.ticketing.utill.AppUtill;
-import ntk.android.ticketing.utill.FontManager;
+import ntk.base.api.file.entity.FileUploadModel;
 import ntk.base.api.file.interfase.IFile;
-import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.entity.TicketingAnswer;
+import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingAnswerListRequest;
 import ntk.base.api.ticket.model.TicketingAnswerResponse;
 import ntk.base.api.ticket.model.TicketingAnswerSubmitRequest;
-import ntk.base.api.utill.RetrofitManager;
+import ntk.android.base.config.RetrofitManager;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 
 public class TicketAnswerActivity extends AppCompatActivity {
@@ -361,20 +365,27 @@ public class TicketAnswerActivity extends AppCompatActivity {
             RetrofitManager retro = new RetrofitManager(this);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
             IFile iFile = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IFile.class);
-            Observable<String> Call = iFile.uploadFileWithPartMap(headers, new HashMap<>(), MultipartBody.Part.createFormData("File", file.getName(), requestFile));
+            Observable<ResponseBody> Call = iFile.uploadFileWithPartMap(headers, new HashMap<>(), MultipartBody.Part.createFormData("File", file.getName(), requestFile));
             Call.observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<String>() {
+                    .subscribe(new Observer<ResponseBody>() {
                         @Override
                         public void onSubscribe(Disposable d) {
                         }
 
                         @Override
-                        public void onNext(String model) {
-                            adapter.notifyDataSetChanged();
-                            if (linkFileIds.equals("")) linkFileIds = model;
-                            else linkFileIds = linkFileIds + "," + model;
-                            btn.setVisibility(View.VISIBLE);
+                        public void onNext(ResponseBody model) {
+                            try {
+
+                                String uploadedString = new Gson().fromJson(model.string(), FileUploadModel.class).FileKey;
+                                if (linkFileIds.equals("")) linkFileIds = uploadedString;
+                                else linkFileIds = linkFileIds + "," + uploadedString;
+                                adapter.notifyDataSetChanged();
+                                btn.setVisibility(View.VISIBLE);
+                            } catch (IOException e) {
+                                Toasty.warning(TicketAnswerActivity.this, "خطای خواندن اطلاعات", Toasty.LENGTH_LONG, true).show();
+                            }
+
                         }
 
                         @Override

@@ -7,8 +7,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import org.greenrobot.eventbus.EventBus;
+
+import ntk.android.base.event.MessageEvent;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.event.MessageEvent;
 
 
 public class SmsService extends BroadcastReceiver {

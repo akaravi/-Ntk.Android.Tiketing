@@ -8,10 +8,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import androidx.annotation.DrawableRes;
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -22,8 +18,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
+
+import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.utill.FontManager;
 
 
 public class AboutPage {
@@ -58,10 +59,10 @@ public class AboutPage {
     }
 
     public AboutPage addEmail(String email, String title) {
-        if(email==null || email.isEmpty())
+        if (email == null || email.isEmpty())
             return this;
-        if(title==null ||title.isEmpty() )
-            title=mContext.getString(R.string.about_contact_us);
+        if (title == null || title.isEmpty())
+            title = mContext.getString(R.string.about_contact_us);
         Element emailElement = new Element();
         emailElement.setTitle(title);
         emailElement.setIconDrawable(R.drawable.about_icon_email);
@@ -82,10 +83,10 @@ public class AboutPage {
     }
 
     public AboutPage addFacebook(String id, String title) {
-        if(id==null || id.isEmpty())
+        if (id == null || id.isEmpty())
             return this;
-        if(title==null ||title.isEmpty())
-            title=mContext.getString(R.string.about_facebook);
+        if (title == null || title.isEmpty())
+            title = mContext.getString(R.string.about_facebook);
         Element facebookElement = new Element();
         facebookElement.setTitle(title);
         facebookElement.setIconDrawable(R.drawable.about_icon_facebook);
@@ -128,10 +129,10 @@ public class AboutPage {
     }
 
     public AboutPage addTwitter(String id, String title) {
-        if(id==null || id.isEmpty())
+        if (id == null || id.isEmpty())
             return this;
-        if(title==null ||title.isEmpty())
-            title=mContext.getString(R.string.about_twitter);
+        if (title == null || title.isEmpty())
+            title = mContext.getString(R.string.about_twitter);
         Element twitterElement = new Element();
         twitterElement.setTitle(title);
         twitterElement.setIconDrawable(R.drawable.about_icon_twitter);
@@ -160,10 +161,10 @@ public class AboutPage {
     }
 
     public AboutPage addPlayStore(String id, String title) {
-        if(id==null || id.isEmpty())
+        if (id == null || id.isEmpty())
             return this;
-        if(title==null ||title.isEmpty())
-            title=mContext.getString(R.string.about_play_store);
+        if (title == null || title.isEmpty())
+            title = mContext.getString(R.string.about_play_store);
         Element playStoreElement = new Element();
         playStoreElement.setTitle(title);
         playStoreElement.setIconDrawable(R.drawable.about_icon_google_play);
@@ -184,10 +185,10 @@ public class AboutPage {
     }
 
     public AboutPage addYoutube(String id, String title) {
-        if(id==null || id.isEmpty())
+        if (id == null || id.isEmpty())
             return this;
-      if(title==null ||title.isEmpty())
-          title= mContext.getString(R.string.about_youtube);
+        if (title == null || title.isEmpty())
+            title = mContext.getString(R.string.about_youtube);
         Element youtubeElement = new Element();
         youtubeElement.setTitle(title);
         youtubeElement.setIconDrawable(R.drawable.about_icon_youtube);
@@ -209,15 +210,15 @@ public class AboutPage {
     }
 
 
-    public AboutPage addTelegram(String id){
-        return addTelegram(id , "");
+    public AboutPage addTelegram(String id) {
+        return addTelegram(id, "");
     }
 
-    public AboutPage addTelegram(String id, String title){
-        if(id==null || id.isEmpty())
+    public AboutPage addTelegram(String id, String title) {
+        if (id == null || id.isEmpty())
             return this;
-        if(title==null ||title.isEmpty())
-            title=mContext.getString(R.string.about_telegram);
+        if (title == null || title.isEmpty())
+            title = mContext.getString(R.string.about_telegram);
         Element telegramElement = new Element();
         telegramElement.setTitle(title);
         telegramElement.setIconDrawable(R.drawable.about_icon_telegram);
@@ -239,21 +240,21 @@ public class AboutPage {
     }
 
 
-    public AboutPage addPhone(String id){
-        return addPhone(id , mContext.getString(R.string.about_phone));
+    public AboutPage addPhone(String id) {
+        return addPhone(id, mContext.getString(R.string.about_phone));
     }
 
-    public AboutPage addPhone(String id, String title){
-        if(id==null || id.isEmpty())
+    public AboutPage addPhone(String id, String title) {
+        if (id == null || id.isEmpty())
             return this;
-        if(title==null || title.isEmpty())
-            title=mContext.getString(R.string.about_phone);
+        if (title == null || title.isEmpty())
+            title = mContext.getString(R.string.about_phone);
         Element phoneElement = new Element();
         phoneElement.setTitle(title);
         phoneElement.setIconDrawable(R.drawable.about_icon_phone);
         phoneElement.setValue(id);
 
-        Intent intent = new Intent(Intent.ACTION_DIAL , Uri.parse("tel:" + id));
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + id));
 
         phoneElement.setIntent(intent);
         addItem(phoneElement);
@@ -267,10 +268,10 @@ public class AboutPage {
     }
 
     public AboutPage addInstagram(String id, String title) {
-        if(id==null || id.isEmpty())
+        if (id == null || id.isEmpty())
             return this;
-        if(title==null ||title.isEmpty())
-            title=mContext.getString(R.string.about_instagram);
+        if (title == null || title.isEmpty())
+            title = mContext.getString(R.string.about_instagram);
         Element instagramElement = new Element();
         instagramElement.setTitle(title);
         instagramElement.setIconDrawable(R.drawable.about_icon_instagram);
@@ -297,10 +298,10 @@ public class AboutPage {
     }
 
     public AboutPage addGitHub(String id, String title) {
-        if(id==null || id.isEmpty())
+        if (id == null || id.isEmpty())
             return this;
-        if(title==null ||title.isEmpty())
-            title=mContext.getString(R.string.about_github);
+        if (title == null || title.isEmpty())
+            title = mContext.getString(R.string.about_github);
 
         Element gitHubElement = new Element();
         gitHubElement.setTitle(title);
@@ -325,10 +326,10 @@ public class AboutPage {
     }
 
     public AboutPage addWebsite(String url, String title) {
-        if(url==null || url.isEmpty())
+        if (url == null || url.isEmpty())
             return this;
-        if(title==null ||title.isEmpty())
-            title=mContext.getString(R.string.about_website);
+        if (title == null || title.isEmpty())
+            title = mContext.getString(R.string.about_website);
 
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
             url = "http://" + url;

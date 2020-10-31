@@ -50,12 +50,12 @@ import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.BlogAdapter;
 import ntk.android.ticketing.adapter.AdCommentBlog;
 import ntk.android.ticketing.adapter.AdTabBlog;
-import ntk.android.ticketing.config.ConfigRestHeader;
-import ntk.android.ticketing.config.ConfigStaticValue;
+import ntk.android.base.config.ConfigRestHeader;
+import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.ticketing.event.BlogHtmlBodyEvent;
-import ntk.android.ticketing.utill.AppUtill;
-import ntk.android.ticketing.utill.EasyPreference;
-import ntk.android.ticketing.utill.FontManager;
+import ntk.android.base.utill.AppUtill;
+import ntk.android.base.utill.EasyPreference;
+import ntk.android.base.utill.FontManager;
 import ntk.base.api.blog.interfase.IBlog;
 import ntk.base.api.blog.model.BlogCommentAddRequest;
 import ntk.base.api.blog.model.BlogCommentListRequest;
@@ -71,7 +71,7 @@ import ntk.base.api.blog.model.BlogContentResponse;
 import ntk.base.api.blog.model.BlogContentViewRequest;
 import ntk.base.api.core.entity.CoreMain;
 import ntk.base.api.baseModel.Filters;
-import ntk.base.api.utill.RetrofitManager;
+import ntk.android.base.config.RetrofitManager;
 
 public class BlogDetailActivity extends AppCompatActivity {
 

@@ -1,16 +1,18 @@
 package ntk.android.ticketing.activity;
 
-import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,19 +26,19 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import ntk.android.base.config.ConfigRestHeader;
+import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.utill.AppUtill;
+import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.BlogAdapter;
-import ntk.android.ticketing.config.ConfigRestHeader;
-import ntk.android.ticketing.config.ConfigStaticValue;
-import ntk.android.ticketing.utill.AppUtill;
-import ntk.android.ticketing.utill.FontManager;
-import ntk.base.api.blog.interfase.IBlog;
+import ntk.base.api.baseModel.Filters;
 import ntk.base.api.blog.entity.BlogContent;
+import ntk.base.api.blog.interfase.IBlog;
 import ntk.base.api.blog.model.BlogContentListRequest;
 import ntk.base.api.blog.model.BlogContentListResponse;
-import ntk.base.api.baseModel.Filters;
 import ntk.base.api.utill.NTKUtill;
-import ntk.base.api.utill.RetrofitManager;
+import ntk.android.base.config.RetrofitManager;
 
 public class BlogSearchActivity extends AppCompatActivity {
 

@@ -13,13 +13,13 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.ticketing.BuildConfig;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.config.ConfigRestHeader;
-import ntk.android.ticketing.config.ConfigStaticValue;
+import ntk.android.base.config.ConfigRestHeader;
+import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.ticketing.library.about.AboutPage;
 import ntk.android.ticketing.library.about.Element;
 import ntk.base.api.core.interfase.ICore;
 import ntk.base.api.core.model.CoreAboutUsResponse;
-import ntk.base.api.utill.RetrofitManager;
+import ntk.android.base.config.RetrofitManager;
 
 public class AboutUsActivity extends AppCompatActivity {
 

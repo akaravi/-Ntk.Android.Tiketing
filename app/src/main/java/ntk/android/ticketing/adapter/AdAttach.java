@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.event.RemoveAttachEvent;
-import ntk.android.ticketing.utill.FontManager;
+import ntk.android.base.utill.FontManager;
 
 public class AdAttach extends RecyclerView.Adapter<AdAttach.ViewHolder> {
 

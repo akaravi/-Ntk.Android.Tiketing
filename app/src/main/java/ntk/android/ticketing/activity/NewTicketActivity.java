@@ -32,11 +32,13 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -53,17 +55,19 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import ntk.android.base.activity.BaseActivity;
+import ntk.android.base.config.ConfigRestHeader;
+import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.utill.AppUtill;
+import ntk.android.base.utill.EasyPreference;
+import ntk.android.base.utill.FontManager;
+import ntk.android.base.utill.Regex;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdAttach;
 import ntk.android.ticketing.adapter.AdSpinner;
-import ntk.android.ticketing.config.ConfigRestHeader;
-import ntk.android.ticketing.config.ConfigStaticValue;
 import ntk.android.ticketing.event.RemoveAttachEvent;
-import ntk.android.ticketing.utill.AppUtill;
-import ntk.android.ticketing.utill.EasyPreference;
-import ntk.android.ticketing.utill.FontManager;
-import ntk.android.ticketing.utill.Regex;
 import ntk.base.api.baseModel.FilterModel;
+import ntk.base.api.file.entity.FileUploadModel;
 import ntk.base.api.file.interfase.IFile;
 import ntk.base.api.member.model.MemberUserActAddRequest;
 import ntk.base.api.ticket.entity.TicketingDepartemen;
@@ -71,10 +75,11 @@ import ntk.base.api.ticket.entity.TicketingTask;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingDepartemenResponse;
 import ntk.base.api.ticket.model.TicketingTaskResponse;
-import ntk.base.api.utill.RetrofitManager;
+import ntk.android.base.config.RetrofitManager;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 
 public class NewTicketActivity extends BaseActivity {
 
@@ -494,19 +499,25 @@ public class NewTicketActivity extends BaseActivity {
             RetrofitManager retro = new RetrofitManager(this);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
             IFile iFile = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IFile.class);
-            Observable<String> Call = iFile.uploadFileWithPartMap(headers, new HashMap<>(), MultipartBody.Part.createFormData("File", file.getName(), requestFile));
+            Observable<ResponseBody> Call = iFile.uploadFileWithPartMap(headers, new HashMap<>(), MultipartBody.Part.createFormData("File", file.getName(), requestFile));
             Call.observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<String>() {
+                    .subscribe(new Observer<ResponseBody>() {
                         @Override
                         public void onSubscribe(Disposable d) {
                         }
 
                         @Override
-                        public void onNext(String model) {
-                            adapter.notifyDataSetChanged();
-                            fileId.add(model);
-                            Btn.setVisibility(View.VISIBLE);
+            public void onNext(ResponseBody model) {
+                            try {
+                               String uploadedString = new Gson().fromJson(model.string(), FileUploadModel.class).FileKey;
+                                adapter.notifyDataSetChanged();
+                                fileId.add(uploadedString);
+                                Btn.setVisibility(View.VISIBLE);
+                            } catch (IOException e) {
+                                Toasty.warning(NewTicketActivity.this, "خطای خواندن اطلاعات", Toasty.LENGTH_LONG, true).show();
+                            }
+
                         }
 
                         @Override

@@ -1,10 +1,12 @@
 package ntk.android.ticketing.activity;
 
 import android.os.Bundle;
+import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.widget.TextView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -13,15 +15,16 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import ntk.android.base.activity.BaseActivity;
+import ntk.android.base.config.ConfigRestHeader;
+import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.utill.AppUtill;
+import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdPoolCategory;
-import ntk.android.ticketing.config.ConfigRestHeader;
-import ntk.android.ticketing.config.ConfigStaticValue;
-import ntk.android.ticketing.utill.AppUtill;
-import ntk.android.ticketing.utill.FontManager;
 import ntk.base.api.pooling.interfase.IPooling;
 import ntk.base.api.pooling.model.PoolingCategoryResponse;
-import ntk.base.api.utill.RetrofitManager;
+import ntk.android.base.config.RetrofitManager;
 
 public class PoolingActivity extends BaseActivity {
 
@@ -47,41 +50,42 @@ public class PoolingActivity extends BaseActivity {
             // show loading
             switcher.showProgressView();
             RetrofitManager manager = new RetrofitManager(this);
-        IPooling iPooling = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IPooling.class);
-        Observable<PoolingCategoryResponse> call = iPooling.GetCategoryList(new ConfigRestHeader().GetHeaders(this));
-        call.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<PoolingCategoryResponse>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(PoolingCategoryResponse poolingCategoryResponse) {
-                        if (poolingCategoryResponse.IsSuccess) {
-                            AdPoolCategory adapter = new AdPoolCategory(PoolingActivity.this, poolingCategoryResponse.ListItems);
-                            Rv.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
-                            if (adapter.getItemCount() > 0)
-                                switcher.showContentView();
-                            else
-                                switcher.showEmptyView();
+            IPooling iPooling = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IPooling.class);
+            Observable<PoolingCategoryResponse> call = iPooling.GetCategoryList(new ConfigRestHeader().GetHeaders(this));
+            call.observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new Observer<PoolingCategoryResponse>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
 
                         }
-                    }
 
-                    @Override
-                    public void onError(Throwable e){
-                        switcher.showErrorView("خطای سامانه مجددا تلاش کنید", () -> init());
+                        @Override
+                        public void onNext(PoolingCategoryResponse poolingCategoryResponse) {
+                            if (poolingCategoryResponse.IsSuccess) {
+                                AdPoolCategory adapter = new AdPoolCategory(PoolingActivity.this, poolingCategoryResponse.ListItems);
+                                Rv.setAdapter(adapter);
+                                adapter.notifyDataSetChanged();
+                                if (adapter.getItemCount() > 0)
+                                    switcher.showContentView();
+                                else
+                                    switcher.showEmptyView();
 
-                    }
+                            }
+                        }
 
-                    @Override
-                    public void onComplete() {
+                        @Override
+                        public void onError(Throwable e) {
+                            switcher.showErrorView("خطای سامانه مجددا تلاش کنید", () -> init());
 
-                    }
-                }); } else {
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+        } else {
             switcher.showErrorView("عدم دسترسی به اینترنت", () -> init());
 
         }

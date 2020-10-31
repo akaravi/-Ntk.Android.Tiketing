@@ -47,11 +47,11 @@ import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdCommentNews;
 import ntk.android.ticketing.adapter.NewsAdapter;
 import ntk.android.ticketing.adapter.AdTabNews;
-import ntk.android.ticketing.config.ConfigRestHeader;
-import ntk.android.ticketing.config.ConfigStaticValue;
-import ntk.android.ticketing.utill.AppUtill;
-import ntk.android.ticketing.utill.EasyPreference;
-import ntk.android.ticketing.utill.FontManager;
+import ntk.android.base.config.ConfigRestHeader;
+import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.utill.AppUtill;
+import ntk.android.base.utill.EasyPreference;
+import ntk.android.base.utill.FontManager;
 import ntk.base.api.core.entity.CoreMain;
 import ntk.base.api.baseModel.Filters;
 import ntk.base.api.news.interfase.INews;
@@ -67,7 +67,7 @@ import ntk.base.api.news.model.NewsContentOtherInfoRequest;
 import ntk.base.api.news.model.NewsContentOtherInfoResponse;
 import ntk.base.api.news.model.NewsContentResponse;
 import ntk.base.api.news.model.NewsContentViewRequest;
-import ntk.base.api.utill.RetrofitManager;
+import ntk.android.base.config.RetrofitManager;
 
 public class NewsDetailActivity extends AppCompatActivity {
 

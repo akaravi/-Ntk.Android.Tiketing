@@ -22,13 +22,13 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdDetailPoolCategory;
-import ntk.android.ticketing.config.ConfigRestHeader;
-import ntk.android.ticketing.config.ConfigStaticValue;
-import ntk.android.ticketing.utill.FontManager;
+import ntk.android.base.config.ConfigRestHeader;
+import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.utill.FontManager;
 import ntk.base.api.pooling.interfase.IPooling;
 import ntk.base.api.pooling.model.PoolingContentListRequest;
 import ntk.base.api.pooling.model.PoolingContentListResponse;
-import ntk.base.api.utill.RetrofitManager;
+import ntk.android.base.config.RetrofitManager;
 
 public class PoolingDetailActivity extends AppCompatActivity {
 

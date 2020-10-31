@@ -1,12 +1,13 @@
 package ntk.android.ticketing.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 import java.util.Map;
@@ -20,17 +21,17 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import ntk.android.base.config.ConfigRestHeader;
+import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.utill.AppUtill;
+import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.config.ConfigRestHeader;
-import ntk.android.ticketing.config.ConfigStaticValue;
-import ntk.android.ticketing.utill.AppUtill;
-import ntk.android.ticketing.utill.FontManager;
-import ntk.base.api.blog.interfase.IBlog;
 import ntk.base.api.blog.entity.BlogComment;
+import ntk.base.api.blog.interfase.IBlog;
 import ntk.base.api.blog.model.BlogCommentResponse;
 import ntk.base.api.blog.model.BlogCommentViewRequest;
 import ntk.base.api.utill.NTKClientAction;
-import ntk.base.api.utill.RetrofitManager;
+import ntk.android.base.config.RetrofitManager;
 
 public class AdCommentBlog extends RecyclerView.Adapter<AdCommentBlog.ViewHolder> {
 

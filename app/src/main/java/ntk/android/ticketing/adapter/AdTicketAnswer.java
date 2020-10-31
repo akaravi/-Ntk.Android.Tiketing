@@ -14,8 +14,8 @@ import java.util.List;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.utill.AppUtill;
-import ntk.android.ticketing.utill.FontManager;
+import ntk.android.base.utill.AppUtill;
+import ntk.android.base.utill.FontManager;
 import ntk.base.api.ticket.entity.TicketingAnswer;
 
 public class AdTicketAnswer extends RecyclerView.Adapter<AdTicketAnswer.ViewHolder> {

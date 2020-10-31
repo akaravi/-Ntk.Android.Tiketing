@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.BlogDetailActivity;
-import ntk.android.ticketing.utill.FontManager;
+import ntk.android.base.utill.FontManager;
 import ntk.base.api.blog.entity.BlogContent;
 import ntk.base.api.blog.model.BlogContentViewRequest;
 

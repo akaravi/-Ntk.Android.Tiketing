@@ -1,8 +1,8 @@
 package ntk.android.ticketing;
 
 import android.content.Context;
+
 import androidx.multidex.MultiDex;
-import androidx.multidex.MultiDexApplication;
 
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiskCache;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -11,9 +11,11 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import java.io.File;
 
 import es.dmoral.toasty.Toasty;
-import ntk.android.ticketing.utill.FontManager;
+import ntk.android.base.ApplicationParameter;
+import ntk.android.base.NTKBASEApplication;
+import ntk.android.base.utill.FontManager;
 
-public class TicketingApp extends MultiDexApplication {
+public class TicketingApp extends NTKBASEApplication {
 
     public static boolean Inbox = false;
 
@@ -41,5 +43,10 @@ public class TicketingApp extends MultiDexApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(base);
+    }
+
+    @Override
+    public ApplicationParameter getApplicationParameter() {
+        return new ApplicationParameter(BuildConfig.APPLICATION_ID, BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE);
     }
 }
