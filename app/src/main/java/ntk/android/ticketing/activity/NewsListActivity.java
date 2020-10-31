@@ -32,7 +32,6 @@ import ntk.base.api.news.entity.NewsContent;
 import ntk.base.api.news.interfase.INews;
 import ntk.base.api.news.model.NewsContentListRequest;
 import ntk.base.api.news.model.NewsContentResponse;
-import ntk.android.base.config.RetrofitManager;
 
 public class NewsListActivity extends BaseActivity {
 
@@ -89,8 +88,7 @@ public class NewsListActivity extends BaseActivity {
     private void RestCall(int i) {
         if (AppUtill.isNetworkAvailable(this)) {
             switcher.showProgressView();
-            RetrofitManager manager = new RetrofitManager(this);
-            INews iNews = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(INews.class);
+            INews iNews = new RetrofitManager(this).getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(INews.class);
 
             NewsContentListRequest request = new NewsContentListRequest();
             request.RowPerPage = 20;

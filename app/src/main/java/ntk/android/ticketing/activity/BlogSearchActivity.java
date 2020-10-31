@@ -38,7 +38,6 @@ import ntk.base.api.blog.interfase.IBlog;
 import ntk.base.api.blog.model.BlogContentListRequest;
 import ntk.base.api.blog.model.BlogContentListResponse;
 import ntk.base.api.utill.NTKUtill;
-import ntk.android.base.config.RetrofitManager;
 
 public class BlogSearchActivity extends AppCompatActivity {
 
@@ -85,8 +84,8 @@ public class BlogSearchActivity extends AppCompatActivity {
 
     private void Search() {
         if (AppUtill.isNetworkAvailable(this)) {
-            RetrofitManager manager = new RetrofitManager(this);
-            IBlog iBlog = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IBlog.class);
+
+            IBlog iBlog = new RetrofitManager(this).getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IBlog.class);
 
             BlogContentListRequest request = new BlogContentListRequest();
             List<Filters> filters = new ArrayList<>();

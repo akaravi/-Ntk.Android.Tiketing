@@ -19,7 +19,6 @@ import ntk.android.ticketing.library.about.AboutPage;
 import ntk.android.ticketing.library.about.Element;
 import ntk.base.api.core.interfase.ICore;
 import ntk.base.api.core.model.CoreAboutUsResponse;
-import ntk.android.base.config.RetrofitManager;
 
 public class AboutUsActivity extends AppCompatActivity {
 
@@ -30,8 +29,7 @@ public class AboutUsActivity extends AppCompatActivity {
     }
 
     private void init() {
-        RetrofitManager manager = new RetrofitManager(this);
-        ICore iAbout = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ICore.class);
+        ICore iAbout = new RetrofitManager(this).getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ICore.class);
         Observable<CoreAboutUsResponse> about = iAbout.GetAbout(new ConfigRestHeader().GetHeaders(this));
         about.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

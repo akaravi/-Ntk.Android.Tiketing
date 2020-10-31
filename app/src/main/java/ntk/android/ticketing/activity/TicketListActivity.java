@@ -27,7 +27,6 @@ import ntk.android.base.activity.BaseActivity;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdTicket;
 import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.EndlessRecyclerViewScrollListener;
 import ntk.base.api.ticket.entity.TicketingTask;
@@ -35,7 +34,6 @@ import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingListRequest;
 import ntk.base.api.ticket.model.TicketingTaskResponse;
 import ntk.base.api.utill.NTKUtill;
-import ntk.android.base.config.RetrofitManager;
 
 
 public class TicketListActivity extends BaseActivity {
@@ -119,7 +117,7 @@ public class TicketListActivity extends BaseActivity {
     private void HandelData(int i) {
         if (AppUtill.isNetworkAvailable(this)) {
             RetrofitManager retro = new RetrofitManager(this);
-            ITicket iTicket = retro.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
+            ITicket iTicket = retro.getCachedRetrofit().create(ITicket.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
 
             TicketingListRequest request = new TicketingListRequest();

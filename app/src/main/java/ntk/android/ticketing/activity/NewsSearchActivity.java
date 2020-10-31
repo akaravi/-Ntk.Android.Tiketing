@@ -35,7 +35,6 @@ import ntk.base.api.news.interfase.INews;
 import ntk.base.api.news.model.NewsContentListRequest;
 import ntk.base.api.news.model.NewsContentResponse;
 import ntk.base.api.utill.NTKUtill;
-import ntk.android.base.config.RetrofitManager;
 
 public class NewsSearchActivity extends BaseActivity {
 
@@ -84,8 +83,7 @@ public class NewsSearchActivity extends BaseActivity {
         if (!searchLock) {
             searchLock = true;
             if (AppUtill.isNetworkAvailable(this)) {
-                RetrofitManager manager = new RetrofitManager(this);
-                INews iNews = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(INews.class);
+                INews iNews = new RetrofitManager(this).getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(INews.class);
 
 
                 NewsContentListRequest request = new NewsContentListRequest();

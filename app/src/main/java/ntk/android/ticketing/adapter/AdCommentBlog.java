@@ -22,7 +22,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
@@ -31,7 +30,6 @@ import ntk.base.api.blog.interfase.IBlog;
 import ntk.base.api.blog.model.BlogCommentResponse;
 import ntk.base.api.blog.model.BlogCommentViewRequest;
 import ntk.base.api.utill.NTKClientAction;
-import ntk.android.base.config.RetrofitManager;
 
 public class AdCommentBlog extends RecyclerView.Adapter<AdCommentBlog.ViewHolder> {
 
@@ -66,7 +64,7 @@ public class AdCommentBlog extends RecyclerView.Adapter<AdCommentBlog.ViewHolder
             request.Id = arrayList.get(position).Id;
             request.ActionClientOrder = NTKClientAction.LikeClientAction;
             RetrofitManager retro = new RetrofitManager(context);
-            IBlog iBlog = retro.getRetrofitUnCached(new ConfigStaticValue(context).GetApiBaseUrl()).create(IBlog.class);
+            IBlog iBlog = retro.getRetrofitUnCached().create(IBlog.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);
             Observable<BlogCommentResponse> call = iBlog.GetCommentView(headers, request);
             call.observeOn(AndroidSchedulers.mainThread())
@@ -103,7 +101,7 @@ public class AdCommentBlog extends RecyclerView.Adapter<AdCommentBlog.ViewHolder
             request.Id = arrayList.get(position).Id;
             request.ActionClientOrder = NTKClientAction.DisLikeClientAction;
             RetrofitManager retro = new RetrofitManager(context);
-            IBlog iBlog = retro.getRetrofitUnCached(new ConfigStaticValue(context).GetApiBaseUrl()).create(IBlog.class);
+            IBlog iBlog = retro.getRetrofitUnCached().create(IBlog.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);
             Observable<BlogCommentResponse> call = iBlog.GetCommentView(headers, request);
             call.observeOn(AndroidSchedulers.mainThread())

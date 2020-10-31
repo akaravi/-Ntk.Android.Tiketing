@@ -5,13 +5,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
@@ -26,6 +19,14 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -43,17 +44,18 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import ntk.android.ticketing.R;
-import ntk.android.ticketing.adapter.AdCommentNews;
-import ntk.android.ticketing.adapter.NewsAdapter;
-import ntk.android.ticketing.adapter.AdTabNews;
 import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.EasyPreference;
 import ntk.android.base.utill.FontManager;
-import ntk.base.api.core.entity.CoreMain;
+import ntk.android.ticketing.R;
+import ntk.android.ticketing.adapter.AdCommentNews;
+import ntk.android.ticketing.adapter.AdTabNews;
+import ntk.android.ticketing.adapter.NewsAdapter;
 import ntk.base.api.baseModel.Filters;
+import ntk.base.api.core.entity.CoreMain;
+import ntk.base.api.news.entity.NewsContentOtherInfo;
 import ntk.base.api.news.interfase.INews;
 import ntk.base.api.news.model.NewsCommentAddRequest;
 import ntk.base.api.news.model.NewsCommentListRequest;
@@ -62,12 +64,10 @@ import ntk.base.api.news.model.NewsContentFavoriteAddRequest;
 import ntk.base.api.news.model.NewsContentFavoriteAddResponse;
 import ntk.base.api.news.model.NewsContentFavoriteRemoveRequest;
 import ntk.base.api.news.model.NewsContentFavoriteRemoveResponse;
-import ntk.base.api.news.entity.NewsContentOtherInfo;
 import ntk.base.api.news.model.NewsContentOtherInfoRequest;
 import ntk.base.api.news.model.NewsContentOtherInfoResponse;
 import ntk.base.api.news.model.NewsContentResponse;
 import ntk.base.api.news.model.NewsContentViewRequest;
-import ntk.android.base.config.RetrofitManager;
 
 public class NewsDetailActivity extends AppCompatActivity {
 
@@ -185,8 +185,8 @@ public class NewsDetailActivity extends AppCompatActivity {
                     if (rating == 5) {
                         request.ScorePercent = 100;
                     }
-                    RetrofitManager manager = new RetrofitManager(NewsDetailActivity.this);
-                    INews iNews = manager.getRetrofitUnCached(new ConfigStaticValue(NewsDetailActivity.this).GetApiBaseUrl()).create(INews.class);
+
+                    INews iNews = new RetrofitManager(NewsDetailActivity.this).getRetrofitUnCached(new ConfigStaticValue(NewsDetailActivity.this).GetApiBaseUrl()).create(INews.class);
                     Map<String, String> headers = new ConfigRestHeader().GetHeaders(NewsDetailActivity.this);
 
                     Observable<NewsContentResponse> Call = iNews.GetContentView(headers, request);

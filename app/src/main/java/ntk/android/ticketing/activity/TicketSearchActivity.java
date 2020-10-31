@@ -35,7 +35,6 @@ import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingListRequest;
 import ntk.base.api.ticket.model.TicketingTaskResponse;
 import ntk.base.api.utill.NTKUtill;
-import ntk.android.base.config.RetrofitManager;
 
 public class TicketSearchActivity extends BaseActivity {
 
@@ -84,8 +83,7 @@ public class TicketSearchActivity extends BaseActivity {
         if (!searchLock) {
             searchLock = true;
             if (AppUtill.isNetworkAvailable(this)) {
-                RetrofitManager manager = new RetrofitManager(this);
-                ITicket iTicket = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
+                ITicket iTicket = new RetrofitManager(this).getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
 
 
                 TicketingListRequest request = new TicketingListRequest();

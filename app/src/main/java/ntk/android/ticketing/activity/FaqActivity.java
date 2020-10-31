@@ -20,7 +20,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.activity.BaseActivity;
 import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
@@ -28,7 +27,6 @@ import ntk.android.ticketing.adapter.FaqAdapter;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingFaqRequest;
 import ntk.base.api.ticket.model.TicketingFaqResponse;
-import ntk.android.base.config.RetrofitManager;
 
 public class FaqActivity extends BaseActivity {
 
@@ -55,7 +53,7 @@ public class FaqActivity extends BaseActivity {
             // show loading
             switcher.showProgressView();
             RetrofitManager retro = new RetrofitManager(this);
-            ITicket iTicket = retro.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
+            ITicket iTicket = retro.getCachedRetrofit().create(ITicket.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
 
             TicketingFaqRequest request = new TicketingFaqRequest();

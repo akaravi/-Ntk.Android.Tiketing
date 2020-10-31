@@ -71,7 +71,6 @@ import ntk.base.api.blog.model.BlogContentResponse;
 import ntk.base.api.blog.model.BlogContentViewRequest;
 import ntk.base.api.core.entity.CoreMain;
 import ntk.base.api.baseModel.Filters;
-import ntk.android.base.config.RetrofitManager;
 
 public class BlogDetailActivity extends AppCompatActivity {
 
@@ -188,8 +187,7 @@ public class BlogDetailActivity extends AppCompatActivity {
                     if (rating == 5) {
                         request.ScorePercent = 100;
                     }
-                    RetrofitManager manager = new RetrofitManager(BlogDetailActivity.this);
-                    IBlog iBlog = manager.getRetrofitUnCached(new ConfigStaticValue(BlogDetailActivity.this).GetApiBaseUrl()).create(IBlog.class);
+                    IBlog iBlog = new RetrofitManager(BlogDetailActivity.this).getRetrofitUnCached(new ConfigStaticValue(BlogDetailActivity.this).GetApiBaseUrl()).create(IBlog.class);
                     Map<String, String> headers = new ConfigRestHeader().GetHeaders(BlogDetailActivity.this);
 
                     Observable<BlogContentResponse> Call = iBlog.GetContentView(headers, request);

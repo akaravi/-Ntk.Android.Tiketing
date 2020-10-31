@@ -32,7 +32,6 @@ import ntk.base.api.blog.entity.BlogContent;
 import ntk.base.api.blog.interfase.IBlog;
 import ntk.base.api.blog.model.BlogContentListRequest;
 import ntk.base.api.blog.model.BlogContentListResponse;
-import ntk.android.base.config.RetrofitManager;
 
 public class BlogActivity extends BaseActivity {
 
@@ -88,8 +87,8 @@ public class BlogActivity extends BaseActivity {
     private void RestCall(int i) {
         if (AppUtill.isNetworkAvailable(this)) {
             switcher.showProgressView();
-            RetrofitManager manager = new RetrofitManager(this);
-            IBlog iBlog = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IBlog.class);
+
+            IBlog iBlog = new RetrofitManager(this).getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IBlog.class);
 
             BlogContentListRequest request = new BlogContentListRequest();
             request.RowPerPage = 20;

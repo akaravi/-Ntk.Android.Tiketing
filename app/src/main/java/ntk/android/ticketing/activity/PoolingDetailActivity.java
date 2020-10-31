@@ -28,7 +28,6 @@ import ntk.android.base.utill.FontManager;
 import ntk.base.api.pooling.interfase.IPooling;
 import ntk.base.api.pooling.model.PoolingContentListRequest;
 import ntk.base.api.pooling.model.PoolingContentListResponse;
-import ntk.android.base.config.RetrofitManager;
 
 public class PoolingDetailActivity extends AppCompatActivity {
 

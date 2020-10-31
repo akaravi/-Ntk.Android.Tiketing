@@ -72,7 +72,6 @@ import ntk.base.api.core.entity.CoreMain;
 import ntk.base.api.news.interfase.INews;
 import ntk.base.api.news.model.NewsContentListRequest;
 import ntk.base.api.news.model.NewsContentResponse;
-import ntk.android.base.config.RetrofitManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -277,8 +276,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void HandelSlider() {
-        RetrofitManager manager = new RetrofitManager(this);
-        INews iNews = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(INews.class);
+         INews iNews = new RetrofitManager(this).getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(INews.class);
 
         NewsContentListRequest request = new NewsContentListRequest();
         request.RowPerPage = 5;
@@ -386,8 +384,7 @@ public class MainActivity extends AppCompatActivity {
                 if (AppUtill.isNetworkAvailable(this)) {
                     request.ScoreComment = Txt.getText().toString();
                     //todo show loading
-                    RetrofitManager manager = new RetrofitManager(this);
-                    IApplication iCore = manager.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(IApplication.class);
+                    IApplication iCore = new RetrofitManager(this).getCachedRetrofit().create(IApplication.class);
                     Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
                     Observable<ApplicationScoreResponse> Call = iCore.SetScoreApplication(headers, request);
                     Call.observeOn(AndroidSchedulers.mainThread())

@@ -35,7 +35,6 @@ import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingFaqRequest;
 import ntk.base.api.ticket.model.TicketingFaqResponse;
 import ntk.base.api.utill.NTKUtill;
-import ntk.android.base.config.RetrofitManager;
 
 public class FaqSearchActivity extends BaseActivity {
 
@@ -84,8 +83,8 @@ public class FaqSearchActivity extends BaseActivity {
         if (!searchLock) {
             searchLock = true;
             if (AppUtill.isNetworkAvailable(this)) {
-                RetrofitManager manager = new RetrofitManager(this);
-                ITicket iTicket = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
+
+                ITicket iTicket = new RetrofitManager(this).getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
 
 
                 TicketingFaqRequest request = new TicketingFaqRequest();

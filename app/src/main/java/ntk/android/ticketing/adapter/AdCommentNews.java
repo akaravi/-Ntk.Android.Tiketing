@@ -22,7 +22,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
@@ -31,7 +30,6 @@ import ntk.base.api.news.interfase.INews;
 import ntk.base.api.news.model.NewsCommentResponse;
 import ntk.base.api.news.model.NewsCommentViewRequest;
 import ntk.base.api.utill.NTKClientAction;
-import ntk.android.base.config.RetrofitManager;
 
 public class AdCommentNews extends RecyclerView.Adapter<AdCommentNews.ViewHolder> {
 
@@ -66,7 +64,7 @@ public class AdCommentNews extends RecyclerView.Adapter<AdCommentNews.ViewHolder
             request.Id = arrayList.get(position).Id;
             request.ActionClientOrder = NTKClientAction.LikeClientAction;
             RetrofitManager retro = new RetrofitManager(context);
-            INews iNews = retro.getRetrofitUnCached(new ConfigStaticValue(context).GetApiBaseUrl()).create(INews.class);
+            INews iNews = retro.getRetrofitUnCached().create(INews.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);
             Observable<NewsCommentResponse> call = iNews.GetCommentView(headers, request);
             call.observeOn(AndroidSchedulers.mainThread())
@@ -103,7 +101,7 @@ public class AdCommentNews extends RecyclerView.Adapter<AdCommentNews.ViewHolder
             request.Id = arrayList.get(position).Id;
             request.ActionClientOrder = NTKClientAction.DisLikeClientAction;
             RetrofitManager retro = new RetrofitManager(context);
-            INews iNews = retro.getRetrofitUnCached(new ConfigStaticValue(context).GetApiBaseUrl()).create(INews.class);
+            INews iNews = retro.getRetrofitUnCached().create(INews.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);
             Observable<NewsCommentResponse> call = iNews.GetCommentView(headers, request);
             call.observeOn(AndroidSchedulers.mainThread())

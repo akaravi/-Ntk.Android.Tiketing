@@ -23,7 +23,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.ticketing.R;
 import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.utill.FontManager;
 import ntk.base.api.pooling.interfase.IPooling;
 import ntk.base.api.pooling.entity.PoolingContent;
@@ -31,7 +30,6 @@ import ntk.base.api.pooling.entity.PoolingOption;
 import ntk.base.api.pooling.model.PoolingSubmitRequest;
 import ntk.base.api.pooling.model.PoolingSubmitResponse;
 import ntk.base.api.pooling.entity.PoolingVote;
-import ntk.android.base.config.RetrofitManager;
 
 public class AdPoolPlusMines extends RecyclerView.Adapter<AdPoolPlusMines.ViewHolder> {
 
@@ -105,7 +103,7 @@ public class AdPoolPlusMines extends RecyclerView.Adapter<AdPoolPlusMines.ViewHo
             }
 
             RetrofitManager retro = new RetrofitManager(context);
-            IPooling iPooling = retro.getRetrofitUnCached(new ConfigStaticValue(context).GetApiBaseUrl()).create(IPooling.class);
+            IPooling iPooling = retro.getRetrofitUnCached().create(IPooling.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);
 
             Observable<PoolingSubmitResponse> observable = iPooling.SetSubmitPooling(headers, request);

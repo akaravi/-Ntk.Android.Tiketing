@@ -24,7 +24,6 @@ import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdPoolCategory;
 import ntk.base.api.pooling.interfase.IPooling;
 import ntk.base.api.pooling.model.PoolingCategoryResponse;
-import ntk.android.base.config.RetrofitManager;
 
 public class PoolingActivity extends BaseActivity {
 
@@ -49,8 +48,7 @@ public class PoolingActivity extends BaseActivity {
         if (AppUtill.isNetworkAvailable(this)) {
             // show loading
             switcher.showProgressView();
-            RetrofitManager manager = new RetrofitManager(this);
-            IPooling iPooling = manager.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IPooling.class);
+            IPooling iPooling = new RetrofitManager(this).getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IPooling.class);
             Observable<PoolingCategoryResponse> call = iPooling.GetCategoryList(new ConfigRestHeader().GetHeaders(this));
             call.observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())

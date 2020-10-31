@@ -66,7 +66,6 @@ import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingAnswerListRequest;
 import ntk.base.api.ticket.model.TicketingAnswerResponse;
 import ntk.base.api.ticket.model.TicketingAnswerSubmitRequest;
-import ntk.android.base.config.RetrofitManager;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -147,7 +146,7 @@ public class TicketAnswerActivity extends AppCompatActivity {
     private void HandelData(int i) {
         if (AppUtill.isNetworkAvailable(this)) {
             RetrofitManager retro = new RetrofitManager(this);
-            ITicket iTicket = retro.getCachedRetrofit(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
+            ITicket iTicket = retro.getCachedRetrofit().create(ITicket.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
             Observable<TicketingAnswerResponse> Call = iTicket.GetTicketAnswerActList(headers, new Gson().fromJson(getIntent().getExtras().getString("Request"), TicketingAnswerListRequest.class));
             Call.subscribeOn(Schedulers.io())

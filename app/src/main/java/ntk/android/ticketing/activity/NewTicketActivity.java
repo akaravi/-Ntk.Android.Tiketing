@@ -75,7 +75,6 @@ import ntk.base.api.ticket.entity.TicketingTask;
 import ntk.base.api.ticket.interfase.ITicket;
 import ntk.base.api.ticket.model.TicketingDepartemenResponse;
 import ntk.base.api.ticket.model.TicketingTaskResponse;
-import ntk.android.base.config.RetrofitManager;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
