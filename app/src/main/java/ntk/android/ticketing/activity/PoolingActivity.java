@@ -22,8 +22,9 @@ import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdPoolCategory;
-import ntk.base.api.pooling.interfase.IPooling;
-import ntk.base.api.pooling.model.PoolingCategoryResponse;
+import ntk.android.base.api.pooling.interfase.IPooling;
+import ntk.android.base.api.pooling.model.PoolingCategoryResponse;
+import ntk.android.base.config.RetrofitManager;
 
 public class PoolingActivity extends BaseActivity {
 

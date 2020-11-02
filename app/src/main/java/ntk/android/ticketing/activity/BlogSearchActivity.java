@@ -32,12 +32,13 @@ import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.BlogAdapter;
-import ntk.base.api.baseModel.Filters;
-import ntk.base.api.blog.entity.BlogContent;
-import ntk.base.api.blog.interfase.IBlog;
-import ntk.base.api.blog.model.BlogContentListRequest;
-import ntk.base.api.blog.model.BlogContentListResponse;
-import ntk.base.api.utill.NTKUtill;
+import ntk.android.base.api.baseModel.Filters;
+import ntk.android.base.api.blog.entity.BlogContent;
+import ntk.android.base.api.blog.interfase.IBlog;
+import ntk.android.base.api.blog.model.BlogContentListRequest;
+import ntk.android.base.api.blog.model.BlogContentListResponse;
+import ntk.android.base.api.utill.NTKUtill;
+import ntk.android.base.config.RetrofitManager;
 
 public class BlogSearchActivity extends AppCompatActivity {
 

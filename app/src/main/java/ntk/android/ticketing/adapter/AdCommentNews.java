@@ -25,11 +25,12 @@ import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
-import ntk.base.api.news.entity.NewsComment;
-import ntk.base.api.news.interfase.INews;
-import ntk.base.api.news.model.NewsCommentResponse;
-import ntk.base.api.news.model.NewsCommentViewRequest;
-import ntk.base.api.utill.NTKClientAction;
+import ntk.android.base.api.news.entity.NewsComment;
+import ntk.android.base.api.news.interfase.INews;
+import ntk.android.base.api.news.model.NewsCommentResponse;
+import ntk.android.base.api.news.model.NewsCommentViewRequest;
+import ntk.android.base.api.utill.NTKClientAction;
+import ntk.android.base.config.RetrofitManager;
 
 public class AdCommentNews extends RecyclerView.Adapter<AdCommentNews.ViewHolder> {
 

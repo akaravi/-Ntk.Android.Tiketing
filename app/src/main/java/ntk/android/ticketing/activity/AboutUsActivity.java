@@ -17,8 +17,9 @@ import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.ticketing.library.about.AboutPage;
 import ntk.android.ticketing.library.about.Element;
-import ntk.base.api.core.interfase.ICore;
-import ntk.base.api.core.model.CoreAboutUsResponse;
+import ntk.android.base.api.core.interfase.ICore;
+import ntk.android.base.api.core.model.CoreAboutUsResponse;
+import ntk.android.base.config.RetrofitManager;
 
 public class AboutUsActivity extends AppCompatActivity {
 

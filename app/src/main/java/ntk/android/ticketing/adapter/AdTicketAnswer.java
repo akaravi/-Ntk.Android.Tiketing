@@ -13,10 +13,10 @@ import java.util.List;
 
 import butterknife.BindViews;
 import butterknife.ButterKnife;
-import ntk.android.ticketing.R;
 import ntk.android.base.utill.AppUtill;
+import ntk.android.ticketing.R;
 import ntk.android.base.utill.FontManager;
-import ntk.base.api.ticket.entity.TicketingAnswer;
+import ntk.android.base.api.ticket.entity.TicketingAnswer;
 
 public class AdTicketAnswer extends RecyclerView.Adapter<AdTicketAnswer.ViewHolder> {
 

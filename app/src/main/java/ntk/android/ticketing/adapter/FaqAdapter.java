@@ -16,7 +16,7 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
 import ntk.android.base.utill.FontManager;
-import ntk.base.api.ticket.entity.TicketingFaq;
+import ntk.android.base.api.ticket.entity.TicketingFaq;
 
 public class FaqAdapter extends RecyclerView.Adapter<FaqAdapter.ViewHolder> {
 

@@ -16,9 +16,9 @@ import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.PoolingDetailActivity;
 import ntk.android.base.utill.FontManager;
-import ntk.base.api.baseModel.Filters;
-import ntk.base.api.pooling.entity.PoolingCategory;
-import ntk.base.api.pooling.model.PoolingContentListRequest;
+import ntk.android.base.api.baseModel.Filters;
+import ntk.android.base.api.pooling.entity.PoolingCategory;
+import ntk.android.base.api.pooling.model.PoolingContentListRequest;
 
 public class AdPoolCategory extends RecyclerView.Adapter<AdPoolCategory.ViewHolder> {
 

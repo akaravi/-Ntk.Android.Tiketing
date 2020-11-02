@@ -21,17 +21,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.activity.BaseActivity;
-import ntk.android.ticketing.R;
-import ntk.android.ticketing.adapter.BlogAdapter;
+import ntk.android.base.api.blog.entity.BlogContent;
+import ntk.android.base.api.blog.interfase.IBlog;
+import ntk.android.base.api.blog.model.BlogContentListRequest;
+import ntk.android.base.api.blog.model.BlogContentListResponse;
 import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.config.RetrofitManager;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.EndlessRecyclerViewScrollListener;
 import ntk.android.base.utill.FontManager;
-import ntk.base.api.blog.entity.BlogContent;
-import ntk.base.api.blog.interfase.IBlog;
-import ntk.base.api.blog.model.BlogContentListRequest;
-import ntk.base.api.blog.model.BlogContentListResponse;
+import ntk.android.ticketing.R;
+import ntk.android.ticketing.adapter.BlogAdapter;
 
 public class BlogActivity extends BaseActivity {
 

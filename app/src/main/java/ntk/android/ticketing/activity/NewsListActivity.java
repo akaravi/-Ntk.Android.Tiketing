@@ -21,17 +21,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.activity.BaseActivity;
-import ntk.android.ticketing.R;
-import ntk.android.ticketing.adapter.NewsAdapter;
 import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.EndlessRecyclerViewScrollListener;
 import ntk.android.base.utill.FontManager;
-import ntk.base.api.news.entity.NewsContent;
-import ntk.base.api.news.interfase.INews;
-import ntk.base.api.news.model.NewsContentListRequest;
-import ntk.base.api.news.model.NewsContentResponse;
+import ntk.android.ticketing.R;
+import ntk.android.ticketing.adapter.NewsAdapter;
+import ntk.android.base.api.news.entity.NewsContent;
+import ntk.android.base.api.news.interfase.INews;
+import ntk.android.base.api.news.model.NewsContentListRequest;
+import ntk.android.base.api.news.model.NewsContentResponse;
+import ntk.android.base.config.RetrofitManager;
 
 public class NewsListActivity extends BaseActivity {
 

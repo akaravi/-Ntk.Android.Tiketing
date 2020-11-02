@@ -29,12 +29,13 @@ import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdTicket;
-import ntk.base.api.baseModel.Filters;
-import ntk.base.api.ticket.entity.TicketingTask;
-import ntk.base.api.ticket.interfase.ITicket;
-import ntk.base.api.ticket.model.TicketingListRequest;
-import ntk.base.api.ticket.model.TicketingTaskResponse;
-import ntk.base.api.utill.NTKUtill;
+import ntk.android.base.api.baseModel.Filters;
+import ntk.android.base.api.ticket.entity.TicketingTask;
+import ntk.android.base.api.ticket.interfase.ITicket;
+import ntk.android.base.api.ticket.model.TicketingListRequest;
+import ntk.android.base.api.ticket.model.TicketingTaskResponse;
+import ntk.android.base.api.utill.NTKUtill;
+import ntk.android.base.config.RetrofitManager;
 
 public class TicketSearchActivity extends BaseActivity {
 

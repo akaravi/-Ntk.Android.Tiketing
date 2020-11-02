@@ -12,10 +12,11 @@ import java.io.File;
 
 import es.dmoral.toasty.Toasty;
 import ntk.android.base.ApplicationParameter;
-import ntk.android.base.NTKBASEApplication;
+import ntk.android.base.BaseNtkApplication;
+import ntk.android.base.NTKApplication;
 import ntk.android.base.utill.FontManager;
 
-public class TicketingApp extends NTKBASEApplication {
+public class TicketingApp extends NTKApplication {
 
     public static boolean Inbox = false;
 

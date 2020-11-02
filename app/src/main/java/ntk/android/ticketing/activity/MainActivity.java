@@ -65,13 +65,14 @@ import ntk.android.ticketing.BuildConfig;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdCoreImage;
 import ntk.android.ticketing.event.toolbar.EVSearchClick;
-import ntk.base.api.application.interfase.IApplication;
-import ntk.base.api.application.model.ApplicationScoreRequest;
-import ntk.base.api.application.model.ApplicationScoreResponse;
-import ntk.base.api.core.entity.CoreMain;
-import ntk.base.api.news.interfase.INews;
-import ntk.base.api.news.model.NewsContentListRequest;
-import ntk.base.api.news.model.NewsContentResponse;
+import ntk.android.base.api.application.interfase.IApplication;
+import ntk.android.base.api.application.model.ApplicationScoreRequest;
+import ntk.android.base.api.application.model.ApplicationScoreResponse;
+import ntk.android.base.api.core.entity.CoreMain;
+import ntk.android.base.api.news.interfase.INews;
+import ntk.android.base.api.news.model.NewsContentListRequest;
+import ntk.android.base.api.news.model.NewsContentResponse;
+import ntk.android.base.config.RetrofitManager;
 
 public class MainActivity extends AppCompatActivity {
 

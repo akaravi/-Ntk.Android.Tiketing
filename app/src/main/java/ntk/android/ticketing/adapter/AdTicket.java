@@ -18,13 +18,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import ntk.android.base.utill.AppUtill;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.TicketAnswerActivity;
-import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
-import ntk.base.api.baseModel.Filters;
-import ntk.base.api.ticket.model.TicketingAnswerListRequest;
-import ntk.base.api.ticket.entity.TicketingTask;
+import ntk.android.base.api.baseModel.Filters;
+import ntk.android.base.api.ticket.model.TicketingAnswerListRequest;
+import ntk.android.base.api.ticket.entity.TicketingTask;
 
 public class AdTicket extends RecyclerView.Adapter<AdTicket.ViewHolder> {
 

@@ -29,12 +29,13 @@ import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.NewsAdapter;
-import ntk.base.api.baseModel.Filters;
-import ntk.base.api.news.entity.NewsContent;
-import ntk.base.api.news.interfase.INews;
-import ntk.base.api.news.model.NewsContentListRequest;
-import ntk.base.api.news.model.NewsContentResponse;
-import ntk.base.api.utill.NTKUtill;
+import ntk.android.base.api.baseModel.Filters;
+import ntk.android.base.api.news.entity.NewsContent;
+import ntk.android.base.api.news.interfase.INews;
+import ntk.android.base.api.news.model.NewsContentListRequest;
+import ntk.android.base.api.news.model.NewsContentResponse;
+import ntk.android.base.api.utill.NTKUtill;
+import ntk.android.base.config.RetrofitManager;
 
 public class NewsSearchActivity extends BaseActivity {
 

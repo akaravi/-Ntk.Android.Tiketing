@@ -24,8 +24,8 @@ import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.BlogDetailActivity;
 import ntk.android.base.utill.FontManager;
-import ntk.base.api.blog.entity.BlogContent;
-import ntk.base.api.blog.model.BlogContentViewRequest;
+import ntk.android.base.api.blog.entity.BlogContent;
+import ntk.android.base.api.blog.model.BlogContentViewRequest;
 
 public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.ViewHolder> {
 

@@ -25,12 +25,13 @@ import io.reactivex.schedulers.Schedulers;
 import ntk.android.ticketing.R;
 import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.utill.FontManager;
-import ntk.base.api.pooling.interfase.IPooling;
-import ntk.base.api.pooling.entity.PoolingContent;
-import ntk.base.api.pooling.entity.PoolingOption;
-import ntk.base.api.pooling.model.PoolingSubmitRequest;
-import ntk.base.api.pooling.model.PoolingSubmitResponse;
-import ntk.base.api.pooling.entity.PoolingVote;
+import ntk.android.base.api.pooling.interfase.IPooling;
+import ntk.android.base.api.pooling.entity.PoolingContent;
+import ntk.android.base.api.pooling.entity.PoolingOption;
+import ntk.android.base.api.pooling.model.PoolingSubmitRequest;
+import ntk.android.base.api.pooling.model.PoolingSubmitResponse;
+import ntk.android.base.api.pooling.entity.PoolingVote;
+import ntk.android.base.config.RetrofitManager;
 
 public class AdPoolCheckBox extends RecyclerView.Adapter<AdPoolCheckBox.ViewHolder> {
 
@@ -97,6 +98,7 @@ public class AdPoolCheckBox extends RecyclerView.Adapter<AdPoolCheckBox.ViewHold
                 vote.OptionScore = map.getValue();
                 request.votes.add(vote);
             }
+
             RetrofitManager retro = new RetrofitManager(context);
             IPooling iPooling = retro.getRetrofitUnCached().create(IPooling.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);

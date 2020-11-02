@@ -25,11 +25,12 @@ import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
-import ntk.base.api.blog.entity.BlogComment;
-import ntk.base.api.blog.interfase.IBlog;
-import ntk.base.api.blog.model.BlogCommentResponse;
-import ntk.base.api.blog.model.BlogCommentViewRequest;
-import ntk.base.api.utill.NTKClientAction;
+import ntk.android.base.api.blog.entity.BlogComment;
+import ntk.android.base.api.blog.interfase.IBlog;
+import ntk.android.base.api.blog.model.BlogCommentResponse;
+import ntk.android.base.api.blog.model.BlogCommentViewRequest;
+import ntk.android.base.api.utill.NTKClientAction;
+import ntk.android.base.config.RetrofitManager;
 
 public class AdCommentBlog extends RecyclerView.Adapter<AdCommentBlog.ViewHolder> {
 

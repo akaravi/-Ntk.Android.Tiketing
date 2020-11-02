@@ -20,8 +20,8 @@ import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.NewsDetailActivity;
 import ntk.android.base.utill.FontManager;
-import ntk.base.api.news.entity.NewsContent;
-import ntk.base.api.news.model.NewsContentViewRequest;
+import ntk.android.base.api.news.entity.NewsContent;
+import ntk.android.base.api.news.model.NewsContentViewRequest;
 
 public class AdCoreImage extends RecyclerView.Adapter<AdCoreImage.ViewHolder> {
     private List<NewsContent> list;

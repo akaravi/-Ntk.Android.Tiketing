@@ -53,21 +53,22 @@ import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdCommentNews;
 import ntk.android.ticketing.adapter.AdTabNews;
 import ntk.android.ticketing.adapter.NewsAdapter;
-import ntk.base.api.baseModel.Filters;
-import ntk.base.api.core.entity.CoreMain;
-import ntk.base.api.news.entity.NewsContentOtherInfo;
-import ntk.base.api.news.interfase.INews;
-import ntk.base.api.news.model.NewsCommentAddRequest;
-import ntk.base.api.news.model.NewsCommentListRequest;
-import ntk.base.api.news.model.NewsCommentResponse;
-import ntk.base.api.news.model.NewsContentFavoriteAddRequest;
-import ntk.base.api.news.model.NewsContentFavoriteAddResponse;
-import ntk.base.api.news.model.NewsContentFavoriteRemoveRequest;
-import ntk.base.api.news.model.NewsContentFavoriteRemoveResponse;
-import ntk.base.api.news.model.NewsContentOtherInfoRequest;
-import ntk.base.api.news.model.NewsContentOtherInfoResponse;
-import ntk.base.api.news.model.NewsContentResponse;
-import ntk.base.api.news.model.NewsContentViewRequest;
+import ntk.android.base.api.baseModel.Filters;
+import ntk.android.base.api.core.entity.CoreMain;
+import ntk.android.base.api.news.entity.NewsContentOtherInfo;
+import ntk.android.base.api.news.interfase.INews;
+import ntk.android.base.api.news.model.NewsCommentAddRequest;
+import ntk.android.base.api.news.model.NewsCommentListRequest;
+import ntk.android.base.api.news.model.NewsCommentResponse;
+import ntk.android.base.api.news.model.NewsContentFavoriteAddRequest;
+import ntk.android.base.api.news.model.NewsContentFavoriteAddResponse;
+import ntk.android.base.api.news.model.NewsContentFavoriteRemoveRequest;
+import ntk.android.base.api.news.model.NewsContentFavoriteRemoveResponse;
+import ntk.android.base.api.news.model.NewsContentOtherInfoRequest;
+import ntk.android.base.api.news.model.NewsContentOtherInfoResponse;
+import ntk.android.base.api.news.model.NewsContentResponse;
+import ntk.android.base.api.news.model.NewsContentViewRequest;
+import ntk.android.base.config.RetrofitManager;
 
 public class NewsDetailActivity extends AppCompatActivity {
 
