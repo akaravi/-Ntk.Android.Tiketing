@@ -13,8 +13,8 @@ import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.api.news.entity.NewsContent;
 import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.NtkObserver;
-import ntk.android.base.entityModel.base.ErrorException;
-import ntk.android.base.entityModel.base.FilterModel;
+import ntk.android.base.entitymodel.base.ErrorException;
+import ntk.android.base.entitymodel.base.FilterDataModel;
 import ntk.android.base.services.news.NewsContentService;
 
 public class SplashActivity extends AppCompatActivity {
@@ -22,7 +22,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FilterModel request = new FilterModel();
+        FilterDataModel request = new FilterDataModel();
         request.RowPerPage = 20;
         request.CurrentPageNumber = 1;
         Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
