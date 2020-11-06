@@ -719,7 +719,8 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.imgShareActDetailNews)
     public void ClickShare() {
-        String st = EasyPreference.with(this).getString("configapp", "");
+        String st =
+                EasyPreference.with(this).getString("configapp", "");
         CoreMain mcr = new Gson().fromJson(st, CoreMain.class);
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);

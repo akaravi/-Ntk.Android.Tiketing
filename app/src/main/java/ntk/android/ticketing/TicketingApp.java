@@ -12,9 +12,10 @@ import java.io.File;
 
 import es.dmoral.toasty.Toasty;
 import ntk.android.base.ApplicationParameter;
-import ntk.android.base.BaseNtkApplication;
+import ntk.android.base.ApplicationStyle;
 import ntk.android.base.NTKApplication;
 import ntk.android.base.utill.FontManager;
+import ntk.android.ticketing.activity.MainActivity;
 
 public class TicketingApp extends NTKApplication {
 
@@ -38,6 +39,12 @@ public class TicketingApp extends NTKApplication {
         Toasty.Config.getInstance()
                 .setToastTypeface(FontManager.GetTypeface(getApplicationContext(), FontManager.IranSans))
                 .setTextSize(14).apply();
+        applicationStyle = new ApplicationStyle() {
+            @Override
+            public Class<?> getMainActivity() {
+                return MainActivity.class;
+            }
+        };
     }
 
     @Override
