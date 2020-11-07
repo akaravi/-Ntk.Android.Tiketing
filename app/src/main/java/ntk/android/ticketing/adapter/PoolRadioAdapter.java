@@ -32,7 +32,7 @@ import ntk.android.base.api.pooling.model.PoolingSubmitResponse;
 import ntk.android.base.api.pooling.entity.PoolingVote;
 import ntk.android.base.config.RetrofitManager;
 
-public class AdPoolRadio extends RecyclerView.Adapter<AdPoolRadio.ViewHolder> {
+public class PoolRadioAdapter extends RecyclerView.Adapter<PoolRadioAdapter.ViewHolder> {
 
     private List<PoolingOption> arrayList;
     private Context context;
@@ -40,7 +40,7 @@ public class AdPoolRadio extends RecyclerView.Adapter<AdPoolRadio.ViewHolder> {
     private PoolingContent PC;
     private Button BtnChart;
 
-    public AdPoolRadio(Context context, List<PoolingOption> arrayList, PoolingContent pc, Button chart) {
+    public PoolRadioAdapter(Context context, List<PoolingOption> arrayList, PoolingContent pc, Button chart) {
         this.arrayList = arrayList;
         this.context = context;
         this.BtnChart = chart;

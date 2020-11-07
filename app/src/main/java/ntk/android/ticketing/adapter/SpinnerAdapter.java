@@ -10,9 +10,9 @@ import android.widget.TextView;
 import java.util.List;
 import ntk.android.base.utill.FontManager;
 
-public class AdSpinner<S> extends ArrayAdapter<String> {
+public class SpinnerAdapter<S> extends ArrayAdapter<String> {
 
-    public AdSpinner(Context context, int resource, List<String> items) {
+    public SpinnerAdapter(Context context, int resource, List<String> items) {
         super(context, resource, items);
     }
 

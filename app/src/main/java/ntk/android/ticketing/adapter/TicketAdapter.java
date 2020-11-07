@@ -26,12 +26,12 @@ import ntk.android.base.api.baseModel.Filters;
 import ntk.android.base.api.ticket.model.TicketingAnswerListRequest;
 import ntk.android.base.api.ticket.entity.TicketingTask;
 
-public class AdTicket extends RecyclerView.Adapter<AdTicket.ViewHolder> {
+public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder> {
 
     private List<TicketingTask> arrayList;
     private Context context;
 
-    public AdTicket(Context context, ArrayList<TicketingTask> arrayList) {
+    public TicketAdapter(Context context, ArrayList<TicketingTask> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }

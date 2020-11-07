@@ -20,12 +20,12 @@ import ntk.android.base.api.baseModel.Filters;
 import ntk.android.base.api.pooling.entity.PoolingCategory;
 import ntk.android.base.api.pooling.model.PoolingContentListRequest;
 
-public class AdPoolCategory extends RecyclerView.Adapter<AdPoolCategory.ViewHolder> {
+public class PoolCategoryAdapter extends RecyclerView.Adapter<PoolCategoryAdapter.ViewHolder> {
 
     private List<PoolingCategory> arrayList;
     private Context context;
 
-    public AdPoolCategory(Context context, List<PoolingCategory> arrayList) {
+    public PoolCategoryAdapter(Context context, List<PoolingCategory> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }

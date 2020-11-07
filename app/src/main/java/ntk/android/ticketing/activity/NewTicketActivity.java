@@ -64,7 +64,7 @@ import ntk.android.base.utill.FontManager;
 import ntk.android.base.utill.Regex;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdAttach;
-import ntk.android.ticketing.adapter.AdSpinner;
+import ntk.android.ticketing.adapter.SpinnerAdapter;
 import ntk.android.ticketing.event.RemoveAttachEvent;
 import ntk.android.base.api.baseModel.FilterModel;
 import ntk.android.base.api.file.entity.FileUploadModel;
@@ -170,7 +170,7 @@ public class NewTicketActivity extends BaseActivity {
         Rv.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 
-        AdSpinner<String> adapter_state = new AdSpinner<>(this, R.layout.spinner_item, new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.StateTicket))));
+        SpinnerAdapter<String> adapter_state = new SpinnerAdapter<>(this, R.layout.spinner_item, new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.StateTicket))));
         spinners.get(1).setAdapter(adapter_state);
         spinners.get(1).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -204,7 +204,7 @@ public class NewTicketActivity extends BaseActivity {
                         List<String> list = new ArrayList<>();
                         for (TicketingDepartemen td : model.ListItems) {
                             list.add(td.Title);
-                            AdSpinner<String> adapter_dpartman = new AdSpinner<>(NewTicketActivity.this, R.layout.spinner_item, list);
+                            SpinnerAdapter<String> adapter_dpartman = new SpinnerAdapter<>(NewTicketActivity.this, R.layout.spinner_item, list);
                             spinners.get(0).setAdapter(adapter_dpartman);
                         }
                     }

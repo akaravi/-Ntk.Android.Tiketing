@@ -7,23 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
-
 import com.balysv.materialripple.MaterialRippleLayout;
-
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ntk.android.ticketing.R;
 import ntk.android.base.utill.FontManager;
-import ntk.android.base.api.blog.entity.BlogContentOtherInfo;
+import ntk.android.base.api.news.entity.NewsContentOtherInfo;
 
-public class AdTabBlog extends RecyclerView.Adapter<AdTabBlog.ViewHolder> {
+public class TabNewsAdapter extends RecyclerView.Adapter<TabNewsAdapter.ViewHolder> {
 
-    private List<BlogContentOtherInfo> arrayList;
+    private List<NewsContentOtherInfo> arrayList;
     private Context context;
 
-    public AdTabBlog(Context context, List<BlogContentOtherInfo> arrayList) {
+    public TabNewsAdapter(Context context, List<NewsContentOtherInfo> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -40,9 +37,7 @@ public class AdTabBlog extends RecyclerView.Adapter<AdTabBlog.ViewHolder> {
         if (arrayList.get(position).TypeId == 0) {
             holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + arrayList.get(position).HtmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8");
         }
-        holder.Ripple.setOnClickListener(v ->
-                holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + arrayList.get(position).HtmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8")
-        );
+        holder.Ripple.setOnClickListener(v -> holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + arrayList.get(position).HtmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8"));
     }
 
     @Override

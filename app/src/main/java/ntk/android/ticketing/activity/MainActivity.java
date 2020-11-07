@@ -63,7 +63,7 @@ import ntk.android.base.utill.EasyPreference;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.BuildConfig;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.adapter.AdCoreImage;
+import ntk.android.ticketing.adapter.CoreImageAdapter;
 import ntk.android.ticketing.event.toolbar.EVSearchClick;
 import ntk.android.base.api.application.interfase.IApplication;
 import ntk.android.base.api.application.model.ApplicationScoreRequest;
@@ -296,7 +296,7 @@ public class MainActivity extends AppCompatActivity {
                         if (newsContentResponse.IsSuccess) {
                             findViewById(R.id.linear).setBackground(null);
                             SnapHelper snapHelper = new PagerSnapHelper();
-                            AdCoreImage adapter = new AdCoreImage(MainActivity.this, newsContentResponse.ListItems);
+                            CoreImageAdapter adapter = new CoreImageAdapter(MainActivity.this, newsContentResponse.ListItems);
                             Slider.setHasFixedSize(true);
                             LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, true);
                             Slider.setLayoutManager(manager);

@@ -18,12 +18,12 @@ import ntk.android.ticketing.R;
 import ntk.android.base.utill.FontManager;
 import ntk.android.base.api.ticket.entity.TicketingAnswer;
 
-public class AdTicketAnswer extends RecyclerView.Adapter<AdTicketAnswer.ViewHolder> {
+public class TicketAnswerAdapter extends RecyclerView.Adapter<TicketAnswerAdapter.ViewHolder> {
 
     private List<TicketingAnswer> arrayList;
     private Context context;
 
-    public AdTicketAnswer(Context context, List<TicketingAnswer> arrayList) {
+    public TicketAnswerAdapter(Context context, List<TicketingAnswer> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }

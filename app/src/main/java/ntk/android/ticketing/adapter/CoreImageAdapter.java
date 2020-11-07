@@ -23,11 +23,11 @@ import ntk.android.base.utill.FontManager;
 import ntk.android.base.api.news.entity.NewsContent;
 import ntk.android.base.api.news.model.NewsContentViewRequest;
 
-public class AdCoreImage extends RecyclerView.Adapter<AdCoreImage.ViewHolder> {
+public class CoreImageAdapter extends RecyclerView.Adapter<CoreImageAdapter.ViewHolder> {
     private List<NewsContent> list;
     private Context context;
 
-    public AdCoreImage(Context context, List<NewsContent> list) {
+    public CoreImageAdapter(Context context, List<NewsContent> list) {
         this.list = list;
         this.context = context;
     }

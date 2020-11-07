@@ -32,12 +32,12 @@ import ntk.android.base.api.news.model.NewsCommentViewRequest;
 import ntk.android.base.api.utill.NTKClientAction;
 import ntk.android.base.config.RetrofitManager;
 
-public class AdCommentNews extends RecyclerView.Adapter<AdCommentNews.ViewHolder> {
+public class CommentNewsAdapter extends RecyclerView.Adapter<CommentNewsAdapter.ViewHolder> {
 
     private List<NewsComment> arrayList;
     private Context context;
 
-    public AdCommentNews(Context context, List<NewsComment> arrayList) {
+    public CommentNewsAdapter(Context context, List<NewsComment> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }

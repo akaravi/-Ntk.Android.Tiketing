@@ -50,8 +50,8 @@ import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.EasyPreference;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.adapter.AdCommentNews;
-import ntk.android.ticketing.adapter.AdTabNews;
+import ntk.android.ticketing.adapter.CommentNewsAdapter;
+import ntk.android.ticketing.adapter.TabNewsAdapter;
 import ntk.android.ticketing.adapter.NewsAdapter;
 import ntk.android.base.api.baseModel.Filters;
 import ntk.android.base.api.core.entity.CoreMain;
@@ -319,7 +319,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                         public void onNext(NewsCommentResponse model) {
                             if (model.IsSuccess && !model.ListItems.isEmpty()) {
                                 findViewById(R.id.lblCommentActDetailNews).setVisibility(View.VISIBLE);
-                                AdCommentNews adapter = new AdCommentNews(NewsDetailActivity.this, model.ListItems);
+                                CommentNewsAdapter adapter = new CommentNewsAdapter(NewsDetailActivity.this, model.ListItems);
                                 RvComment.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();
                             } else {
@@ -442,7 +442,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                     break;
             }
         }
-        AdTabNews adapter = new AdTabNews(NewsDetailActivity.this, Info);
+        TabNewsAdapter adapter = new TabNewsAdapter(NewsDetailActivity.this, Info);
         RvTab.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

@@ -50,8 +50,8 @@ import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.EasyPreference;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.BlogAdapter;
-import ntk.android.ticketing.adapter.AdCommentBlog;
-import ntk.android.ticketing.adapter.AdTabBlog;
+import ntk.android.ticketing.adapter.CommentBlogAdapter;
+import ntk.android.ticketing.adapter.TabBlogAdapter;
 import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.ticketing.event.BlogHtmlBodyEvent;
@@ -320,7 +320,7 @@ public class BlogDetailActivity extends AppCompatActivity {
                         public void onNext(BlogCommentResponse model) {
                             if (model.IsSuccess && !model.ListItems.isEmpty()) {
                                 findViewById(R.id.lblCommentActDetailBlog).setVisibility(View.VISIBLE);
-                                AdCommentBlog adapter = new AdCommentBlog(BlogDetailActivity.this, model.ListItems);
+                                CommentBlogAdapter adapter = new CommentBlogAdapter(BlogDetailActivity.this, model.ListItems);
                                 RvComment.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();
                             } else {
@@ -441,7 +441,7 @@ public class BlogDetailActivity extends AppCompatActivity {
                     break;
             }
         }
-        AdTabBlog adapter = new AdTabBlog(BlogDetailActivity.this, Info);
+        TabBlogAdapter adapter = new TabBlogAdapter(BlogDetailActivity.this, Info);
         RvTab.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

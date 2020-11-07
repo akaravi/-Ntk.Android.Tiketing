@@ -23,12 +23,12 @@ import ntk.android.ticketing.R;
 import ntk.android.base.utill.FontManager;
 import ntk.android.base.api.pooling.entity.PoolingContent;
 
-public class AdDetailPoolCategory extends RecyclerView.Adapter<AdDetailPoolCategory.ViewHolder> {
+public class DetailPoolCategoryAdapter extends RecyclerView.Adapter<DetailPoolCategoryAdapter.ViewHolder> {
 
     private List<PoolingContent> arrayList;
     private Context context;
 
-    public AdDetailPoolCategory(Context context, List<PoolingContent> arrayList) {
+    public DetailPoolCategoryAdapter(Context context, List<PoolingContent> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -49,7 +49,7 @@ public class AdDetailPoolCategory extends RecyclerView.Adapter<AdDetailPoolCateg
         holder.Root.setOnClickListener(v -> {
             if (arrayList.get(position).MaxVoteForThisContent == 1) {
                 if (holder.Rv.getVisibility() == View.GONE) {
-                    AdPoolRadio adapter = new AdPoolRadio(context, arrayList.get(position).Options, arrayList.get(position), holder.Chart);
+                    PoolRadioAdapter adapter = new PoolRadioAdapter(context, arrayList.get(position).Options, arrayList.get(position), holder.Chart);
                     holder.Rv.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     holder.Rv.setVisibility(View.VISIBLE);
@@ -62,7 +62,7 @@ public class AdDetailPoolCategory extends RecyclerView.Adapter<AdDetailPoolCateg
                 }
             } else if (arrayList.get(position).MaxVoteForThisContent > 1 && arrayList.get(position).MaxVoteForEachOption == 1) {
                 if (holder.Rv.getVisibility() == View.GONE) {
-                    AdPoolCheckBox adapter = new AdPoolCheckBox(context, arrayList.get(position).Options, arrayList.get(position), holder.Btn, holder.Chart);
+                    PoolCheckBoxAdapter adapter = new PoolCheckBoxAdapter(context, arrayList.get(position).Options, arrayList.get(position), holder.Btn, holder.Chart);
                     holder.Rv.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     holder.Rv.setVisibility(View.VISIBLE);
@@ -77,7 +77,7 @@ public class AdDetailPoolCategory extends RecyclerView.Adapter<AdDetailPoolCateg
                 }
             } else {
                 if (holder.Rv.getVisibility() == View.GONE) {
-                    AdPoolPlusMines adapter = new AdPoolPlusMines(context, arrayList.get(position).Options, arrayList.get(position), holder.Btn, holder.Chart);
+                    PoolPlusMinesAdapter adapter = new PoolPlusMinesAdapter(context, arrayList.get(position).Options, arrayList.get(position), holder.Btn, holder.Chart);
                     holder.Rv.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     holder.Rv.setVisibility(View.VISIBLE);

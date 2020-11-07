@@ -5,13 +5,13 @@ import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-public class AdPager extends ViewPager {
+public class PagerAdapter extends ViewPager {
 
-    public AdPager(Context context) {
+    public PagerAdapter(Context context) {
         super(context);
     }
 
-    public AdPager(Context context, AttributeSet attrs) {
+    public PagerAdapter(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

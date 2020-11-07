@@ -21,7 +21,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.adapter.AdDetailPoolCategory;
+import ntk.android.ticketing.adapter.DetailPoolCategoryAdapter;
 import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.utill.FontManager;
@@ -78,7 +78,7 @@ public class PoolingDetailActivity extends AppCompatActivity {
                     @Override
                     public void onNext(PoolingContentListResponse poolingContentListResponse) {
                         if (poolingContentListResponse.IsSuccess) {
-                            AdDetailPoolCategory adapter = new AdDetailPoolCategory(PoolingDetailActivity.this, poolingContentListResponse.ListItems);
+                            DetailPoolCategoryAdapter adapter = new DetailPoolCategoryAdapter(PoolingDetailActivity.this, poolingContentListResponse.ListItems);
                             Rv.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
                         }

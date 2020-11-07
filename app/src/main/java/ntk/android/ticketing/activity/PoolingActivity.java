@@ -21,7 +21,7 @@ import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.adapter.AdPoolCategory;
+import ntk.android.ticketing.adapter.PoolCategoryAdapter;
 import ntk.android.base.api.pooling.interfase.IPooling;
 import ntk.android.base.api.pooling.model.PoolingCategoryResponse;
 import ntk.android.base.config.RetrofitManager;
@@ -62,7 +62,7 @@ public class PoolingActivity extends BaseActivity {
                         @Override
                         public void onNext(PoolingCategoryResponse poolingCategoryResponse) {
                             if (poolingCategoryResponse.IsSuccess) {
-                                AdPoolCategory adapter = new AdPoolCategory(PoolingActivity.this, poolingCategoryResponse.ListItems);
+                                PoolCategoryAdapter adapter = new PoolCategoryAdapter(PoolingActivity.this, poolingCategoryResponse.ListItems);
                                 Rv.setAdapter(adapter);
                                 adapter.notifyDataSetChanged();
                                 if (adapter.getItemCount() > 0)

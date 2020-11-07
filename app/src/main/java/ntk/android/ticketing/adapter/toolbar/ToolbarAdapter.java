@@ -35,13 +35,13 @@ import ntk.android.ticketing.event.toolbar.EVSearchClick;
 import ntk.android.base.utill.FontManager;
 import ntk.android.base.api.baseModel.theme.Toolbar;
 
-public class AdToobar extends RecyclerView.Adapter<AdToobar.ViewHolder> {
+public class ToolbarAdapter extends RecyclerView.Adapter<ToolbarAdapter.ViewHolder> {
 
     private List<Toolbar> toolbars;
     private Context context;
     private int Click;
 
-    public AdToobar(Context context, List<Toolbar> toolbar) {
+    public ToolbarAdapter(Context context, List<Toolbar> toolbar) {
         this.toolbars = toolbar;
         this.context = context;
     }

@@ -28,7 +28,7 @@ import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
-import ntk.android.ticketing.adapter.AdTicket;
+import ntk.android.ticketing.adapter.TicketAdapter;
 import ntk.android.base.api.baseModel.Filters;
 import ntk.android.base.api.ticket.entity.TicketingTask;
 import ntk.android.base.api.ticket.interfase.ITicket;
@@ -52,7 +52,7 @@ public class TicketSearchActivity extends BaseActivity {
     CoordinatorLayout layout;
 
     private ArrayList<TicketingTask> tickets = new ArrayList<>();
-    private AdTicket adapter;
+    private TicketAdapter adapter;
     boolean searchLock;
 
     @Override
@@ -75,7 +75,7 @@ public class TicketSearchActivity extends BaseActivity {
             }
             return false;
         });
-        adapter = new AdTicket(this, tickets);
+        adapter = new TicketAdapter(this, tickets);
         Rv.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

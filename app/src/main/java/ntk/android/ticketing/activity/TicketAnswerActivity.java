@@ -57,7 +57,7 @@ import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdAttach;
-import ntk.android.ticketing.adapter.AdTicketAnswer;
+import ntk.android.ticketing.adapter.TicketAnswerAdapter;
 import ntk.android.ticketing.event.RemoveAttachEvent;
 import ntk.android.base.api.file.entity.FileUploadModel;
 import ntk.android.base.api.file.interfase.IFile;
@@ -92,7 +92,7 @@ public class TicketAnswerActivity extends AppCompatActivity {
     Button btn;
 
     private ArrayList<TicketingAnswer> tickets = new ArrayList<>();
-    private AdTicketAnswer adapter;
+    private TicketAnswerAdapter adapter;
     private List<String> attaches = new ArrayList<>();
     private AdAttach AdAtach;
     private String linkFileIds = "";
@@ -131,7 +131,7 @@ public class TicketAnswerActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         Rvs.get(0).setLayoutManager(manager);
 
-        adapter = new AdTicketAnswer(this, tickets);
+        adapter = new TicketAnswerAdapter(this, tickets);
         Rvs.get(0).setAdapter(adapter);
         adapter.notifyDataSetChanged();
 

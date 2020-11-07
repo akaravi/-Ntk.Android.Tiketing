@@ -32,12 +32,12 @@ import ntk.android.base.api.blog.model.BlogCommentViewRequest;
 import ntk.android.base.api.utill.NTKClientAction;
 import ntk.android.base.config.RetrofitManager;
 
-public class AdCommentBlog extends RecyclerView.Adapter<AdCommentBlog.ViewHolder> {
+public class CommentBlogAdapter extends RecyclerView.Adapter<CommentBlogAdapter.ViewHolder> {
 
     private List<BlogComment> arrayList;
     private Context context;
 
-    public AdCommentBlog(Context context, List<BlogComment> arrayList) {
+    public CommentBlogAdapter(Context context, List<BlogComment> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }
