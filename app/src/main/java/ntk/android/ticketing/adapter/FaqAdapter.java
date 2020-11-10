@@ -14,16 +14,17 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import ntk.android.base.entitymodel.ticketing.TicketingFaqModel;
 import ntk.android.ticketing.R;
 import ntk.android.base.utill.FontManager;
 import ntk.android.base.api.ticket.entity.TicketingFaq;
 
 public class FaqAdapter extends RecyclerView.Adapter<FaqAdapter.ViewHolder> {
 
-    private List<TicketingFaq> arrayList;
+    private List<TicketingFaqModel> arrayList;
     private Context context;
 
-    public FaqAdapter(Context context, List<TicketingFaq> arrayList) {
+    public FaqAdapter(Context context, List<TicketingFaqModel> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -36,11 +37,11 @@ public class FaqAdapter extends RecyclerView.Adapter<FaqAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.Lbls.get(0).setText(arrayList.get(position) .Question);
-        holder.Lbls.get(1).setText(arrayList.get(position).Answer);
+        holder.Lbls.get(0).setText(arrayList.get(position) .question);
+        holder.Lbls.get(1).setText(arrayList.get(position).answer);
         holder.Root.get(0).setOnClickListener(view -> {
             if (holder.Web.getVisibility() == View.GONE) {
-                holder.Web.loadData("<html dir=\"rtl\" lang=\"\"><body>" + arrayList.get(position).Answer + "</body></html>", "text/html; charset=utf-8", "UTF-8");
+                holder.Web.loadData("<html dir=\"rtl\" lang=\"\"><body>" + arrayList.get(position).answer + "</body></html>", "text/html; charset=utf-8", "UTF-8");
                 holder.Web.setVisibility(View.VISIBLE);
                 holder.Root.get(1).setVisibility(View.VISIBLE);
             } else {

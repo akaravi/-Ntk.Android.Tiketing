@@ -23,19 +23,22 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.activity.BaseActivity;
+import ntk.android.base.api.ticket.interfase.ITicket;
+import ntk.android.base.api.ticket.model.TicketingFaqResponse;
+import ntk.android.base.api.utill.NTKUtill;
 import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.config.NtkObserver;
+import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.entitymodel.base.ErrorException;
+import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.base.Filters;
+import ntk.android.base.entitymodel.ticketing.TicketingFaqModel;
+import ntk.android.base.services.ticketing.TicketingFaqService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.FaqAdapter;
-import ntk.android.base.api.baseModel.Filters;
-import ntk.android.base.api.ticket.entity.TicketingFaq;
-import ntk.android.base.api.ticket.interfase.ITicket;
-import ntk.android.base.api.ticket.model.TicketingFaqRequest;
-import ntk.android.base.api.ticket.model.TicketingFaqResponse;
-import ntk.android.base.api.utill.NTKUtill;
-import ntk.android.base.config.RetrofitManager;
 
 public class FaqSearchActivity extends BaseActivity {
 
@@ -51,7 +54,7 @@ public class FaqSearchActivity extends BaseActivity {
     @BindView(R.id.mainLayoutActFaqSearch)
     CoordinatorLayout layout;
 
-    private ArrayList<TicketingFaq> faqs = new ArrayList<>();
+    private ArrayList<TicketingFaqModel> faqs = new ArrayList<>();
     private FaqAdapter adapter;
     boolean searchLock;
 
@@ -88,7 +91,7 @@ public class FaqSearchActivity extends BaseActivity {
                 ITicket iTicket = new RetrofitManager(this).getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
 
 
-                TicketingFaqRequest request = new TicketingFaqRequest();
+                FilterDataModel request = new FilterDataModel();
                 List<Filters> filters = new ArrayList<>();
                 Filters fa = new Filters();
                 fa.PropertyName = "Answer";
@@ -106,17 +109,18 @@ public class FaqSearchActivity extends BaseActivity {
 
                 request.filters = filters;
                 switcher.showProgressView();
-                Observable<TicketingFaqResponse> Call = iTicket.GetTicketFaqActList(new ConfigRestHeader().GetHeaders(this), request);
-                Call.observeOn(AndroidSchedulers.mainThread())
+//                Observable<TicketingFaqResponse> Call = iTicket.GetTicketFaqActList(new ConfigRestHeader().GetHeaders(this), request);
+                new TicketingFaqService(this).getAll(request).
+                observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
-                        .subscribe(new Observer<TicketingFaqResponse>() {
+                        .subscribe(new NtkObserver<ErrorException<TicketingFaqModel>>() {
                             @Override
                             public void onSubscribe(Disposable d) {
 
                             }
 
                             @Override
-                            public void onNext(TicketingFaqResponse response) {
+                            public void onNext(ErrorException<TicketingFaqModel> response) {
                                 searchLock = false;
                                 if (response.IsSuccess) {
                                     if (response.ListItems.size() != 0) {

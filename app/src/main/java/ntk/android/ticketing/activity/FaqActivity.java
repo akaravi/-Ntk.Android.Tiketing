@@ -13,21 +13,21 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.activity.BaseActivity;
+import ntk.android.base.api.ticket.interfase.ITicket;
 import ntk.android.base.config.ConfigRestHeader;
+import ntk.android.base.config.NtkObserver;
+import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.entitymodel.base.ErrorException;
+import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.ticketing.TicketingFaqModel;
+import ntk.android.base.services.ticketing.TicketingFaqService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.FaqAdapter;
-import ntk.android.base.api.ticket.interfase.ITicket;
-import ntk.android.base.api.ticket.model.TicketingFaqRequest;
-import ntk.android.base.api.ticket.model.TicketingFaqResponse;
-import ntk.android.base.config.RetrofitManager;
 
 public class FaqActivity extends BaseActivity {
 
@@ -57,20 +57,16 @@ public class FaqActivity extends BaseActivity {
             ITicket iTicket = retro.getCachedRetrofit().create(ITicket.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
 
-            TicketingFaqRequest request = new TicketingFaqRequest();
+            FilterDataModel request = new FilterDataModel();
             request.RowPerPage = 1000;
 
-            Observable<TicketingFaqResponse> Call = iTicket.GetTicketFaqActList(headers, request);
-            Call.subscribeOn(Schedulers.io())
+
+            new TicketingFaqService(this).getAll(request).
+                    subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<TicketingFaqResponse>() {
+                    .subscribe(new NtkObserver<ErrorException<TicketingFaqModel>>() {
                         @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(TicketingFaqResponse model) {
+                        public void onNext(ErrorException<TicketingFaqModel> model) {
                             FaqAdapter adapter = new FaqAdapter(FaqActivity.this, model.ListItems);
                             Rv.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
@@ -84,11 +80,6 @@ public class FaqActivity extends BaseActivity {
                         @Override
                         public void onError(Throwable e) {
                             switcher.showErrorView("خطای سامانه مجددا تلاش کنید", () -> init());
-
-                        }
-
-                        @Override
-                        public void onComplete() {
 
                         }
                     });
