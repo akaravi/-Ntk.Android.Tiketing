@@ -17,25 +17,20 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.activity.BaseActivity;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.api.utill.NTKUtill;
+import ntk.android.base.config.NtkObserver;
+import ntk.android.base.entitymodel.base.ErrorException;
+import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.base.Filters;
+import ntk.android.base.entitymodel.ticketing.TicketingTaskModel;
+import ntk.android.base.services.ticketing.TicketingTaskService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.TicketAdapter;
-import ntk.android.base.api.baseModel.Filters;
-import ntk.android.base.api.ticket.entity.TicketingTask;
-import ntk.android.base.api.ticket.interfase.ITicket;
-import ntk.android.base.api.ticket.model.TicketingListRequest;
-import ntk.android.base.api.ticket.model.TicketingTaskResponse;
-import ntk.android.base.api.utill.NTKUtill;
-import ntk.android.base.config.RetrofitManager;
 
 public class TicketSearchActivity extends BaseActivity {
 
@@ -51,7 +46,7 @@ public class TicketSearchActivity extends BaseActivity {
     @BindView(R.id.mainLayoutActSearch)
     CoordinatorLayout layout;
 
-    private ArrayList<TicketingTask> tickets = new ArrayList<>();
+    private ArrayList<TicketingTaskModel> tickets = new ArrayList<>();
     private TicketAdapter adapter;
     boolean searchLock;
 
@@ -84,10 +79,9 @@ public class TicketSearchActivity extends BaseActivity {
         if (!searchLock) {
             searchLock = true;
             if (AppUtill.isNetworkAvailable(this)) {
-                ITicket iTicket = new RetrofitManager(this).getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
 
 
-                TicketingListRequest request = new TicketingListRequest();
+                FilterDataModel request = new FilterDataModel();
                 List<Filters> filters = new ArrayList<>();
                 Filters ft = new Filters();
                 ft.PropertyName = "Title";
@@ -113,17 +107,14 @@ public class TicketSearchActivity extends BaseActivity {
 
                 request.filters = filters;
                 switcher.showProgressView();
-                Observable<TicketingTaskResponse> Call = iTicket.GetTicketTaskActList(new ConfigRestHeader().GetHeaders(this), request);
-                Call.observeOn(AndroidSchedulers.mainThread())
+
+                new TicketingTaskService(this).getAll(request).
+                        observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
-                        .subscribe(new Observer<TicketingTaskResponse>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-
-                            }
+                        .subscribe(new NtkObserver<ErrorException<TicketingTaskModel>>() {
 
                             @Override
-                            public void onNext(TicketingTaskResponse response) {
+                            public void onNext(ErrorException<TicketingTaskModel> response) {
                                 searchLock = false;
                                 if (response.IsSuccess) {
                                     if (response.ListItems.size() != 0) {

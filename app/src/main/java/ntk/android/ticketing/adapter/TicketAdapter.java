@@ -18,6 +18,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import ntk.android.base.entitymodel.ticketing.TicketingTaskModel;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.TicketAnswerActivity;
@@ -28,10 +29,10 @@ import ntk.android.base.api.ticket.entity.TicketingTask;
 
 public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder> {
 
-    private List<TicketingTask> arrayList;
+    private List<TicketingTaskModel> arrayList;
     private Context context;
 
-    public TicketAdapter(Context context, ArrayList<TicketingTask> arrayList) {
+    public TicketAdapter(Context context, ArrayList<TicketingTaskModel> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -45,9 +46,9 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.Lbls.get(0).setText(arrayList.get(position).Title);
-        holder.Lbls.get(2).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate) + "");
-        switch (arrayList.get(position).TicketStatus) {
+        holder.Lbls.get(0).setText(arrayList.get(position).title);
+        holder.Lbls.get(2).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate.toString()) + "");//todo seem to be bug for create date
+        switch (arrayList.get(position).ticketStatus) {
             case 1:
                 holder.Lbls.get(1).setBackgroundResource(R.drawable.circlegreen);
                 holder.Lbls.get(1).setText("پاسخ داده شد");

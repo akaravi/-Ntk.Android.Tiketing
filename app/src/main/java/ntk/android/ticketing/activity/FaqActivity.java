@@ -8,18 +8,13 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.activity.BaseActivity;
-import ntk.android.base.api.ticket.interfase.ITicket;
-import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.NtkObserver;
-import ntk.android.base.config.RetrofitManager;
 import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.base.FilterDataModel;
 import ntk.android.base.entitymodel.ticketing.TicketingFaqModel;
@@ -53,13 +48,9 @@ public class FaqActivity extends BaseActivity {
         if (AppUtill.isNetworkAvailable(this)) {
             // show loading
             switcher.showProgressView();
-            RetrofitManager retro = new RetrofitManager(this);
-            ITicket iTicket = retro.getCachedRetrofit().create(ITicket.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
 
             FilterDataModel request = new FilterDataModel();
             request.RowPerPage = 1000;
-
 
             new TicketingFaqService(this).getAll(request).
                     subscribeOn(Schedulers.io())

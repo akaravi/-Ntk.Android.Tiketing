@@ -53,11 +53,25 @@ import es.dmoral.toasty.Toasty;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.activity.BaseActivity;
+import ntk.android.base.api.file.entity.FileUploadModel;
+import ntk.android.base.api.file.interfase.IFile;
+import ntk.android.base.api.member.model.MemberUserActAddRequest;
+import ntk.android.base.api.ticket.interfase.ITicket;
+import ntk.android.base.api.ticket.model.TicketingTaskResponse;
 import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.config.NtkObserver;
+import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.entitymodel.base.ErrorException;
+import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.ticketing.TicketingDepartemenModel;
+import ntk.android.base.entitymodel.ticketing.TicketingTaskModel;
+import ntk.android.base.services.ticketing.TicketingDepartemenService;
+import ntk.android.base.services.ticketing.TicketingTaskService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.EasyPreference;
 import ntk.android.base.utill.FontManager;
@@ -66,16 +80,6 @@ import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdAttach;
 import ntk.android.ticketing.adapter.SpinnerAdapter;
 import ntk.android.ticketing.event.RemoveAttachEvent;
-import ntk.android.base.api.baseModel.FilterModel;
-import ntk.android.base.api.file.entity.FileUploadModel;
-import ntk.android.base.api.file.interfase.IFile;
-import ntk.android.base.api.member.model.MemberUserActAddRequest;
-import ntk.android.base.api.ticket.entity.TicketingDepartemen;
-import ntk.android.base.api.ticket.entity.TicketingTask;
-import ntk.android.base.api.ticket.interfase.ITicket;
-import ntk.android.base.api.ticket.model.TicketingDepartemenResponse;
-import ntk.android.base.api.ticket.model.TicketingTaskResponse;
-import ntk.android.base.config.RetrofitManager;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -115,7 +119,7 @@ public class NewTicketActivity extends BaseActivity {
     @BindView(R.id.mainLayoutActSendTicket)
     CoordinatorLayout layout;
 
-    private TicketingTask request = new TicketingTask();
+    private TicketingTaskModel request = new TicketingTaskModel();
     private MemberUserActAddRequest requestMember = new MemberUserActAddRequest();
     private List<String> attaches = new ArrayList<>();
     private List<String> fileId = new ArrayList<>();
@@ -175,7 +179,7 @@ public class NewTicketActivity extends BaseActivity {
         spinners.get(1).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                request.Priority = (position + 1);
+                request.priority = (position + 1);
             }
 
             @Override
@@ -183,40 +187,28 @@ public class NewTicketActivity extends BaseActivity {
 
             }
         });
-        if (request.Priority == 0) {
+        if (request.priority == 0) {
             spinners.get(1).setSelection(0);
         }
-        FilterModel request = new FilterModel();
-        RetrofitManager retro = new RetrofitManager(this);
-        ITicket iTicket = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
-        Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-        Observable<TicketingDepartemenResponse> Call = iTicket.GetTicketDepartmanActList(headers, request);
-        Call.observeOn(AndroidSchedulers.mainThread())
+        FilterDataModel request = new FilterDataModel();
+        new TicketingDepartemenService(this).getAll(request)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<TicketingDepartemenResponse>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
 
-                    }
-
+                .subscribe(new NtkObserver<ErrorException<TicketingDepartemenModel>>() {
                     @Override
-                    public void onNext(TicketingDepartemenResponse model) {
+                    public void onNext(@NonNull ErrorException<TicketingDepartemenModel> model) {
                         List<String> list = new ArrayList<>();
-                        for (TicketingDepartemen td : model.ListItems) {
-                            list.add(td.Title);
+                        for (TicketingDepartemenModel td : model.ListItems) {
+                            list.add(td.title);
                             SpinnerAdapter<String> adapter_dpartman = new SpinnerAdapter<>(NewTicketActivity.this, R.layout.spinner_item, list);
                             spinners.get(0).setAdapter(adapter_dpartman);
                         }
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        //todo show error dialog
+                    public void onError(@NonNull Throwable e) {
                         Toasty.warning(NewTicketActivity.this, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
-                    }
-
-                    @Override
-                    public void onComplete() {
 
                     }
                 });
@@ -268,8 +260,8 @@ public class NewTicketActivity extends BaseActivity {
             request.Email = Txts.get(4).getText().toString();
             request.PhoneNo = Txts.get(3).getText().toString();
             request.FullName = Txts.get(2).getText().toString();
-            request.HtmlBody = Txts.get(1).getText().toString();
-            request.Title = Txts.get(0).getText().toString();
+            request.htmlBody = Txts.get(1).getText().toString();
+            request.title = Txts.get(0).getText().toString();
 
             String ids = "";
             for (int i = 0; i < fileId.size(); i++) {
@@ -278,7 +270,7 @@ public class NewTicketActivity extends BaseActivity {
                 else
                     ids += "," + fileId.get(i);
             }
-            request.LinkFileIds = ids;
+            request.linkFileIds = ids;
 
             requestMember.FirstName = Txts.get(2).getText().toString();
             requestMember.LastName = Txts.get(2).getText().toString();
@@ -286,61 +278,21 @@ public class NewTicketActivity extends BaseActivity {
             requestMember.Email = Txts.get(4).getText().toString();
 
 
-            RetrofitManager retro = new RetrofitManager(this);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-
-//                IMember iMember = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IMember.class);
-//                Observable<MemberUserResponse> CallMember = iMember.SetUserActAdd(headers, requestMember);
-//                CallMember.observeOn(AndroidSchedulers.mainThread())
-//                        .subscribeOn(Schedulers.io())
-//                        .subscribe(new Observer<MemberUserResponse>() {
-//                            @Override
-//                            public void onSubscribe(Disposable d) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onNext(MemberUserResponse model) {
-//                                //Toasty.success(ActSendTicket.this, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
-//                                //finish();
-//                            }
-//
-//                            @Override
-//                            public void onError(Throwable e) {
-//                                //Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-//                                //    @Override
-//                                //    public void onClick(View v) {
-//                                //        init();
-//                                //    }
-//                                ///}).show();
-//                            }
-//
-//                            @Override
-//                            public void onComplete() {
-//
-//                            }
-//                        });
             findViewById(R.id.btnSubmitActSendTicket).setClickable(false);
 
-            ITicket iTicket = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
-            Observable<TicketingTaskResponse> Call = iTicket.SetTicketTaskActSubmit(headers, request);
-            Call.observeOn(AndroidSchedulers.mainThread())
+            new TicketingTaskService(this).Add(request).
+                    observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<TicketingTaskResponse>() {
+                    .subscribe(new NtkObserver<ErrorException<TicketingTaskModel>>() {
                         @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(TicketingTaskResponse model) {
+                        public void onNext(@NonNull ErrorException<TicketingTaskModel> model) {
                             switcher.hideLoadDialog();
                             Toasty.success(NewTicketActivity.this, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
                             finish();
                         }
 
                         @Override
-                        public void onError(Throwable e) {
+                        public void onError(@NonNull Throwable e) {
                             switcher.hideLoadDialog();
                             Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
                                 @Override
@@ -349,11 +301,6 @@ public class NewTicketActivity extends BaseActivity {
                                 }
                             }).show();
                             findViewById(R.id.btnSubmitActSendTicket).setClickable(true);
-                        }
-
-                        @Override
-                        public void onComplete() {
-
                         }
                     });
         } else {
@@ -508,9 +455,9 @@ public class NewTicketActivity extends BaseActivity {
                         }
 
                         @Override
-            public void onNext(ResponseBody model) {
+                        public void onNext(ResponseBody model) {
                             try {
-                               String uploadedString = new Gson().fromJson(model.string(), FileUploadModel.class).FileKey;
+                                String uploadedString = new Gson().fromJson(model.string(), FileUploadModel.class).FileKey;
                                 adapter.notifyDataSetChanged();
                                 fileId.add(uploadedString);
                                 Btn.setVisibility(View.VISIBLE);

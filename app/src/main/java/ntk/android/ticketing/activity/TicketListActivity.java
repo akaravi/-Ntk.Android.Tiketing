@@ -13,28 +13,27 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.activity.BaseActivity;
-import ntk.android.base.utill.AppUtill;
-import ntk.android.ticketing.R;
-import ntk.android.ticketing.adapter.TicketAdapter;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.utill.EndlessRecyclerViewScrollListener;
 import ntk.android.base.api.ticket.entity.TicketingTask;
-import ntk.android.base.api.ticket.interfase.ITicket;
-import ntk.android.base.api.ticket.model.TicketingListRequest;
 import ntk.android.base.api.ticket.model.TicketingTaskResponse;
 import ntk.android.base.api.utill.NTKUtill;
-import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.config.NtkObserver;
+import ntk.android.base.entitymodel.base.ErrorException;
+import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.ticketing.TicketingTaskModel;
+import ntk.android.base.services.ticketing.TicketingTaskService;
+import ntk.android.base.utill.AppUtill;
+import ntk.android.base.utill.EndlessRecyclerViewScrollListener;
+import ntk.android.ticketing.R;
+import ntk.android.ticketing.adapter.TicketAdapter;
 
 
 public class TicketListActivity extends BaseActivity {
@@ -51,7 +50,7 @@ public class TicketListActivity extends BaseActivity {
     @BindView(R.id.mainLayoutActSupport)
     CoordinatorLayout layout;
 
-    private ArrayList<TicketingTask> tickets = new ArrayList<>();
+    private ArrayList<TicketingTaskModel> tickets = new ArrayList<>();
     private TicketAdapter adapter;
 
     private EndlessRecyclerViewScrollListener scrollListener;
@@ -117,27 +116,25 @@ public class TicketListActivity extends BaseActivity {
 
     private void HandelData(int i) {
         if (AppUtill.isNetworkAvailable(this)) {
-            RetrofitManager retro = new RetrofitManager(this);
-            ITicket iTicket = retro.getCachedRetrofit().create(ITicket.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
 
-            TicketingListRequest request = new TicketingListRequest();
+
+            FilterDataModel request = new FilterDataModel();
             request.RowPerPage = 10;
             request.CurrentPageNumber = i;
             request.SortType = NTKUtill.Descnding_Sort;
             request.SortColumn = "Id";
             switcher.showProgressView();
-            Observable<TicketingTaskResponse> Call = iTicket.GetTicketTaskActList(headers, request);
-            Call.subscribeOn(Schedulers.io())
+            new TicketingTaskService(this).getAll(request)
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<TicketingTaskResponse>() {
+                    .subscribe(new NtkObserver<ErrorException<TicketingTaskModel>>() {
                         @Override
                         public void onSubscribe(Disposable d) {
 
                         }
 
                         @Override
-                        public void onNext(TicketingTaskResponse model) {
+                        public void onNext(ErrorException<TicketingTaskModel> model) {
                             tickets.addAll(model.ListItems);
                             adapter.notifyDataSetChanged();
                             TotalTag = model.TotalRowCount;
@@ -151,7 +148,6 @@ public class TicketListActivity extends BaseActivity {
                         @Override
                         public void onError(Throwable e) {
                             switcher.showErrorView("خطای سامانه مجددا تلاش کنید", () -> init());
-
                         }
 
                         @Override

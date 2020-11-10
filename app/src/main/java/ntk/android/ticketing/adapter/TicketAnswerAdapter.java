@@ -2,28 +2,29 @@ package ntk.android.ticketing.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import ntk.android.base.entitymodel.ticketing.TicketingAnswerModel;
 import ntk.android.base.utill.AppUtill;
-import ntk.android.ticketing.R;
 import ntk.android.base.utill.FontManager;
-import ntk.android.base.api.ticket.entity.TicketingAnswer;
+import ntk.android.ticketing.R;
 
 public class TicketAnswerAdapter extends RecyclerView.Adapter<TicketAnswerAdapter.ViewHolder> {
 
-    private List<TicketingAnswer> arrayList;
+    private List<TicketingAnswerModel> arrayList;
     private Context context;
 
-    public TicketAnswerAdapter(Context context, List<TicketingAnswer> arrayList) {
+    public TicketAnswerAdapter(Context context, List<TicketingAnswerModel> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -37,10 +38,10 @@ public class TicketAnswerAdapter extends RecyclerView.Adapter<TicketAnswerAdapte
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.Lbls.get(0).setText(Html.fromHtml(arrayList.get(position).HtmlBody
-                        .replace("<p>", "")
-                        .replace("</p>", "")));
-        holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate) + "");
+        holder.Lbls.get(0).setText(Html.fromHtml(arrayList.get(position).htmlBody
+                .replace("<p>", "")
+                .replace("</p>", "")));
+        holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate.toString()) + "");//todo seem to be string maybe bug
     }
 
     @Override
@@ -50,7 +51,7 @@ public class TicketAnswerAdapter extends RecyclerView.Adapter<TicketAnswerAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindViews({ R.id.lblTypeRecyclerTicketAnswer,
+        @BindViews({R.id.lblTypeRecyclerTicketAnswer,
                 R.id.lblDateRecyclerTicketAnswer})
         List<TextView> Lbls;
 

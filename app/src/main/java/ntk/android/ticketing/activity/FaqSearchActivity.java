@@ -88,9 +88,6 @@ public class FaqSearchActivity extends BaseActivity {
             searchLock = true;
             if (AppUtill.isNetworkAvailable(this)) {
 
-                ITicket iTicket = new RetrofitManager(this).getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
-
-
                 FilterDataModel request = new FilterDataModel();
                 List<Filters> filters = new ArrayList<>();
                 Filters fa = new Filters();
@@ -109,7 +106,6 @@ public class FaqSearchActivity extends BaseActivity {
 
                 request.filters = filters;
                 switcher.showProgressView();
-//                Observable<TicketingFaqResponse> Call = iTicket.GetTicketFaqActList(new ConfigRestHeader().GetHeaders(this), request);
                 new TicketingFaqService(this).getAll(request).
                 observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())

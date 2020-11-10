@@ -53,14 +53,14 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.api.file.entity.FileUploadModel;
 import ntk.android.base.api.file.interfase.IFile;
-import ntk.android.base.api.ticket.entity.TicketingAnswer;
-import ntk.android.base.api.ticket.interfase.ITicket;
-import ntk.android.base.api.ticket.model.TicketingAnswerListRequest;
-import ntk.android.base.api.ticket.model.TicketingAnswerResponse;
-import ntk.android.base.api.ticket.model.TicketingAnswerSubmitRequest;
 import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.config.NtkObserver;
 import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.entitymodel.base.ErrorException;
+import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.ticketing.TicketingAnswerModel;
+import ntk.android.base.services.ticketing.TicketingAnswerService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
@@ -91,7 +91,7 @@ public class TicketAnswerActivity extends AppCompatActivity {
     @BindView(R.id.btnSubmitActTicketAnswer)
     Button btn;
 
-    private ArrayList<TicketingAnswer> tickets = new ArrayList<>();
+    private ArrayList<TicketingAnswerModel> tickets = new ArrayList<>();
     private TicketAnswerAdapter adapter;
     private List<String> attaches = new ArrayList<>();
     private AdAttach AdAtach;
@@ -147,19 +147,17 @@ public class TicketAnswerActivity extends AppCompatActivity {
     private void HandelData(int i) {
         if (AppUtill.isNetworkAvailable(this)) {
             RetrofitManager retro = new RetrofitManager(this);
-            ITicket iTicket = retro.getCachedRetrofit().create(ITicket.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-            Observable<TicketingAnswerResponse> Call = iTicket.GetTicketAnswerActList(headers, new Gson().fromJson(getIntent().getExtras().getString("Request"), TicketingAnswerListRequest.class));
-            Call.subscribeOn(Schedulers.io())
+            new TicketingAnswerService(this).getAll(new Gson().fromJson(getIntent().getExtras().getString("Request"), FilterDataModel.class))
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<TicketingAnswerResponse>() {
+                    .subscribe(new NtkObserver<ErrorException<TicketingAnswerModel>>() {
                         @Override
                         public void onSubscribe(Disposable d) {
 
                         }
 
                         @Override
-                        public void onNext(TicketingAnswerResponse model) {
+                        public void onNext(ErrorException<TicketingAnswerModel> model) {
                             tickets.addAll(model.ListItems);
                             adapter.notifyDataSetChanged();
                         }
@@ -200,23 +198,18 @@ public class TicketAnswerActivity extends AppCompatActivity {
             YoYo.with(Techniques.Tada).duration(700).playOn(txt);
         } else {
             if (AppUtill.isNetworkAvailable(this)) {
-                TicketingAnswerSubmitRequest request = new TicketingAnswerSubmitRequest();
-                request.HtmlBody = txt.getText().toString();
-                request.LinkTaskId = getIntent().getLongExtra("TicketId", 0);
-                request.LinkFileIds = linkFileIds;
-                RetrofitManager retro = new RetrofitManager(this);
-                Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-                ITicket iTicket = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ITicket.class);
-                Observable<TicketingAnswerResponse> Call = iTicket.GetTicketAnswerActSubmit(headers, request);
-                Call.observeOn(AndroidSchedulers.mainThread())
+                TicketingAnswerModel request = new TicketingAnswerModel();
+                request.htmlBody = txt.getText().toString();
+                request.linkTicketId = getIntent().getLongExtra("TicketId", 0);
+                request.linkFileIds = linkFileIds;
+
+                new TicketingAnswerService(this).Add(request)
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
-                        .subscribe(new Observer<TicketingAnswerResponse>() {
-                            @Override
-                            public void onSubscribe(Disposable d) {
-                            }
+                        .subscribe(new NtkObserver<ErrorException<TicketingAnswerModel>>() {
 
                             @Override
-                            public void onNext(TicketingAnswerResponse model) {
+                            public void onNext(ErrorException<TicketingAnswerModel> model) {
                                 Toasty.success(TicketAnswerActivity.this, "با موفقیت ثبت شد", Toasty.LENGTH_LONG, true).show();
                                 finish();
                             }
@@ -231,10 +224,6 @@ public class TicketAnswerActivity extends AppCompatActivity {
                                 }).show();
                             }
 
-                            @Override
-                            public void onComplete() {
-
-                            }
                         });
             } else {
                 Toasty.warning(this, "عدم دسترسی به اینترنت", Toasty.LENGTH_LONG, true).show();
@@ -258,6 +247,7 @@ public class TicketAnswerActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode,
                                  Intent resultData) {
+        super.onActivityResult(requestCode, resultCode, resultData);
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             Uri uri;
             if (resultData != null) {
