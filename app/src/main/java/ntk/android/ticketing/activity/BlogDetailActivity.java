@@ -47,15 +47,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import ntk.android.base.api.blog.entity.BlogContentOtherInfo;
 import ntk.android.base.api.blog.interfase.IBlog;
-import ntk.android.base.api.blog.model.BlogCommentAddRequest;
-import ntk.android.base.api.blog.model.BlogCommentResponse;
-import ntk.android.base.api.blog.model.BlogContentFavoriteAddRequest;
-import ntk.android.base.api.blog.model.BlogContentFavoriteAddResponse;
-import ntk.android.base.api.blog.model.BlogContentFavoriteRemoveRequest;
-import ntk.android.base.api.blog.model.BlogContentFavoriteRemoveResponse;
-import ntk.android.base.api.blog.model.BlogContentOtherInfoListResponse;
 import ntk.android.base.api.blog.model.BlogContentResponse;
 import ntk.android.base.api.blog.model.BlogContentViewRequest;
 import ntk.android.base.api.core.entity.CoreMain;
@@ -63,7 +55,9 @@ import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.config.NtkObserver;
 import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.dtomodel.core.ScoreClickDtoModel;
 import ntk.android.base.entitymodel.base.ErrorException;
+import ntk.android.base.entitymodel.base.ErrorExceptionBase;
 import ntk.android.base.entitymodel.base.FilterDataModel;
 import ntk.android.base.entitymodel.base.Filters;
 import ntk.android.base.entitymodel.blog.BlogCommentModel;
@@ -163,9 +157,9 @@ public class BlogDetailActivity extends AppCompatActivity {
 
                 if (AppUtill.isNetworkAvailable(BlogDetailActivity.this)) {
 
-                    BlogContentViewRequest request = new BlogContentViewRequest();
+                    ScoreClickDtoModel request = new ScoreClickDtoModel();
                     request.Id = Request.Id;
-                    request.ActionClientOrder = 55;
+//                    request.ActionClientOrder = 55;//todo
                     if (rating == 0.5) {
                         request.ScorePercent = 10;
                     }
@@ -196,20 +190,13 @@ public class BlogDetailActivity extends AppCompatActivity {
                     if (rating == 5) {
                         request.ScorePercent = 100;
                     }
-                    IBlog iBlog = new RetrofitManager(BlogDetailActivity.this).getRetrofitUnCached(new ConfigStaticValue(BlogDetailActivity.this).GetApiBaseUrl()).create(IBlog.class);
-                    Map<String, String> headers = new ConfigRestHeader().GetHeaders(BlogDetailActivity.this);
 
-                    Observable<BlogContentResponse> Call = iBlog.GetContentView(headers, request);
-                    new BlogContentService(BlogDetailActivity.this).getOne(request).observeOn(AndroidSchedulers.mainThread())
+                    new BlogContentService(BlogDetailActivity.this).scoreClick(request).observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
-                            .subscribe(new Observer<BlogContentResponse>() {
-                                @Override
-                                public void onSubscribe(Disposable d) {
-
-                                }
+                            .subscribe(new NtkObserver<ErrorExceptionBase>() {
 
                                 @Override
-                                public void onNext(BlogContentResponse biographyContentResponse) {
+                                public void onNext(ErrorExceptionBase biographyContentResponse) {
                                     Loading.setVisibility(View.GONE);
                                     if (biographyContentResponse.IsSuccess) {
                                         Toasty.success(BlogDetailActivity.this, "نظر شمابا موفقیت ثبت گردید").show();
@@ -229,10 +216,6 @@ public class BlogDetailActivity extends AppCompatActivity {
                                     }).show();
                                 }
 
-                                @Override
-                                public void onComplete() {
-
-                                }
                             });
                 } else {
                     Loading.setVisibility(View.GONE);
@@ -532,8 +515,8 @@ public class BlogDetailActivity extends AppCompatActivity {
                         add.comment = Txt[1].getText().toString();
                         add.linkContentid = Request.Id;
 
-                        new BlogCommentService(this).Add(add).
-                      subscribeOn(Schedulers.io())
+                        new BlogCommentService(this).add(add).
+                                subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new NtkObserver<ErrorException<BlogCommentModel>>() {
                                     @Override
@@ -585,24 +568,13 @@ public class BlogDetailActivity extends AppCompatActivity {
 
     private void Fav() {
         if (AppUtill.isNetworkAvailable(this)) {
-            RetrofitManager retro = new RetrofitManager(this);
-            IBlog iBlog = retro.getRetrofitUnCached(configStaticValue.GetApiBaseUrl()).create(IBlog.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-
-            BlogContentFavoriteAddRequest add = new BlogContentFavoriteAddRequest();
-            add.Id = model.Item.Id;
-
-            Observable<BlogContentFavoriteAddResponse> Call = iBlog.SetContentFavoriteAdd(headers, add);
-            Call.subscribeOn(Schedulers.io())
+            new BlogContentService(this).addFavorite(model.Item.Id).
+                    subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<BlogContentFavoriteAddResponse>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
+                    .subscribe(new NtkObserver<ErrorExceptionBase>() {
 
                         @Override
-                        public void onNext(BlogContentFavoriteAddResponse e) {
+                        public void onNext(ErrorExceptionBase e) {
                             if (e.IsSuccess) {
                                 Toasty.success(BlogDetailActivity.this, "با موفقیت ثبت شد").show();
                                 model.Item.favorited = !model.Item.favorited;
@@ -627,10 +599,6 @@ public class BlogDetailActivity extends AppCompatActivity {
                             }).show();
                         }
 
-                        @Override
-                        public void onComplete() {
-
-                        }
                     });
         } else {
             Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
@@ -644,24 +612,15 @@ public class BlogDetailActivity extends AppCompatActivity {
 
     private void UnFav() {
         if (AppUtill.isNetworkAvailable(this)) {
-            RetrofitManager retro = new RetrofitManager(this);
-            IBlog iBlog = retro.getRetrofitUnCached(configStaticValue.GetApiBaseUrl()).create(IBlog.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
 
-            BlogContentFavoriteRemoveRequest add = new BlogContentFavoriteRemoveRequest();
-            add.Id = model.Item.Id;
-
-            Observable<BlogContentFavoriteRemoveResponse> Call = iBlog.SetContentFavoriteRemove(headers, add);
-            Call.subscribeOn(Schedulers.io())
+            new BlogContentService(this).removeFavorite(model.Item.Id)
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<BlogContentFavoriteRemoveResponse>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
+                    .subscribe(new  NtkObserver<ErrorExceptionBase>() {
 
-                        }
 
                         @Override
-                        public void onNext(BlogContentFavoriteRemoveResponse e) {
+                        public void onNext(ErrorExceptionBase e) {
                             if (e.IsSuccess) {
                                 model.Item.favorited = !model.Item.favorited;
                                 if (model.Item.favorited) {
@@ -686,10 +645,6 @@ public class BlogDetailActivity extends AppCompatActivity {
                             }).show();
                         }
 
-                        @Override
-                        public void onComplete() {
-
-                        }
                     });
         } else {
             Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {

@@ -15,19 +15,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.activity.BaseActivity;
-import ntk.android.base.api.blog.entity.BlogContent;
-import ntk.android.base.api.blog.interfase.IBlog;
-import ntk.android.base.api.blog.model.BlogContentListRequest;
-import ntk.android.base.api.blog.model.BlogContentListResponse;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.ConfigStaticValue;
-import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.config.NtkObserver;
+import ntk.android.base.entitymodel.base.ErrorException;
+import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.blog.BlogContentModel;
+import ntk.android.base.services.blog.BlogContentService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.EndlessRecyclerViewScrollListener;
 import ntk.android.base.utill.FontManager;
@@ -46,7 +42,7 @@ public class BlogActivity extends BaseActivity {
     SwipeRefreshLayout Refresh;
 
     private int Total = 0;
-    private List<BlogContent> blog = new ArrayList<>();
+    private List<BlogContentModel> blog = new ArrayList<>();
     private BlogAdapter adapter;
 
     @Override
@@ -88,24 +84,16 @@ public class BlogActivity extends BaseActivity {
     private void RestCall(int i) {
         if (AppUtill.isNetworkAvailable(this)) {
             switcher.showProgressView();
-
-            IBlog iBlog = new RetrofitManager(this).getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IBlog.class);
-
-            BlogContentListRequest request = new BlogContentListRequest();
+            FilterDataModel request = new FilterDataModel();
             request.RowPerPage = 20;
             request.CurrentPageNumber = i;
-            Observable<BlogContentListResponse> call = iBlog.GetContentList(new ConfigRestHeader().GetHeaders(this), request);
             //todo show loading
-            call.observeOn(AndroidSchedulers.mainThread())
+            new BlogContentService(this).getAll(request).
+                    observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<BlogContentListResponse>() {
+                    .subscribe(new NtkObserver<ErrorException<BlogContentModel>>() {
                         @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(BlogContentListResponse blogContentResponse) {
+                        public void onNext(@NonNull ErrorException<BlogContentModel> blogContentResponse) {
                             if (blogContentResponse.IsSuccess) {
                                 blog.addAll(blogContentResponse.ListItems);
                                 Total = blogContentResponse.TotalRowCount;
@@ -119,14 +107,8 @@ public class BlogActivity extends BaseActivity {
                         }
 
                         @Override
-                        public void onError(Throwable e) {
+                        public void onError(@NonNull Throwable e) {
                             switcher.showErrorView("خطای سامانه مجددا تلاش کنید", () -> init());
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
                         }
                     });
         } else {

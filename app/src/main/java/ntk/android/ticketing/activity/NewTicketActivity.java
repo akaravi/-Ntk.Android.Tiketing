@@ -60,8 +60,6 @@ import ntk.android.base.activity.BaseActivity;
 import ntk.android.base.api.file.entity.FileUploadModel;
 import ntk.android.base.api.file.interfase.IFile;
 import ntk.android.base.api.member.model.MemberUserActAddRequest;
-import ntk.android.base.api.ticket.interfase.ITicket;
-import ntk.android.base.api.ticket.model.TicketingTaskResponse;
 import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.config.NtkObserver;
@@ -280,7 +278,7 @@ public class NewTicketActivity extends BaseActivity {
 
             findViewById(R.id.btnSubmitActSendTicket).setClickable(false);
 
-            new TicketingTaskService(this).Add(request).
+            new TicketingTaskService(this).add(request).
                     observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(new NtkObserver<ErrorException<TicketingTaskModel>>() {

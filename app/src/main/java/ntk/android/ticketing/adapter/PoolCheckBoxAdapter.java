@@ -31,6 +31,7 @@ import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.RetrofitManager;
 import ntk.android.base.entitymodel.polling.PollingContentModel;
 import ntk.android.base.entitymodel.polling.PollingOptionModel;
+import ntk.android.base.services.pooling.PollingVoteService;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 
@@ -103,7 +104,7 @@ public class PoolCheckBoxAdapter extends RecyclerView.Adapter<PoolCheckBoxAdapte
             RetrofitManager retro = new RetrofitManager(context);
             IPooling iPooling = retro.getRetrofitUnCached().create(IPooling.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);
-
+            new PollingVoteService(this).add()
             Observable<PoolingSubmitResponse> observable = iPooling.SetSubmitPooling(headers, request);
             observable.observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())

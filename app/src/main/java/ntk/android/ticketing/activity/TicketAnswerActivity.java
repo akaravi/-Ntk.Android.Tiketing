@@ -146,7 +146,7 @@ public class TicketAnswerActivity extends AppCompatActivity {
 
     private void HandelData(int i) {
         if (AppUtill.isNetworkAvailable(this)) {
-            RetrofitManager retro = new RetrofitManager(this);
+
             new TicketingAnswerService(this).getAll(new Gson().fromJson(getIntent().getExtras().getString("Request"), FilterDataModel.class))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -203,7 +203,7 @@ public class TicketAnswerActivity extends AppCompatActivity {
                 request.linkTicketId = getIntent().getLongExtra("TicketId", 0);
                 request.linkFileIds = linkFileIds;
 
-                new TicketingAnswerService(this).Add(request)
+                new TicketingAnswerService(this).add(request)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
                         .subscribe(new NtkObserver<ErrorException<TicketingAnswerModel>>() {

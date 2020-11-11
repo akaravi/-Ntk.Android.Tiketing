@@ -3,12 +3,13 @@ package ntk.android.ticketing.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 
@@ -18,14 +19,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.base.Filters;
 import ntk.android.base.entitymodel.ticketing.TicketingTaskModel;
 import ntk.android.base.utill.AppUtill;
+import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.TicketAnswerActivity;
-import ntk.android.base.utill.FontManager;
+
 ;
-import ntk.android.base.api.ticket.model.TicketingAnswerListRequest;
-import ntk.android.base.api.ticket.entity.TicketingTask;
 
 public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder> {
 
@@ -71,7 +73,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
                 break;
         }
         holder.Root.setOnClickListener(v -> {
-            TicketingAnswerListRequest request = new TicketingAnswerListRequest();
+            FilterDataModel request = new FilterDataModel();
             List<Filters> filters = new ArrayList<>();
             Filters f = new Filters();
             f.PropertyName = "LinkTicketId";

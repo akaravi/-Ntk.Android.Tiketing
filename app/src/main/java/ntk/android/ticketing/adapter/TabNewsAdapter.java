@@ -11,16 +11,17 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ntk.android.base.entitymodel.news.NewsContentOtherInfoModel;
 import ntk.android.ticketing.R;
 import ntk.android.base.utill.FontManager;
 import ntk.android.base.api.news.entity.NewsContentOtherInfo;
 
 public class TabNewsAdapter extends RecyclerView.Adapter<TabNewsAdapter.ViewHolder> {
 
-    private List<NewsContentOtherInfo> arrayList;
+    private List<NewsContentOtherInfoModel> arrayList;
     private Context context;
 
-    public TabNewsAdapter(Context context, List<NewsContentOtherInfo> arrayList) {
+    public TabNewsAdapter(Context context, List<NewsContentOtherInfoModel> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -33,11 +34,11 @@ public class TabNewsAdapter extends RecyclerView.Adapter<TabNewsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.Btn.setText(arrayList.get(position).Title);
-        if (arrayList.get(position).TypeId == 0) {
-            holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + arrayList.get(position).HtmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8");
+        holder.Btn.setText(arrayList.get(position).title);
+        if (arrayList.get(position).typeId == 0) {
+            holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + arrayList.get(position).htmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8");
         }
-        holder.Ripple.setOnClickListener(v -> holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + arrayList.get(position).HtmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8"));
+        holder.Ripple.setOnClickListener(v -> holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + arrayList.get(position).htmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8"));
     }
 
     @Override

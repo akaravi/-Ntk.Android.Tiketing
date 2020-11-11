@@ -21,23 +21,23 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.utill.AppUtill;
-import ntk.android.base.utill.FontManager;
-import ntk.android.ticketing.R;
-import ntk.android.base.api.news.entity.NewsComment;
 import ntk.android.base.api.news.interfase.INews;
 import ntk.android.base.api.news.model.NewsCommentResponse;
 import ntk.android.base.api.news.model.NewsCommentViewRequest;
 import ntk.android.base.api.utill.NTKClientAction;
+import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.entitymodel.news.NewsCommentModel;
+import ntk.android.base.utill.AppUtill;
+import ntk.android.base.utill.FontManager;
+import ntk.android.ticketing.R;
 
 public class CommentNewsAdapter extends RecyclerView.Adapter<CommentNewsAdapter.ViewHolder> {
 
-    private List<NewsComment> arrayList;
+    private List<NewsCommentModel> arrayList;
     private Context context;
 
-    public CommentNewsAdapter(Context context, List<NewsComment> arrayList) {
+    public CommentNewsAdapter(Context context, List<NewsCommentModel> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -50,15 +50,15 @@ public class CommentNewsAdapter extends RecyclerView.Adapter<CommentNewsAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.Lbls.get(0).setText(arrayList.get(position).Writer);
+        holder.Lbls.get(0).setText(arrayList.get(position).writer);
         if (arrayList.get(position).CreatedDate != null) {
-            holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate));
+            holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate.toString()));//todo check date
         } else {
             holder.Lbls.get(1).setText("");
         }
-        holder.Lbls.get(2).setText(String.valueOf(arrayList.get(position).SumDisLikeClick));
-        holder.Lbls.get(3).setText(String.valueOf(arrayList.get(position).SumLikeClick));
-        holder.Lbls.get(4).setText(String.valueOf(arrayList.get(position).Comment));
+        holder.Lbls.get(2).setText(String.valueOf(arrayList.get(position).sumDisLikeClick));
+        holder.Lbls.get(3).setText(String.valueOf(arrayList.get(position).sumLikeClick));
+        holder.Lbls.get(4).setText(String.valueOf(arrayList.get(position).comment));
 
         holder.ImgLike.setOnClickListener(v -> {
             NewsCommentViewRequest request = new NewsCommentViewRequest();
@@ -79,7 +79,7 @@ public class CommentNewsAdapter extends RecyclerView.Adapter<CommentNewsAdapter.
                         @Override
                         public void onNext(NewsCommentResponse model) {
                             if (model.IsSuccess) {
-                                arrayList.get(position).SumLikeClick = arrayList.get(position).SumLikeClick + 1;
+                                arrayList.get(position).sumLikeClick = arrayList.get(position).sumLikeClick + 1;
                                 notifyDataSetChanged();
                             } else {
                                 Toasty.warning(context, model.ErrorMessage, Toasty.LENGTH_LONG, true).show();
@@ -116,7 +116,7 @@ public class CommentNewsAdapter extends RecyclerView.Adapter<CommentNewsAdapter.
                         @Override
                         public void onNext(NewsCommentResponse model) {
                             if (model.IsSuccess) {
-                                arrayList.get(position).SumDisLikeClick = arrayList.get(position).SumDisLikeClick - 1;
+                                arrayList.get(position).sumDisLikeClick = arrayList.get(position).sumDisLikeClick - 1;
                                 notifyDataSetChanged();
                             } else {
                                 Toasty.warning(context, model.ErrorMessage, Toasty.LENGTH_LONG, true).show();

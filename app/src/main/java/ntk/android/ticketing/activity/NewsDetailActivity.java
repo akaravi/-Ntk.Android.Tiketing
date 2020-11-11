@@ -42,33 +42,37 @@ import es.dmoral.toasty.Toasty;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import ntk.android.base.api.core.entity.CoreMain;
+import ntk.android.base.api.news.interfase.INews;
+import ntk.android.base.api.news.model.NewsCommentResponse;
+import ntk.android.base.api.news.model.NewsContentResponse;
+import ntk.android.base.api.news.model.NewsContentViewRequest;
 import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.config.NtkObserver;
+import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.dtomodel.core.ScoreClickDtoModel;
+import ntk.android.base.entitymodel.base.ErrorException;
+import ntk.android.base.entitymodel.base.ErrorExceptionBase;
+import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.base.Filters;
+import ntk.android.base.entitymodel.news.NewsCommentModel;
+import ntk.android.base.entitymodel.news.NewsContentOtherInfoModel;
+import ntk.android.base.services.news.NewsCommentService;
+import ntk.android.base.services.news.NewsContentOtherInfoService;
+import ntk.android.base.services.news.NewsContentService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.EasyPreference;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.CommentNewsAdapter;
-import ntk.android.ticketing.adapter.TabNewsAdapter;
 import ntk.android.ticketing.adapter.NewsAdapter;
+import ntk.android.ticketing.adapter.TabNewsAdapter;
+
 ;
-import ntk.android.base.api.core.entity.CoreMain;
-import ntk.android.base.api.news.entity.NewsContentOtherInfo;
-import ntk.android.base.api.news.interfase.INews;
-import ntk.android.base.api.news.model.NewsCommentAddRequest;
-import ntk.android.base.api.news.model.NewsCommentListRequest;
-import ntk.android.base.api.news.model.NewsCommentResponse;
-import ntk.android.base.api.news.model.NewsContentFavoriteAddRequest;
-import ntk.android.base.api.news.model.NewsContentFavoriteAddResponse;
-import ntk.android.base.api.news.model.NewsContentFavoriteRemoveRequest;
-import ntk.android.base.api.news.model.NewsContentFavoriteRemoveResponse;
-import ntk.android.base.api.news.model.NewsContentOtherInfoRequest;
-import ntk.android.base.api.news.model.NewsContentOtherInfoResponse;
-import ntk.android.base.api.news.model.NewsContentResponse;
-import ntk.android.base.api.news.model.NewsContentViewRequest;
-import ntk.android.base.config.RetrofitManager;
 
 public class NewsDetailActivity extends AppCompatActivity {
 
@@ -115,7 +119,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     private String RequestStr;
     private NewsContentResponse model;
-    private NewsContentOtherInfoResponse Info;
+    private ErrorException<NewsContentOtherInfoModel> Info;
     private NewsContentViewRequest Request;
     private ConfigStaticValue configStaticValue;
 
@@ -153,9 +157,9 @@ public class NewsDetailActivity extends AppCompatActivity {
 
                 if (AppUtill.isNetworkAvailable(NewsDetailActivity.this)) {
 
-                    NewsContentViewRequest request = new NewsContentViewRequest();
+                    ScoreClickDtoModel request = new ScoreClickDtoModel();
                     request.Id = Request.Id;
-                    request.ActionClientOrder = 55;
+                    //                    request.ActionClientOrder = 55;//todo
                     if (rating == 0.5) {
                         request.ScorePercent = 10;
                     }
@@ -187,20 +191,13 @@ public class NewsDetailActivity extends AppCompatActivity {
                         request.ScorePercent = 100;
                     }
 
-                    INews iNews = new RetrofitManager(NewsDetailActivity.this).getRetrofitUnCached(new ConfigStaticValue(NewsDetailActivity.this).GetApiBaseUrl()).create(INews.class);
-                    Map<String, String> headers = new ConfigRestHeader().GetHeaders(NewsDetailActivity.this);
-
-                    Observable<NewsContentResponse> Call = iNews.GetContentView(headers, request);
-                    Call.observeOn(AndroidSchedulers.mainThread())
+                 new NewsContentService(NewsDetailActivity.this).scoreClick(request).observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
-                            .subscribe(new Observer<NewsContentResponse>() {
-                                @Override
-                                public void onSubscribe(Disposable d) {
+                            .subscribe(new NtkObserver<ErrorExceptionBase>() {
 
-                                }
 
                                 @Override
-                                public void onNext(NewsContentResponse biographyContentResponse) {
+                                public void onNext(ErrorExceptionBase biographyContentResponse) {
                                     Loading.setVisibility(View.GONE);
                                     if (biographyContentResponse.IsSuccess) {
                                         Toasty.success(NewsDetailActivity.this, "نظر شمابا موفقیت ثبت گردید").show();
@@ -220,10 +217,6 @@ public class NewsDetailActivity extends AppCompatActivity {
                                     }).show();
                                 }
 
-                                @Override
-                                public void onComplete() {
-
-                                }
                             });
                 } else {
                     Loading.setVisibility(View.GONE);
@@ -297,26 +290,18 @@ public class NewsDetailActivity extends AppCompatActivity {
     private void HandelDataComment(long ContentId) {
         if (AppUtill.isNetworkAvailable(this)) {
             List<Filters> filters = new ArrayList<>();
-            NewsCommentListRequest Request = new NewsCommentListRequest();
+            FilterDataModel Request = new FilterDataModel();
             Filters f = new Filters();
             f.PropertyName = "LinkContentId";
             f.IntValue1 = ContentId;
             filters.add(f);
             Request.filters = filters;
             RetrofitManager retro = new RetrofitManager(this);
-            INews iNews = retro.getRetrofitUnCached(configStaticValue.GetApiBaseUrl()).create(INews.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-            Observable<NewsCommentResponse> call = iNews.GetCommentList(headers, Request);
-            call.subscribeOn(Schedulers.io())
+            new NewsCommentService(this).getAll(Request).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<NewsCommentResponse>() {
+                    .subscribe(new NtkObserver<ErrorException<NewsCommentModel>>() {
                         @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(NewsCommentResponse model) {
+                        public void onNext(@NonNull ErrorException<NewsCommentModel> model) {
                             if (model.IsSuccess && !model.ListItems.isEmpty()) {
                                 findViewById(R.id.lblCommentActDetailNews).setVisibility(View.VISIBLE);
                                 CommentNewsAdapter adapter = new CommentNewsAdapter(NewsDetailActivity.this, model.ListItems);
@@ -328,18 +313,13 @@ public class NewsDetailActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onError(Throwable e) {
+                        public void onError(@NonNull Throwable e) {
                             Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     init();
                                 }
                             }).show();
-                        }
-
-                        @Override
-                        public void onComplete() {
-
                         }
                     });
         } else {
@@ -357,28 +337,19 @@ public class NewsDetailActivity extends AppCompatActivity {
     private void HandelDataContentOtherInfo(long ContentId) {
         if (AppUtill.isNetworkAvailable(this)) {
             List<Filters> filters = new ArrayList<>();
-            NewsContentOtherInfoRequest Request = new NewsContentOtherInfoRequest();
+            FilterDataModel Request = new FilterDataModel();
             Filters f = new Filters();
             f.PropertyName = "LinkContentId";
             f.IntValue1 = ContentId;
             filters.add(f);
             Request.filters = filters;
-            RetrofitManager retro = new RetrofitManager(this);
-            INews iNews = retro.getRetrofitUnCached(configStaticValue.GetApiBaseUrl()).create(INews.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
 
-
-            Observable<NewsContentOtherInfoResponse> call = iNews.GetContentOtherInfoList(headers, Request);
-            call.observeOn(AndroidSchedulers.mainThread())
+            new NewsContentOtherInfoService(this).getAll(Request).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<NewsContentOtherInfoResponse>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
+                    .subscribe(new NtkObserver<ErrorException<NewsContentOtherInfoModel>>() {
 
                         @Override
-                        public void onNext(NewsContentOtherInfoResponse ContentOtherInfoResponse) {
+                        public void onNext(@NonNull ErrorException<NewsContentOtherInfoModel> ContentOtherInfoResponse) {
                             SetDataOtherinfo(ContentOtherInfoResponse);
                         }
 
@@ -392,10 +363,6 @@ public class NewsDetailActivity extends AppCompatActivity {
                             }).show();
                         }
 
-                        @Override
-                        public void onComplete() {
-
-                        }
                     });
         } else {
             Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
@@ -408,34 +375,34 @@ public class NewsDetailActivity extends AppCompatActivity {
     }
 
 
-    private void SetDataOtherinfo(NewsContentOtherInfoResponse model) {
+    private void SetDataOtherinfo(ErrorException<NewsContentOtherInfoModel> model) {
         Info = model;
         if (model.ListItems == null || model.ListItems.size() == 0) {
             LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             p.weight = 3;
             return;
         }
-        List<NewsContentOtherInfo> Info = new ArrayList<>();
+        List<NewsContentOtherInfoModel> Info = new ArrayList<>();
 
-        for (NewsContentOtherInfo ai : model.ListItems) {
-            switch (ai.TypeId) {
+        for (NewsContentOtherInfoModel ai : model.ListItems) {
+            switch (ai.typeId) {
                 case 21:
-                    Lbls.get(7).setText(ai.Title);
-                    ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
-                    ai.HtmlBody = ai.HtmlBody.replace("</p>", "");
-                    Lbls.get(6).setText(Html.fromHtml(ai.HtmlBody));
+                    Lbls.get(7).setText(ai.title);
+                    ai.htmlBody = ai.htmlBody.replace("<p>", "");
+                    ai.htmlBody = ai.htmlBody.replace("</p>", "");
+                    Lbls.get(6).setText(Html.fromHtml(ai.htmlBody));
                     break;
                 case 22:
-                    Lbls.get(9).setText(ai.Title);
-                    ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
-                    ai.HtmlBody = ai.HtmlBody.replace("</p>", "");
-                    Lbls.get(8).setText(Html.fromHtml(ai.HtmlBody));
+                    Lbls.get(9).setText(ai.title);
+                    ai.htmlBody = ai.htmlBody.replace("<p>", "");
+                    ai.htmlBody = ai.htmlBody.replace("</p>", "");
+                    Lbls.get(8).setText(Html.fromHtml(ai.htmlBody));
                     break;
                 case 23:
-                    Lbls.get(11).setText(ai.Title);
-                    ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
-                    ai.HtmlBody = ai.HtmlBody.replace("</p>", "");
-                    Lbls.get(10).setText(Html.fromHtml(ai.HtmlBody));
+                    Lbls.get(11).setText(ai.title);
+                    ai.htmlBody = ai.htmlBody.replace("<p>", "");
+                    ai.htmlBody = ai.htmlBody.replace("</p>", "");
+                    Lbls.get(10).setText(Html.fromHtml(ai.htmlBody));
                     break;
                 default:
                     Info.add(ai);
@@ -531,26 +498,17 @@ public class NewsDetailActivity extends AppCompatActivity {
                     Toast.makeText(NewsDetailActivity.this, "لطفا مقادیر را وارد نمایید", Toast.LENGTH_SHORT).show();
                 } else {
                     if (AppUtill.isNetworkAvailable(this)) {
-                        NewsCommentAddRequest add = new NewsCommentAddRequest();
-                        add.Writer = Txt[0].getText().toString();
-                        add.Comment = Txt[1].getText().toString();
-                        add.LinkContentId = Request.Id;
-                        RetrofitManager retro = new RetrofitManager(this);
-                        INews iNews = retro.getRetrofitUnCached(configStaticValue.GetApiBaseUrl()).create(INews.class);
-                        Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-
-
+                        NewsCommentModel add = new NewsCommentModel();
+                        add.writer = Txt[0].getText().toString();
+                        add.comment = Txt[1].getText().toString();
+                        add.linkContentid = Request.Id;
                         Observable<NewsCommentResponse> call = iNews.SetComment(headers, add);
-                        call.subscribeOn(Schedulers.io())
+                        new NewsCommentService(this).add(add).
+                                subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Observer<NewsCommentResponse>() {
+                                .subscribe(new NtkObserver<ErrorException<NewsCommentModel>>() {
                                     @Override
-                                    public void onSubscribe(Disposable d) {
-
-                                    }
-
-                                    @Override
-                                    public void onNext(NewsCommentResponse e) {
+                                    public void onNext(@NonNull ErrorException<NewsCommentModel> e) {
                                         if (e.IsSuccess) {
                                             HandelDataComment(Request.Id);
                                             dialog.dismiss();
@@ -562,18 +520,13 @@ public class NewsDetailActivity extends AppCompatActivity {
                                     }
 
                                     @Override
-                                    public void onError(Throwable e) {
+                                    public void onError(@NonNull Throwable e) {
                                         Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
                                                 init();
                                             }
                                         }).show();
-                                    }
-
-                                    @Override
-                                    public void onComplete() {
-
                                     }
                                 });
                     } else {
@@ -603,24 +556,14 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     private void Fav() {
         if (AppUtill.isNetworkAvailable(this)) {
-            RetrofitManager retro = new RetrofitManager(this);
-            INews iNews = retro.getRetrofitUnCached(configStaticValue.GetApiBaseUrl()).create(INews.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
 
-            NewsContentFavoriteAddRequest add = new NewsContentFavoriteAddRequest();
-            add.Id = model.Item.Id;
 
-            Observable<NewsContentFavoriteAddResponse> Call = iNews.SetContentFavoriteAdd(headers, add);
-            Call.subscribeOn(Schedulers.io())
+            new NewsContentService(this).addFavorite(model.Item.Id).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<NewsContentFavoriteAddResponse>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
+                    .subscribe(new NtkObserver<ErrorExceptionBase>() {
 
                         @Override
-                        public void onNext(NewsContentFavoriteAddResponse e) {
+                        public void onNext(ErrorExceptionBase e) {
                             if (e.IsSuccess) {
                                 Toasty.success(NewsDetailActivity.this, "با موفقیت ثبت شد").show();
                                 model.Item.Favorited = !model.Item.Favorited;
@@ -643,11 +586,6 @@ public class NewsDetailActivity extends AppCompatActivity {
                                 }
                             }).show();
                         }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
                     });
         } else {
             Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
@@ -661,24 +599,13 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     private void UnFav() {
         if (AppUtill.isNetworkAvailable(this)) {
-            RetrofitManager retro = new RetrofitManager(this);
-            INews iNews = retro.getRetrofitUnCached(configStaticValue.GetApiBaseUrl()).create(INews.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-
-            NewsContentFavoriteRemoveRequest add = new NewsContentFavoriteRemoveRequest();
-            add.Id = model.Item.Id;
-
-            Observable<NewsContentFavoriteRemoveResponse> Call = iNews.SetContentFavoriteRemove(headers, add);
-            Call.subscribeOn(Schedulers.io())
+            new NewsContentService(this).removeFavorite(model.Item.Id)
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<NewsContentFavoriteRemoveResponse>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
+                    .subscribe(new NtkObserver<ErrorExceptionBase>() {
 
                         @Override
-                        public void onNext(NewsContentFavoriteRemoveResponse e) {
+                        public void onNext(ErrorExceptionBase e) {
                             if (e.IsSuccess) {
                                 Toasty.success(NewsDetailActivity.this, "با موفقیت ثبت شد").show();
                                 model.Item.Favorited = !model.Item.Favorited;
