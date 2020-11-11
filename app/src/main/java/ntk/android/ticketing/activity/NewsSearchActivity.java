@@ -17,25 +17,26 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.activity.BaseActivity;
-import ntk.android.base.config.ConfigRestHeader;
+import ntk.android.base.api.news.entity.NewsContent;
+import ntk.android.base.api.news.interfase.INews;
+import ntk.android.base.api.utill.NTKUtill;
 import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.config.NtkObserver;
+import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.entitymodel.base.ErrorException;
+import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.base.Filters;
+import ntk.android.base.services.news.NewsContentService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.NewsAdapter;
-import ntk.android.base.api.baseModel.Filters;
-import ntk.android.base.api.news.entity.NewsContent;
-import ntk.android.base.api.news.interfase.INews;
-import ntk.android.base.api.news.model.NewsContentListRequest;
-import ntk.android.base.api.news.model.NewsContentResponse;
-import ntk.android.base.api.utill.NTKUtill;
-import ntk.android.base.config.RetrofitManager;
+
+;
 
 public class NewsSearchActivity extends BaseActivity {
 
@@ -84,10 +85,7 @@ public class NewsSearchActivity extends BaseActivity {
         if (!searchLock) {
             searchLock = true;
             if (AppUtill.isNetworkAvailable(this)) {
-                INews iNews = new RetrofitManager(this).getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(INews.class);
-
-
-                NewsContentListRequest request = new NewsContentListRequest();
+                FilterDataModel request = new FilterDataModel();
                 List<Filters> filters = new ArrayList<>();
                 Filters ft = new Filters();
                 ft.PropertyName = "Title";
@@ -113,17 +111,12 @@ public class NewsSearchActivity extends BaseActivity {
 
                 request.filters = filters;
                 switcher.showProgressView();
-                Observable<NewsContentResponse> Call = iNews.GetContentList(new ConfigRestHeader().GetHeaders(this), request);
-                Call.observeOn(AndroidSchedulers.mainThread())
+                new NewsContentService(this).getAll(request).
+                        observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
-                        .subscribe(new Observer<NewsContentResponse>() {
+                        .subscribe(new NtkObserver<ErrorException<NewsContent>>() {
                             @Override
-                            public void onSubscribe(Disposable d) {
-
-                            }
-
-                            @Override
-                            public void onNext(NewsContentResponse response) {
+                            public void onNext(@NonNull ErrorException<NewsContent> response) {
                                 searchLock = false;
                                 if (response.IsSuccess) {
                                     if (response.ListItems.size() != 0) {
@@ -139,16 +132,10 @@ public class NewsSearchActivity extends BaseActivity {
                             }
 
                             @Override
-                            public void onError(Throwable e) {
+                            public void onError(@NonNull Throwable e) {
                                 searchLock = false;
                                 btnRefresh.setVisibility(View.VISIBLE);
                                 switcher.showErrorView("خطا در دسترسی به سامانه", () -> init());
-
-                            }
-
-                            @Override
-                            public void onComplete() {
-
                             }
                         });
             } else {

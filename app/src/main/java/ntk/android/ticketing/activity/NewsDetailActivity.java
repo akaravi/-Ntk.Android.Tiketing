@@ -53,7 +53,7 @@ import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.CommentNewsAdapter;
 import ntk.android.ticketing.adapter.TabNewsAdapter;
 import ntk.android.ticketing.adapter.NewsAdapter;
-import ntk.android.base.api.baseModel.Filters;
+;
 import ntk.android.base.api.core.entity.CoreMain;
 import ntk.android.base.api.news.entity.NewsContentOtherInfo;
 import ntk.android.base.api.news.interfase.INews;

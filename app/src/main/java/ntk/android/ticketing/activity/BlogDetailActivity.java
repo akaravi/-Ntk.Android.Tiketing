@@ -4,14 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
-
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
@@ -26,6 +19,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -44,34 +44,42 @@ import es.dmoral.toasty.Toasty;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import ntk.android.base.utill.AppUtill;
-import ntk.android.base.utill.EasyPreference;
-import ntk.android.ticketing.R;
-import ntk.android.ticketing.adapter.BlogAdapter;
-import ntk.android.ticketing.adapter.CommentBlogAdapter;
-import ntk.android.ticketing.adapter.TabBlogAdapter;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.ConfigStaticValue;
-import ntk.android.ticketing.event.BlogHtmlBodyEvent;
-import ntk.android.base.utill.FontManager;
+import ntk.android.base.api.blog.entity.BlogContentOtherInfo;
 import ntk.android.base.api.blog.interfase.IBlog;
 import ntk.android.base.api.blog.model.BlogCommentAddRequest;
-import ntk.android.base.api.blog.model.BlogCommentListRequest;
 import ntk.android.base.api.blog.model.BlogCommentResponse;
 import ntk.android.base.api.blog.model.BlogContentFavoriteAddRequest;
 import ntk.android.base.api.blog.model.BlogContentFavoriteAddResponse;
 import ntk.android.base.api.blog.model.BlogContentFavoriteRemoveRequest;
 import ntk.android.base.api.blog.model.BlogContentFavoriteRemoveResponse;
-import ntk.android.base.api.blog.entity.BlogContentOtherInfo;
-import ntk.android.base.api.blog.model.BlogContentOtherInfoListRequest;
 import ntk.android.base.api.blog.model.BlogContentOtherInfoListResponse;
 import ntk.android.base.api.blog.model.BlogContentResponse;
 import ntk.android.base.api.blog.model.BlogContentViewRequest;
 import ntk.android.base.api.core.entity.CoreMain;
-import ntk.android.base.api.baseModel.Filters;
+import ntk.android.base.config.ConfigRestHeader;
+import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.config.NtkObserver;
 import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.entitymodel.base.ErrorException;
+import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.base.Filters;
+import ntk.android.base.entitymodel.blog.BlogCommentModel;
+import ntk.android.base.entitymodel.blog.BlogContentModel;
+import ntk.android.base.entitymodel.blog.BlogContentOtherInfoModel;
+import ntk.android.base.services.blog.BlogCommentService;
+import ntk.android.base.services.blog.BlogContentOtherInfoService;
+import ntk.android.base.services.blog.BlogContentService;
+import ntk.android.base.utill.AppUtill;
+import ntk.android.base.utill.EasyPreference;
+import ntk.android.base.utill.FontManager;
+import ntk.android.ticketing.R;
+import ntk.android.ticketing.adapter.BlogAdapter;
+import ntk.android.ticketing.adapter.CommentBlogAdapter;
+import ntk.android.ticketing.adapter.TabBlogAdapter;
+import ntk.android.ticketing.event.BlogHtmlBodyEvent;
 
 public class BlogDetailActivity extends AppCompatActivity {
 
@@ -117,9 +125,9 @@ public class BlogDetailActivity extends AppCompatActivity {
     CoordinatorLayout layout;
 
     private String RequestStr;
-    private BlogContentResponse model;
-    private BlogContentOtherInfoListResponse Info;
-    private BlogContentViewRequest Request;
+    private ErrorException<BlogContentModel> model;
+    private ErrorException<BlogContentOtherInfoModel> Info;
+    private BlogContentModel Request;
     private ConfigStaticValue configStaticValue;
 
     @Override
@@ -142,7 +150,7 @@ public class BlogDetailActivity extends AppCompatActivity {
         RvTab.setHasFixedSize(true);
         RvTab.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         RequestStr = getIntent().getExtras().getString("Request");
-        Request = new Gson().fromJson(RequestStr, BlogContentViewRequest.class);
+        Request = new Gson().fromJson(RequestStr, BlogContentModel.class);
         HandelDataContent(Request);
         Loading.setVisibility(View.VISIBLE);
 
@@ -192,7 +200,7 @@ public class BlogDetailActivity extends AppCompatActivity {
                     Map<String, String> headers = new ConfigRestHeader().GetHeaders(BlogDetailActivity.this);
 
                     Observable<BlogContentResponse> Call = iBlog.GetContentView(headers, request);
-                    Call.observeOn(AndroidSchedulers.mainThread())
+                    new BlogContentService(BlogDetailActivity.this).getOne(request).observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
                             .subscribe(new Observer<BlogContentResponse>() {
                                 @Override
@@ -240,23 +248,14 @@ public class BlogDetailActivity extends AppCompatActivity {
     }
 
 
-    private void HandelDataContent(BlogContentViewRequest request) {
+    private void HandelDataContent(BlogContentModel request) {
         if (AppUtill.isNetworkAvailable(this)) {
-            RetrofitManager retro = new RetrofitManager(this);
-            IBlog iBlog = retro.getRetrofitUnCached(configStaticValue.GetApiBaseUrl()).create(IBlog.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-
-            Observable<BlogContentResponse> call = iBlog.GetContentView(headers, request);
-            call.observeOn(AndroidSchedulers.mainThread())
+            new BlogContentService(this).getOne(request.Id).
+                    observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<BlogContentResponse>() {
+                    .subscribe(new NtkObserver<ErrorException<BlogContentModel>>() {
                         @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(BlogContentResponse ContentResponse) {
+                        public void onNext(ErrorException<BlogContentModel> ContentResponse) {
                             Loading.setVisibility(View.GONE);
                             model = ContentResponse;
                             SetData(model);
@@ -279,10 +278,6 @@ public class BlogDetailActivity extends AppCompatActivity {
                             }).show();
                         }
 
-                        @Override
-                        public void onComplete() {
-
-                        }
                     });
         } else {
             Loading.setVisibility(View.GONE);
@@ -298,26 +293,18 @@ public class BlogDetailActivity extends AppCompatActivity {
     private void HandelDataComment(long ContentId) {
         if (AppUtill.isNetworkAvailable(this)) {
             List<Filters> filters = new ArrayList<>();
-            BlogCommentListRequest Request = new BlogCommentListRequest();
+            FilterDataModel Request = new FilterDataModel();
             Filters f = new Filters();
             f.PropertyName = "LinkContentId";
             f.IntValue1 = ContentId;
             filters.add(f);
             Request.filters = filters;
-            RetrofitManager retro = new RetrofitManager(this);
-            IBlog iBlog = retro.getRetrofitUnCached(configStaticValue.GetApiBaseUrl()).create(IBlog.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-            Observable<BlogCommentResponse> call = iBlog.GetCommentList(headers, Request);
-            call.subscribeOn(Schedulers.io())
+            new BlogCommentService(this).getAll(Request).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<BlogCommentResponse>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
+                    .subscribe(new NtkObserver<ErrorException<BlogCommentModel>>() {
 
                         @Override
-                        public void onNext(BlogCommentResponse model) {
+                        public void onNext(ErrorException<BlogCommentModel> model) {
                             if (model.IsSuccess && !model.ListItems.isEmpty()) {
                                 findViewById(R.id.lblCommentActDetailBlog).setVisibility(View.VISIBLE);
                                 CommentBlogAdapter adapter = new CommentBlogAdapter(BlogDetailActivity.this, model.ListItems);
@@ -357,44 +344,30 @@ public class BlogDetailActivity extends AppCompatActivity {
     private void HandelDataContentOtherInfo(long ContentId) {
         if (AppUtill.isNetworkAvailable(this)) {
             List<Filters> filters = new ArrayList<>();
-            BlogContentOtherInfoListRequest Request = new BlogContentOtherInfoListRequest();
+            FilterDataModel Request = new FilterDataModel();
             Filters f = new Filters();
             f.PropertyName = "LinkContentId";
             f.IntValue1 = ContentId;
             filters.add(f);
             Request.filters = filters;
-            RetrofitManager retro = new RetrofitManager(this);
-            IBlog iBlog = retro.getRetrofitUnCached(configStaticValue.GetApiBaseUrl()).create(IBlog.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
 
 
-            Observable<BlogContentOtherInfoListResponse> call = iBlog.GetContentOtherInfoList(headers, Request);
-            call.observeOn(AndroidSchedulers.mainThread())
+            new BlogContentOtherInfoService(this).getAll(Request).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<BlogContentOtherInfoListResponse>() {
+                    .subscribe(new NtkObserver<ErrorException<BlogContentOtherInfoModel>>() {
                         @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(BlogContentOtherInfoListResponse ContentOtherInfoResponse) {
+                        public void onNext(@NonNull ErrorException<BlogContentOtherInfoModel> ContentOtherInfoResponse) {
                             SetDataOtherinfo(ContentOtherInfoResponse);
                         }
 
                         @Override
-                        public void onError(Throwable e) {
+                        public void onError(@NonNull Throwable e) {
                             Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     init();
                                 }
                             }).show();
-                        }
-
-                        @Override
-                        public void onComplete() {
-
                         }
                     });
         } else {
@@ -407,34 +380,34 @@ public class BlogDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void SetDataOtherinfo(BlogContentOtherInfoListResponse model) {
+    private void SetDataOtherinfo(ErrorException<BlogContentOtherInfoModel> model) {
         Info = model;
         if (model.ListItems == null || model.ListItems.size() == 0) {
             LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             p.weight = 3;
             return;
         }
-        List<BlogContentOtherInfo> Info = new ArrayList<>();
+        List<BlogContentOtherInfoModel> Info = new ArrayList<>();
 
-        for (BlogContentOtherInfo ai : model.ListItems) {
-            switch (ai.TypeId) {
+        for (BlogContentOtherInfoModel ai : model.ListItems) {
+            switch (ai.typeId) {
                 case 21:
-                    Lbls.get(7).setText(ai.Title);
-                    ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
-                    ai.HtmlBody = ai.HtmlBody.replace("</p>", "");
-                    Lbls.get(6).setText(Html.fromHtml(ai.HtmlBody));
+                    Lbls.get(7).setText(ai.title);
+                    ai.htmlBody = ai.htmlBody.replace("<p>", "");
+                    ai.htmlBody = ai.htmlBody.replace("</p>", "");
+                    Lbls.get(6).setText(Html.fromHtml(ai.htmlBody));
                     break;
                 case 22:
-                    Lbls.get(9).setText(ai.Title);
-                    ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
-                    ai.HtmlBody = ai.HtmlBody.replace("</p>", "");
-                    Lbls.get(8).setText(Html.fromHtml(ai.HtmlBody));
+                    Lbls.get(9).setText(ai.title);
+                    ai.htmlBody = ai.htmlBody.replace("<p>", "");
+                    ai.htmlBody = ai.htmlBody.replace("</p>", "");
+                    Lbls.get(8).setText(Html.fromHtml(ai.htmlBody));
                     break;
                 case 23:
-                    Lbls.get(11).setText(ai.Title);
-                    ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
-                    ai.HtmlBody = ai.HtmlBody.replace("</p>", "");
-                    Lbls.get(10).setText(Html.fromHtml(ai.HtmlBody));
+                    Lbls.get(11).setText(ai.title);
+                    ai.htmlBody = ai.htmlBody.replace("<p>", "");
+                    ai.htmlBody = ai.htmlBody.replace("</p>", "");
+                    Lbls.get(10).setText(Html.fromHtml(ai.htmlBody));
                     break;
                 default:
                     Info.add(ai);
@@ -446,14 +419,14 @@ public class BlogDetailActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private void SetData(BlogContentResponse model) {
-        ImageLoader.getInstance().displayImage(model.Item.imageSrc, ImgHeader);
+    private void SetData(ErrorException<BlogContentModel> model) {
+        ImageLoader.getInstance().displayImage(model.Item.mainImageSrc, ImgHeader);
         Lbls.get(0).setText(model.Item.Title);
         Lbls.get(1).setText(model.Item.Title);
         Lbls.get(3).setText(String.valueOf(model.Item.viewCount));
         double rating = 0.0;
-        int sumClick = model.Item.ScoreSumClick;
-        if (model.Item.ScoreSumClick == 0) sumClick = 1;
+        int sumClick = model.Item.viewCount;
+        if (model.Item.viewCount == 0) sumClick = 1;
         if (model.Item.ScoreSumPercent / sumClick > 0 && model.Item.ScoreSumPercent / sumClick <= 10) {
             rating = 0.5;
         } else if (model.Item.ScoreSumPercent / sumClick > 10 && model.Item.ScoreSumPercent / sumClick <= 20) {
@@ -476,9 +449,9 @@ public class BlogDetailActivity extends AppCompatActivity {
             rating = 5.0;
         }
         Rate.setRating((float) rating);
-        if (model.Item.Body != null)
-            webViewBody.loadData("<html dir=\"rtl\" lang=\"\"><body>" + model.Item.Body + "</body></html>", "text/html; charset=utf-8", "UTF-8");
-        if (model.Item.Favorited) {
+        if (model.Item.body != null)
+            webViewBody.loadData("<html dir=\"rtl\" lang=\"\"><body>" + model.Item.body + "</body></html>", "text/html; charset=utf-8", "UTF-8");
+        if (model.Item.favorited) {
             ((ImageView) findViewById(R.id.imgHeartActDetailBlog)).setImageResource(R.drawable.ic_fav_full);
         }
 
@@ -554,26 +527,17 @@ public class BlogDetailActivity extends AppCompatActivity {
                     if (Txt[1].getText().toString().isEmpty()) {
                         Toast.makeText(BlogDetailActivity.this, "لطفا مقادیر را وارد نمایید", Toast.LENGTH_SHORT).show();
                     } else {
-                        BlogCommentAddRequest add = new BlogCommentAddRequest();
-                        add.Writer = Txt[0].getText().toString();
-                        add.Comment = Txt[1].getText().toString();
-                        add.LinkContentId = Request.Id;
-                        RetrofitManager retro = new RetrofitManager(this);
-                        IBlog iBlog = retro.getRetrofitUnCached(configStaticValue.GetApiBaseUrl()).create(IBlog.class);
-                        Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
+                        BlogCommentModel add = new BlogCommentModel();
+                        add.writer = Txt[0].getText().toString();
+                        add.comment = Txt[1].getText().toString();
+                        add.linkContentid = Request.Id;
 
-
-                        Observable<BlogCommentResponse> call = iBlog.SetComment(headers, add);
-                        call.subscribeOn(Schedulers.io())
+                        new BlogCommentService(this).Add(add).
+                      subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Observer<BlogCommentResponse>() {
+                                .subscribe(new NtkObserver<ErrorException<BlogCommentModel>>() {
                                     @Override
-                                    public void onSubscribe(Disposable d) {
-
-                                    }
-
-                                    @Override
-                                    public void onNext(BlogCommentResponse e) {
+                                    public void onNext(@NonNull ErrorException<BlogCommentModel> e) {
                                         if (e.IsSuccess) {
                                             HandelDataComment(Request.Id);
                                             dialog.dismiss();
@@ -584,7 +548,7 @@ public class BlogDetailActivity extends AppCompatActivity {
                                     }
 
                                     @Override
-                                    public void onError(Throwable e) {
+                                    public void onError(@NonNull Throwable e) {
                                         Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -593,10 +557,6 @@ public class BlogDetailActivity extends AppCompatActivity {
                                         }).show();
                                     }
 
-                                    @Override
-                                    public void onComplete() {
-
-                                    }
                                 });
                     }
                 }
@@ -616,7 +576,7 @@ public class BlogDetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.imgFavActDetailBlog)
     public void ClickFav() {
-        if (!model.Item.Favorited) {
+        if (!model.Item.favorited) {
             Fav();
         } else {
             UnFav();
@@ -645,8 +605,8 @@ public class BlogDetailActivity extends AppCompatActivity {
                         public void onNext(BlogContentFavoriteAddResponse e) {
                             if (e.IsSuccess) {
                                 Toasty.success(BlogDetailActivity.this, "با موفقیت ثبت شد").show();
-                                model.Item.Favorited = !model.Item.Favorited;
-                                if (model.Item.Favorited) {
+                                model.Item.favorited = !model.Item.favorited;
+                                if (model.Item.favorited) {
                                     ((ImageView) findViewById(R.id.imgHeartActDetailBlog)).setImageResource(R.drawable.ic_fav_full);
                                 } else {
                                     ((ImageView) findViewById(R.id.imgHeartActDetailBlog)).setImageResource(R.drawable.ic_fav);
@@ -703,8 +663,8 @@ public class BlogDetailActivity extends AppCompatActivity {
                         @Override
                         public void onNext(BlogContentFavoriteRemoveResponse e) {
                             if (e.IsSuccess) {
-                                model.Item.Favorited = !model.Item.Favorited;
-                                if (model.Item.Favorited) {
+                                model.Item.favorited = !model.Item.favorited;
+                                if (model.Item.favorited) {
                                     Toasty.success(BlogDetailActivity.this, "با موفقیت ثبت شد").show();
                                     ((ImageView) findViewById(R.id.imgHeartActDetailBlog)).setImageResource(R.drawable.ic_fav_full);
                                 } else {
@@ -747,9 +707,9 @@ public class BlogDetailActivity extends AppCompatActivity {
         CoreMain mcr = new Gson().fromJson(st, CoreMain.class);
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        String message = model.Item.Title + "\n" + model.Item.description + "\n";
-        if (model.Item.Body != null) {
-            message = message + Html.fromHtml(model.Item.Body
+        String message = model.Item.Title + "\n" + model.Item.Description + "\n";
+        if (model.Item.body != null) {
+            message = message + Html.fromHtml(model.Item.body
                     .replace("<p>", "")
                     .replace("</p>", ""));
         }

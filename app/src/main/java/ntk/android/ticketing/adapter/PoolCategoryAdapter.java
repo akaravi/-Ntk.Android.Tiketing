@@ -2,30 +2,37 @@ package ntk.android.ticketing.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ntk.android.base.api.pooling.model.PoolingContentListRequest;
+import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.base.Filters;
+import ntk.android.base.entitymodel.polling.PollingCategoryModel;
+import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.PoolingDetailActivity;
-import ntk.android.base.utill.FontManager;
-import ntk.android.base.api.baseModel.Filters;
-import ntk.android.base.api.pooling.entity.PoolingCategory;
-import ntk.android.base.api.pooling.model.PoolingContentListRequest;
+
+;
 
 public class PoolCategoryAdapter extends RecyclerView.Adapter<PoolCategoryAdapter.ViewHolder> {
 
-    private List<PoolingCategory> arrayList;
+    private List<PollingCategoryModel> arrayList;
     private Context context;
 
-    public PoolCategoryAdapter(Context context, List<PoolingCategory> arrayList) {
+    public PoolCategoryAdapter(Context context, List<PollingCategoryModel> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -38,9 +45,9 @@ public class PoolCategoryAdapter extends RecyclerView.Adapter<PoolCategoryAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.LblTitle.setText(arrayList.get(position).Title);
+        holder.LblTitle.setText(arrayList.get(position).title);
         holder.Root.setOnClickListener(v -> {
-            PoolingContentListRequest request = new PoolingContentListRequest();
+            FilterDataModel request = new FilterDataModel();
             List<Filters> filters = new ArrayList<>();
             Filters f = new Filters();
             f.PropertyName = "LinkCategoryId";
@@ -49,7 +56,7 @@ public class PoolCategoryAdapter extends RecyclerView.Adapter<PoolCategoryAdapte
             request.filters = filters;
             Intent intent = new Intent(context, PoolingDetailActivity.class);
             intent.putExtra("Request", new Gson().toJson(request));
-            intent.putExtra("Title", arrayList.get(position).Title);
+            intent.putExtra("Title", arrayList.get(position).title);
             context.startActivity(intent);
         });
     }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,16 +22,19 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.utill.AppUtill;
-import ntk.android.base.utill.FontManager;
-import ntk.android.ticketing.R;
 import ntk.android.base.api.blog.entity.BlogComment;
 import ntk.android.base.api.blog.interfase.IBlog;
 import ntk.android.base.api.blog.model.BlogCommentResponse;
 import ntk.android.base.api.blog.model.BlogCommentViewRequest;
 import ntk.android.base.api.utill.NTKClientAction;
+import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.base.Filters;
+import ntk.android.base.services.blog.BlogCommentService;
+import ntk.android.base.utill.AppUtill;
+import ntk.android.base.utill.FontManager;
+import ntk.android.ticketing.R;
 
 public class CommentBlogAdapter extends RecyclerView.Adapter<CommentBlogAdapter.ViewHolder> {
 
@@ -61,14 +65,14 @@ public class CommentBlogAdapter extends RecyclerView.Adapter<CommentBlogAdapter.
         holder.Lbls.get(4).setText(String.valueOf(arrayList.get(position).Comment));
 
         holder.ImgLike.setOnClickListener(v -> {
-            BlogCommentViewRequest request = new BlogCommentViewRequest();
+            FilterDataModel request = new BlogCommentViewRequest();
             request.Id = arrayList.get(position).Id;
             request.ActionClientOrder = NTKClientAction.LikeClientAction;
             RetrofitManager retro = new RetrofitManager(context);
             IBlog iBlog = retro.getRetrofitUnCached().create(IBlog.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);
             Observable<BlogCommentResponse> call = iBlog.GetCommentView(headers, request);
-            call.observeOn(AndroidSchedulers.mainThread())
+            new BlogCommentService(context).getAll(request).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(new Observer<BlogCommentResponse>() {
                         @Override
@@ -98,9 +102,20 @@ public class CommentBlogAdapter extends RecyclerView.Adapter<CommentBlogAdapter.
         });
 
         holder.ImgDisLike.setOnClickListener(v -> {
-            BlogCommentViewRequest request = new BlogCommentViewRequest();
-            request.Id = arrayList.get(position).Id;
-            request.ActionClientOrder = NTKClientAction.DisLikeClientAction;
+            FilterDataModel request = new FilterDataModel();
+            request.filters = new ArrayList<>();
+            {
+                Filters f = new Filters();
+                f.PropertyName = ("Id");
+                f.IntValue2 = f.IntValue1 = arrayList.get(position).Id;
+                request.filters.add(f);
+            }
+            {
+                Filters f = new Filters();
+                f.PropertyName = ("ActionClientOrder");
+                f.IntValue2 = f.IntValue1 = NTKClientAction.DisLikeClientAction;
+                request.filters.add(f);
+            }
             RetrofitManager retro = new RetrofitManager(context);
             IBlog iBlog = retro.getRetrofitUnCached().create(IBlog.class);
             Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);

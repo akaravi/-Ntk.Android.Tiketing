@@ -2,17 +2,20 @@ package ntk.android.ticketing.adapter;
 
 import android.content.Context;
 import android.os.Vibrator;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
@@ -21,28 +24,28 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import ntk.android.ticketing.R;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.utill.FontManager;
+import ntk.android.base.api.pooling.entity.PoolingVote;
 import ntk.android.base.api.pooling.interfase.IPooling;
-import ntk.android.base.api.pooling.entity.PoolingContent;
-import ntk.android.base.api.pooling.entity.PoolingOption;
 import ntk.android.base.api.pooling.model.PoolingSubmitRequest;
 import ntk.android.base.api.pooling.model.PoolingSubmitResponse;
-import ntk.android.base.api.pooling.entity.PoolingVote;
+import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.entitymodel.polling.PollingContentModel;
+import ntk.android.base.entitymodel.polling.PollingOptionModel;
+import ntk.android.base.utill.FontManager;
+import ntk.android.ticketing.R;
 
 public class PoolPlusMinesAdapter extends RecyclerView.Adapter<PoolPlusMinesAdapter.ViewHolder> {
 
-    private List<PoolingOption> arrayList;
+    private List<PollingOptionModel> arrayList;
     private Context context;
-    private PoolingContent PC;
+    private PollingContentModel PC;
     private Button BtnSend;
     private Button BtnChart;
     private int Score = 0;
     private Map<Long, Integer> MapVote;
 
-    public PoolPlusMinesAdapter(Context context, List<PoolingOption> arrayList, PoolingContent pc, Button send, Button chart) {
+    public PoolPlusMinesAdapter(Context context, List<PollingOptionModel> arrayList, PollingContentModel pc, Button send, Button chart) {
         this.arrayList = arrayList;
         this.context = context;
         this.PC = pc;
@@ -59,7 +62,7 @@ public class PoolPlusMinesAdapter extends RecyclerView.Adapter<PoolPlusMinesAdap
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.Title.setText(arrayList.get(position).Option);
+        holder.Title.setText(arrayList.get(position).option);
         holder.Plus.setOnClickListener(v -> {
             Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
             vibe.vibrate(100);
@@ -68,16 +71,16 @@ public class PoolPlusMinesAdapter extends RecyclerView.Adapter<PoolPlusMinesAdap
             for (Map.Entry<Long, Integer> map : MapVote.entrySet()) {
                 Score = Score + map.getValue();
             }
-            if (Score < PC.MaxVoteForThisContent) {
-                if (val < PC.MaxVoteForEachOption) {
+            if (Score < PC.maxVoteForThisContent) {
+                if (val < PC.maxVoteForEachOption) {
                     val = val + 1;
                     holder.Number.setText(String.valueOf(val));
                     MapVote.put(Long.parseLong(String.valueOf(arrayList.get(position).Id)), val);
                 } else {
-                    Toasty.warning(context, "تعداد پاسخ مجاز برای این گزینه " + PC.MaxVoteForEachOption, Toasty.LENGTH_LONG, true).show();
+                    Toasty.warning(context, "تعداد پاسخ مجاز برای این گزینه " + PC.maxVoteForEachOption, Toasty.LENGTH_LONG, true).show();
                 }
             } else {
-                Toasty.warning(context, "تعداد پاسخ مجاز برای این نظر سنجی " + PC.MaxVoteForThisContent, Toasty.LENGTH_LONG, true).show();
+                Toasty.warning(context, "تعداد پاسخ مجاز برای این نظر سنجی " + PC.maxVoteForThisContent, Toasty.LENGTH_LONG, true).show();
             }
         });
         holder.Minus.setOnClickListener(v -> {
@@ -94,7 +97,7 @@ public class PoolPlusMinesAdapter extends RecyclerView.Adapter<PoolPlusMinesAdap
         });
         BtnSend.setOnClickListener(v -> {
             PoolingSubmitRequest request = new PoolingSubmitRequest();
-            request.ContentId = arrayList.get(position).LinkPollingContentId;
+            request.ContentId = arrayList.get(position).linkPollingContentId;
             request.votes = new ArrayList<>();
             for (Map.Entry<Long, Integer> map : MapVote.entrySet()) {
                 PoolingVote vote = new PoolingVote();
@@ -120,7 +123,7 @@ public class PoolPlusMinesAdapter extends RecyclerView.Adapter<PoolPlusMinesAdap
                         public void onNext(PoolingSubmitResponse poolingSubmitResponse) {
                             if (poolingSubmitResponse.IsSuccess) {
                                 Toasty.info(context, "نظر شما با موققثیت ثبت شد", Toasty.LENGTH_LONG, true).show();
-                                if (PC.ViewStatisticsAfterVote) {
+                                if (PC.viewStatisticsAfterVote) {
                                     BtnChart.setVisibility(View.VISIBLE);
                                 }
                             } else {

@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,26 +11,31 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ntk.android.base.entitymodel.blog.BlogContentModel;
+import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.BlogDetailActivity;
-import ntk.android.base.utill.FontManager;
-import ntk.android.base.api.blog.entity.BlogContent;
-import ntk.android.base.api.blog.model.BlogContentViewRequest;
 
 public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.ViewHolder> {
 
-    private List<BlogContent> arrayList;
+    private List<BlogContentModel> arrayList;
     private Context context;
 
-    public BlogAdapter(Context context, List<BlogContent> arrayList) {
+    public BlogAdapter(Context context, List<BlogContentModel> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -46,11 +49,11 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.LblTitle.setText(arrayList.get(position).Title);
-        holder.LblDescrption.setText(arrayList.get(position).description);
+        holder.LblDescrption.setText(arrayList.get(position).Description);
         holder.LblLike.setText(String.valueOf(arrayList.get(position).viewCount));
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true).build();
-        ImageLoader.getInstance().displayImage(arrayList.get(position).imageSrc, holder.Img, options, new ImageLoadingListener() {
+        ImageLoader.getInstance().displayImage(arrayList.get(position).mainImageSrc, holder.Img, options, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
 
@@ -72,8 +75,8 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.ViewHolder> {
             }
         });
         double rating = 0.0;
-        int sumClick = arrayList.get(position).ScoreSumClick;
-        if (arrayList.get(position).ScoreSumClick == 0) sumClick = 1;
+        int sumClick = arrayList.get(position).viewCount;
+        if (arrayList.get(position).viewCount == 0) sumClick = 1;
         if (arrayList.get(position).ScoreSumPercent / sumClick > 0 && arrayList.get(position).ScoreSumPercent / sumClick <= 10) {
             rating = 0.5;
         } else if (arrayList.get(position).ScoreSumPercent / sumClick > 10 && arrayList.get(position).ScoreSumPercent / sumClick <= 20) {
@@ -98,7 +101,7 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.ViewHolder> {
         holder.Rate.setRating((float) rating);
         holder.Root.setOnClickListener(view -> {
             Intent intent = new Intent(context, BlogDetailActivity.class);
-            BlogContentViewRequest request = new BlogContentViewRequest();
+            BlogContentModel request = new BlogContentModel();
             request.Id = arrayList.get(position).Id;
             intent.putExtra("Request", new Gson().toJson(request));
             context.startActivity(intent);

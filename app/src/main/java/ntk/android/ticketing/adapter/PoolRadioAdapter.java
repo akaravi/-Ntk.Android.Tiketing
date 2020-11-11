@@ -21,6 +21,8 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import ntk.android.base.entitymodel.polling.PollingContentModel;
+import ntk.android.base.entitymodel.polling.PollingOptionModel;
 import ntk.android.ticketing.R;
 import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.utill.FontManager;
@@ -34,13 +36,13 @@ import ntk.android.base.config.RetrofitManager;
 
 public class PoolRadioAdapter extends RecyclerView.Adapter<PoolRadioAdapter.ViewHolder> {
 
-    private List<PoolingOption> arrayList;
+    private List<PollingOptionModel> arrayList;
     private Context context;
     private int lastSelectedPosition = -1;
-    private PoolingContent PC;
+    private PollingContentModel PC;
     private Button BtnChart;
 
-    public PoolRadioAdapter(Context context, List<PoolingOption> arrayList, PoolingContent pc, Button chart) {
+    public PoolRadioAdapter(Context context, List<PollingOptionModel> arrayList, PollingContentModel pc, Button chart) {
         this.arrayList = arrayList;
         this.context = context;
         this.BtnChart = chart;
@@ -55,12 +57,12 @@ public class PoolRadioAdapter extends RecyclerView.Adapter<PoolRadioAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.LblTitle.setText(arrayList.get(position).Option);
+        holder.LblTitle.setText(arrayList.get(position).option);
         holder.Radio.setChecked(lastSelectedPosition == position);
         holder.Radio.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 PoolingSubmitRequest request = new PoolingSubmitRequest();
-                request.ContentId = arrayList.get(position).LinkPollingContentId;
+                request.ContentId = arrayList.get(position).linkPollingContentId;
                 PoolingVote vote = new PoolingVote();
                 vote.OptionId = Long.parseLong(String.valueOf(arrayList.get(position).Id));
                 vote.OptionScore = 1;
@@ -86,7 +88,7 @@ public class PoolRadioAdapter extends RecyclerView.Adapter<PoolRadioAdapter.View
                             public void onNext(PoolingSubmitResponse poolingSubmitResponse) {
                                 if (poolingSubmitResponse.IsSuccess) {
                                     Toasty.info(context, "نظر شما با موققثیت ثبت شد", Toasty.LENGTH_LONG, true).show();
-                                    if (PC.ViewStatisticsAfterVote) {
+                                    if (PC.viewStatisticsAfterVote) {
                                         BtnChart.setVisibility(View.VISIBLE);
                                     }
                                 } else {

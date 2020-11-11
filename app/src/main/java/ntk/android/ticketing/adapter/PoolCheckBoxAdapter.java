@@ -1,13 +1,14 @@
 package ntk.android.ticketing.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,28 +23,28 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import ntk.android.ticketing.R;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.utill.FontManager;
+import ntk.android.base.api.pooling.entity.PoolingVote;
 import ntk.android.base.api.pooling.interfase.IPooling;
-import ntk.android.base.api.pooling.entity.PoolingContent;
-import ntk.android.base.api.pooling.entity.PoolingOption;
 import ntk.android.base.api.pooling.model.PoolingSubmitRequest;
 import ntk.android.base.api.pooling.model.PoolingSubmitResponse;
-import ntk.android.base.api.pooling.entity.PoolingVote;
+import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.entitymodel.polling.PollingContentModel;
+import ntk.android.base.entitymodel.polling.PollingOptionModel;
+import ntk.android.base.utill.FontManager;
+import ntk.android.ticketing.R;
 
 public class PoolCheckBoxAdapter extends RecyclerView.Adapter<PoolCheckBoxAdapter.ViewHolder> {
 
-    private List<PoolingOption> arrayList;
+    private List<PollingOptionModel> arrayList;
     private Context context;
-    private PoolingContent PC;
+    private PollingContentModel PC;
     private Button BtnSend;
     private Button BtnChart;
     private int Score = 0;
     private Map<Long, Integer> MapVote;
 
-    public PoolCheckBoxAdapter(Context context, List<PoolingOption> arrayList, PoolingContent pc, Button send, Button chart) {
+    public PoolCheckBoxAdapter(Context context, List<PollingOptionModel> arrayList, PollingContentModel pc, Button send, Button chart) {
         this.arrayList = arrayList;
         this.context = context;
         this.PC = pc;
@@ -60,7 +61,7 @@ public class PoolCheckBoxAdapter extends RecyclerView.Adapter<PoolCheckBoxAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.LblTitle.setText(arrayList.get(position).Option);
+        holder.LblTitle.setText(arrayList.get(position).option);
 
         holder.Radio.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -68,11 +69,11 @@ public class PoolCheckBoxAdapter extends RecyclerView.Adapter<PoolCheckBoxAdapte
                 for (Map.Entry<Long, Integer> map : MapVote.entrySet()) {
                     Score = Score + map.getValue();
                 }
-                if (Score < PC.MaxVoteForThisContent) {
+                if (Score < PC.maxVoteForThisContent) {
                     MapVote.put(Long.parseLong(String.valueOf(arrayList.get(position).Id)), 1);
                     holder.Radio.setChecked(true);
                 } else {
-                    Toasty.warning(context, "تعداد پاسخ مجاز برای این نظر سنجی " + PC.MaxVoteForThisContent, Toasty.LENGTH_LONG, true).show();
+                    Toasty.warning(context, "تعداد پاسخ مجاز برای این نظر سنجی " + PC.maxVoteForThisContent, Toasty.LENGTH_LONG, true).show();
                     holder.Radio.setChecked(false);
                 }
             } else {
@@ -90,7 +91,7 @@ public class PoolCheckBoxAdapter extends RecyclerView.Adapter<PoolCheckBoxAdapte
 
         BtnSend.setOnClickListener(v -> {
             PoolingSubmitRequest request = new PoolingSubmitRequest();
-            request.ContentId = arrayList.get(position).LinkPollingContentId;
+            request.ContentId = arrayList.get(position).linkPollingContentId;
             request.votes = new ArrayList<>();
             for (Map.Entry<Long, Integer> map : MapVote.entrySet()) {
                 PoolingVote vote = new PoolingVote();
@@ -116,7 +117,7 @@ public class PoolCheckBoxAdapter extends RecyclerView.Adapter<PoolCheckBoxAdapte
                         public void onNext(PoolingSubmitResponse poolingSubmitResponse) {
                             if (poolingSubmitResponse.IsSuccess) {
                                 Toasty.info(context, "نظر شما با موققثیت ثبت شد", Toasty.LENGTH_LONG, true).show();
-                                if (PC.ViewStatisticsAfterVote) {
+                                if (PC.viewStatisticsAfterVote) {
                                     BtnChart.setVisibility(View.VISIBLE);
                                 }
                             } else {

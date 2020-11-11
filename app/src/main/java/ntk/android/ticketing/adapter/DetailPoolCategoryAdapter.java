@@ -19,16 +19,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ntk.android.base.entitymodel.polling.PollingContentModel;
 import ntk.android.ticketing.R;
 import ntk.android.base.utill.FontManager;
 import ntk.android.base.api.pooling.entity.PoolingContent;
 
 public class DetailPoolCategoryAdapter extends RecyclerView.Adapter<DetailPoolCategoryAdapter.ViewHolder> {
 
-    private List<PoolingContent> arrayList;
+    private List<PollingContentModel> arrayList;
     private Context context;
 
-    public DetailPoolCategoryAdapter(Context context, List<PoolingContent> arrayList) {
+    public DetailPoolCategoryAdapter(Context context, List<PollingContentModel> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -41,15 +42,15 @@ public class DetailPoolCategoryAdapter extends RecyclerView.Adapter<DetailPoolCa
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.LblTitle.setText(arrayList.get(position).Title);
-        holder.LblDescription.setText(arrayList.get(position).Question);
-        if (arrayList.get(position).ViewStatisticsBeforeVote) {
+        holder.LblTitle.setText(arrayList.get(position).title);
+        holder.LblDescription.setText(arrayList.get(position).question);
+        if (arrayList.get(position).viewStatisticsBeforeVote) {
             holder.Chart.setVisibility(View.VISIBLE);
         }
         holder.Root.setOnClickListener(v -> {
-            if (arrayList.get(position).MaxVoteForThisContent == 1) {
+            if (arrayList.get(position).maxVoteForThisContent == 1) {
                 if (holder.Rv.getVisibility() == View.GONE) {
-                    PoolRadioAdapter adapter = new PoolRadioAdapter(context, arrayList.get(position).Options, arrayList.get(position), holder.Chart);
+                    PoolRadioAdapter adapter = new PoolRadioAdapter(context, arrayList.get(position).options, arrayList.get(position), holder.Chart);
                     holder.Rv.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     holder.Rv.setVisibility(View.VISIBLE);
@@ -60,9 +61,9 @@ public class DetailPoolCategoryAdapter extends RecyclerView.Adapter<DetailPoolCa
                     holder.Rv.removeAllViews();
                     holder.ImgDropDown.setRotation(0);
                 }
-            } else if (arrayList.get(position).MaxVoteForThisContent > 1 && arrayList.get(position).MaxVoteForEachOption == 1) {
+            } else if (arrayList.get(position).maxVoteForThisContent > 1 && arrayList.get(position).maxVoteForEachOption == 1) {
                 if (holder.Rv.getVisibility() == View.GONE) {
-                    PoolCheckBoxAdapter adapter = new PoolCheckBoxAdapter(context, arrayList.get(position).Options, arrayList.get(position), holder.Btn, holder.Chart);
+                    PoolCheckBoxAdapter adapter = new PoolCheckBoxAdapter(context, arrayList.get(position).options, arrayList.get(position), holder.Btn, holder.Chart);
                     holder.Rv.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     holder.Rv.setVisibility(View.VISIBLE);
@@ -77,7 +78,7 @@ public class DetailPoolCategoryAdapter extends RecyclerView.Adapter<DetailPoolCa
                 }
             } else {
                 if (holder.Rv.getVisibility() == View.GONE) {
-                    PoolPlusMinesAdapter adapter = new PoolPlusMinesAdapter(context, arrayList.get(position).Options, arrayList.get(position), holder.Btn, holder.Chart);
+                    PoolPlusMinesAdapter adapter = new PoolPlusMinesAdapter(context, arrayList.get(position).options, arrayList.get(position), holder.Btn, holder.Chart);
                     holder.Rv.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                     holder.Rv.setVisibility(View.VISIBLE);
@@ -106,10 +107,10 @@ public class DetailPoolCategoryAdapter extends RecyclerView.Adapter<DetailPoolCa
                 TextView Title = dialog.findViewById(R.id.lblTitleDialogPoolingStatic);
                 Title.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
                 TextView Score = dialog.findViewById(R.id.lblScore);
-                Score.setText(arrayList.get(position).Options.get(0).ScoreOfVotes);
+                Score.setText((int) arrayList.get(position).options.get(0).scoreOfVotes);//todo
                 Score.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
                 TextView Owner = dialog.findViewById(R.id.lblOwnerScore);
-                Owner.setText(arrayList.get(position).Options.get(0).NumberOfVotes);
+                Owner.setText((int) arrayList.get(position).options.get(0).numberOfVotes);//todo
                 Owner.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
                 dialog.show();
             }

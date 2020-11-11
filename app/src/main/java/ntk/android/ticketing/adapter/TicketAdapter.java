@@ -23,7 +23,7 @@ import ntk.android.base.utill.AppUtill;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.TicketAnswerActivity;
 import ntk.android.base.utill.FontManager;
-import ntk.android.base.api.baseModel.Filters;
+;
 import ntk.android.base.api.ticket.model.TicketingAnswerListRequest;
 import ntk.android.base.api.ticket.entity.TicketingTask;
 
