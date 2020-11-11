@@ -31,6 +31,7 @@ import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.RetrofitManager;
 import ntk.android.base.entitymodel.base.FilterDataModel;
 import ntk.android.base.entitymodel.base.Filters;
+import ntk.android.base.entitymodel.blog.BlogCommentModel;
 import ntk.android.base.services.blog.BlogCommentService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
@@ -38,10 +39,10 @@ import ntk.android.ticketing.R;
 
 public class CommentBlogAdapter extends RecyclerView.Adapter<CommentBlogAdapter.ViewHolder> {
 
-    private List<BlogComment> arrayList;
+    private List<BlogCommentModel> arrayList;
     private Context context;
 
-    public CommentBlogAdapter(Context context, List<BlogComment> arrayList) {
+    public CommentBlogAdapter(Context context, List<BlogCommentModel> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }
@@ -54,19 +55,19 @@ public class CommentBlogAdapter extends RecyclerView.Adapter<CommentBlogAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.Lbls.get(0).setText(arrayList.get(position).Writer);
+        holder.Lbls.get(0).setText(arrayList.get(position).writer);
         if (arrayList.get(position).CreatedDate != null) {
-            holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate));
+            holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate.toString()));//todo convert
         } else {
             holder.Lbls.get(1).setText("");
         }
-        holder.Lbls.get(2).setText(String.valueOf(arrayList.get(position).SumDisLikeClick));
-        holder.Lbls.get(3).setText(String.valueOf(arrayList.get(position).SumLikeClick));
-        holder.Lbls.get(4).setText(String.valueOf(arrayList.get(position).Comment));
+        holder.Lbls.get(2).setText(String.valueOf(arrayList.get(position).sumDisLikeClick));
+        holder.Lbls.get(3).setText(String.valueOf(arrayList.get(position).sumLikeClick));
+        holder.Lbls.get(4).setText(String.valueOf(arrayList.get(position).comment));
 
         holder.ImgLike.setOnClickListener(v -> {
-            FilterDataModel request = new BlogCommentViewRequest();
-            request.Id = arrayList.get(position).Id;
+            FilterDataModel request = new FilterDataModel();
+            request.id = arrayList.get(position).Id;
             request.ActionClientOrder = NTKClientAction.LikeClientAction;
             RetrofitManager retro = new RetrofitManager(context);
             IBlog iBlog = retro.getRetrofitUnCached().create(IBlog.class);
@@ -113,7 +114,7 @@ public class CommentBlogAdapter extends RecyclerView.Adapter<CommentBlogAdapter.
             {
                 Filters f = new Filters();
                 f.PropertyName = ("ActionClientOrder");
-                f.IntValue2 = f.IntValue1 = NTKClientAction.DisLikeClientAction;
+                f.IntValue2 = f.IntValue1 = (long) NTKClientAction.DisLikeClientAction;
                 request.filters.add(f);
             }
             RetrofitManager retro = new RetrofitManager(context);

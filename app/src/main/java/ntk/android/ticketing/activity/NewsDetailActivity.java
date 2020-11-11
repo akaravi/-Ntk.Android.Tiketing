@@ -32,34 +32,24 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.api.core.entity.CoreMain;
-import ntk.android.base.api.news.interfase.INews;
-import ntk.android.base.api.news.model.NewsCommentResponse;
-import ntk.android.base.api.news.model.NewsContentResponse;
-import ntk.android.base.api.news.model.NewsContentViewRequest;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.config.NtkObserver;
-import ntk.android.base.config.RetrofitManager;
 import ntk.android.base.dtomodel.core.ScoreClickDtoModel;
 import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.base.ErrorExceptionBase;
 import ntk.android.base.entitymodel.base.FilterDataModel;
 import ntk.android.base.entitymodel.base.Filters;
 import ntk.android.base.entitymodel.news.NewsCommentModel;
+import ntk.android.base.entitymodel.news.NewsContentModel;
 import ntk.android.base.entitymodel.news.NewsContentOtherInfoModel;
 import ntk.android.base.services.news.NewsCommentService;
 import ntk.android.base.services.news.NewsContentOtherInfoService;
@@ -117,18 +107,15 @@ public class NewsDetailActivity extends AppCompatActivity {
     @BindView(R.id.WebViewBodyActDetailNews)
     WebView webViewBody;
 
-    private String RequestStr;
-    private NewsContentResponse model;
+    private ErrorException<NewsContentModel> model;
     private ErrorException<NewsContentOtherInfoModel> Info;
-    private NewsContentViewRequest Request;
-    private ConfigStaticValue configStaticValue;
+    long Id;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_detail_news);
         ButterKnife.bind(this);
-        configStaticValue = new ConfigStaticValue(this);
         init();
     }
 
@@ -142,14 +129,12 @@ public class NewsDetailActivity extends AppCompatActivity {
         RvTab.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         webViewBody.getSettings().setJavaScriptEnabled(true);
         webViewBody.getSettings().setBuiltInZoomControls(true);
-        RequestStr = getIntent().getExtras().getString("Request");
-        Request = new Gson().fromJson(RequestStr, NewsContentViewRequest.class);
-        HandelDataContent(Request);
+        Id = getIntent().getExtras().getLong("Request");
+        HandelDataContent();
         Loading.setVisibility(View.VISIBLE);
 
         RvComment.setHasFixedSize(true);
         RvComment.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
         Rate.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
@@ -158,7 +143,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                 if (AppUtill.isNetworkAvailable(NewsDetailActivity.this)) {
 
                     ScoreClickDtoModel request = new ScoreClickDtoModel();
-                    request.Id = Request.Id;
+                    request.Id = Id;
                     //                    request.ActionClientOrder = 55;//todo
                     if (rating == 0.5) {
                         request.ScorePercent = 10;
@@ -191,10 +176,9 @@ public class NewsDetailActivity extends AppCompatActivity {
                         request.ScorePercent = 100;
                     }
 
-                 new NewsContentService(NewsDetailActivity.this).scoreClick(request).observeOn(AndroidSchedulers.mainThread())
+                    new NewsContentService(NewsDetailActivity.this).scoreClick(request).observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
                             .subscribe(new NtkObserver<ErrorExceptionBase>() {
-
 
                                 @Override
                                 public void onNext(ErrorExceptionBase biographyContentResponse) {
@@ -232,27 +216,18 @@ public class NewsDetailActivity extends AppCompatActivity {
     }
 
 
-    private void HandelDataContent(NewsContentViewRequest request) {
+    private void HandelDataContent() {
         if (AppUtill.isNetworkAvailable(this)) {
-            RetrofitManager retro = new RetrofitManager(this);
-            INews iNews = retro.getRetrofitUnCached(configStaticValue.GetApiBaseUrl()).create(INews.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-            Observable<NewsContentResponse> call = iNews.GetContentView(headers, request);
-            call.observeOn(AndroidSchedulers.mainThread())
+            new NewsContentService(this).getOne(Id).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<NewsContentResponse>() {
+                    .subscribe(new NtkObserver<ErrorException<NewsContentModel>>() {
                         @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(NewsContentResponse ContentResponse) {
+                        public void onNext(ErrorException<NewsContentModel> ContentResponse) {
                             model = ContentResponse;
                             SetData(model);
-                            if (Request.Id > 0) {
-                                HandelDataContentOtherInfo(Request.Id);
-                                HandelDataComment(Request.Id);
+                            if (Id > 0) {
+                                HandelDataContentOtherInfo(Id);
+                                HandelDataComment(Id);
                             }
                             Loading.setVisibility(View.GONE);
                             Page.setVisibility(View.VISIBLE);
@@ -269,11 +244,6 @@ public class NewsDetailActivity extends AppCompatActivity {
                             }).show();
                         }
 
-
-                        @Override
-                        public void onComplete() {
-
-                        }
                     });
         } else {
             Loading.setVisibility(View.GONE);
@@ -287,6 +257,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     }
 
+
     private void HandelDataComment(long ContentId) {
         if (AppUtill.isNetworkAvailable(this)) {
             List<Filters> filters = new ArrayList<>();
@@ -296,7 +267,6 @@ public class NewsDetailActivity extends AppCompatActivity {
             f.IntValue1 = ContentId;
             filters.add(f);
             Request.filters = filters;
-            RetrofitManager retro = new RetrofitManager(this);
             new NewsCommentService(this).getAll(Request).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new NtkObserver<ErrorException<NewsCommentModel>>() {
@@ -333,7 +303,6 @@ public class NewsDetailActivity extends AppCompatActivity {
         }
     }
 
-
     private void HandelDataContentOtherInfo(long ContentId) {
         if (AppUtill.isNetworkAvailable(this)) {
             List<Filters> filters = new ArrayList<>();
@@ -355,14 +324,8 @@ public class NewsDetailActivity extends AppCompatActivity {
 
                         @Override
                         public void onError(Throwable e) {
-                            Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    init();
-                                }
-                            }).show();
+                            Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", v -> init()).show();
                         }
-
                     });
         } else {
             Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
@@ -373,7 +336,6 @@ public class NewsDetailActivity extends AppCompatActivity {
             }).show();
         }
     }
-
 
     private void SetDataOtherinfo(ErrorException<NewsContentOtherInfoModel> model) {
         Info = model;
@@ -414,14 +376,14 @@ public class NewsDetailActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
-    private void SetData(NewsContentResponse model) {
-        ImageLoader.getInstance().displayImage(model.Item.imageSrc, ImgHeader);
+    private void SetData(ErrorException<NewsContentModel> model) {
+        ImageLoader.getInstance().displayImage(model.Item.mainImageSrc, ImgHeader);
         Lbls.get(0).setText(model.Item.Title);
         Lbls.get(1).setText(model.Item.Title);
         Lbls.get(3).setText(String.valueOf(model.Item.viewCount));
         double rating = 0.0;
-        int sumClick = model.Item.ScoreSumClick;
-        if (model.Item.ScoreSumClick == 0) sumClick = 1;
+        int sumClick = model.Item.viewCount;
+        if (model.Item.viewCount == 0) sumClick = 1;
         if (model.Item.ScoreSumPercent / sumClick > 0 && model.Item.ScoreSumPercent / sumClick <= 10) {
             rating = 0.5;
         } else if (model.Item.ScoreSumPercent / sumClick > 10 && model.Item.ScoreSumPercent / sumClick <= 20) {
@@ -444,9 +406,9 @@ public class NewsDetailActivity extends AppCompatActivity {
             rating = 5.0;
         }
         Rate.setRating((float) rating);
-        if (model.Item.Body != null)
-            webViewBody.loadData("<html dir=\"rtl\" lang=\"\"><body>" + model.Item.Body + "</body></html>", "text/html; charset=utf-8", "UTF-8");
-        if (model.Item.Favorited) {
+        if (model.Item.body != null)
+            webViewBody.loadData("<html dir=\"rtl\" lang=\"\"><body>" + model.Item.body + "</body></html>", "text/html; charset=utf-8", "UTF-8");
+        if (model.Item.favorited) {
             ((ImageView) findViewById(R.id.imgHeartActDetailNews)).setImageResource(R.drawable.ic_fav_full);
         }
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
@@ -501,8 +463,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                         NewsCommentModel add = new NewsCommentModel();
                         add.writer = Txt[0].getText().toString();
                         add.comment = Txt[1].getText().toString();
-                        add.linkContentid = Request.Id;
-                        Observable<NewsCommentResponse> call = iNews.SetComment(headers, add);
+                        add.linkContentid = Id;
                         new NewsCommentService(this).add(add).
                                 subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
@@ -510,7 +471,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                                     @Override
                                     public void onNext(@NonNull ErrorException<NewsCommentModel> e) {
                                         if (e.IsSuccess) {
-                                            HandelDataComment(Request.Id);
+                                            HandelDataComment(Id);
                                             dialog.dismiss();
                                             Toasty.success(NewsDetailActivity.this, "نظر شما با موفقیت ثبت شد").show();
                                         } else {
@@ -547,7 +508,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.imgFavActDetailNews)
     public void ClickFav() {
-        if (!model.Item.Favorited) {
+        if (!model.Item.favorited) {
             Fav();
         } else {
             UnFav();
@@ -566,8 +527,8 @@ public class NewsDetailActivity extends AppCompatActivity {
                         public void onNext(ErrorExceptionBase e) {
                             if (e.IsSuccess) {
                                 Toasty.success(NewsDetailActivity.this, "با موفقیت ثبت شد").show();
-                                model.Item.Favorited = !model.Item.Favorited;
-                                if (model.Item.Favorited) {
+                                model.Item.favorited = !model.Item.favorited;
+                                if (model.Item.favorited) {
                                     ((ImageView) findViewById(R.id.imgHeartActDetailNews)).setImageResource(R.drawable.ic_fav_full);
                                 } else {
                                     ((ImageView) findViewById(R.id.imgHeartActDetailNews)).setImageResource(R.drawable.ic_fav);
@@ -608,8 +569,8 @@ public class NewsDetailActivity extends AppCompatActivity {
                         public void onNext(ErrorExceptionBase e) {
                             if (e.IsSuccess) {
                                 Toasty.success(NewsDetailActivity.this, "با موفقیت ثبت شد").show();
-                                model.Item.Favorited = !model.Item.Favorited;
-                                if (model.Item.Favorited) {
+                                model.Item.favorited = !model.Item.favorited;
+                                if (model.Item.favorited) {
                                     ((ImageView) findViewById(R.id.imgHeartActDetailNews)).setImageResource(R.drawable.ic_fav_full);
                                 } else {
                                     ((ImageView) findViewById(R.id.imgHeartActDetailNews)).setImageResource(R.drawable.ic_fav);
@@ -635,12 +596,7 @@ public class NewsDetailActivity extends AppCompatActivity {
                         }
                     });
         } else {
-            Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    init();
-                }
-            }).show();
+            Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", v -> init()).show();
         }
     }
 
@@ -651,9 +607,9 @@ public class NewsDetailActivity extends AppCompatActivity {
         CoreMain mcr = new Gson().fromJson(st, CoreMain.class);
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        String message = model.Item.Title + "\n" + model.Item.description + "\n";
-        if (model.Item.Body != null) {
-            message = message + Html.fromHtml(model.Item.Body
+        String message = model.Item.Title + "\n" + model.Item.Description + "\n";
+        if (model.Item.body != null) {
+            message = message + Html.fromHtml(model.Item.body
                     .replace("<p>", "")
                     .replace("</p>", ""));
         }

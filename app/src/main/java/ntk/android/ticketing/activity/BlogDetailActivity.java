@@ -34,27 +34,17 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import ntk.android.base.api.blog.interfase.IBlog;
-import ntk.android.base.api.blog.model.BlogContentResponse;
-import ntk.android.base.api.blog.model.BlogContentViewRequest;
 import ntk.android.base.api.core.entity.CoreMain;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.config.NtkObserver;
-import ntk.android.base.config.RetrofitManager;
 import ntk.android.base.dtomodel.core.ScoreClickDtoModel;
 import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.base.ErrorExceptionBase;
@@ -118,18 +108,15 @@ public class BlogDetailActivity extends AppCompatActivity {
     @BindView(R.id.mainLayoutActDetailBlog)
     CoordinatorLayout layout;
 
-    private String RequestStr;
     private ErrorException<BlogContentModel> model;
     private ErrorException<BlogContentOtherInfoModel> Info;
-    private BlogContentModel Request;
-    private ConfigStaticValue configStaticValue;
+    private long Id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_detail_blog);
         ButterKnife.bind(this);
-        configStaticValue = new ConfigStaticValue(this);
         init();
     }
 
@@ -143,9 +130,8 @@ public class BlogDetailActivity extends AppCompatActivity {
         webViewBody.getSettings().setBuiltInZoomControls(true);
         RvTab.setHasFixedSize(true);
         RvTab.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        RequestStr = getIntent().getExtras().getString("Request");
-        Request = new Gson().fromJson(RequestStr, BlogContentModel.class);
-        HandelDataContent(Request);
+        Id = getIntent().getExtras().getLong("Request");
+        HandelDataContent();
         Loading.setVisibility(View.VISIBLE);
 
         RvComment.setHasFixedSize(true);
@@ -158,7 +144,7 @@ public class BlogDetailActivity extends AppCompatActivity {
                 if (AppUtill.isNetworkAvailable(BlogDetailActivity.this)) {
 
                     ScoreClickDtoModel request = new ScoreClickDtoModel();
-                    request.Id = Request.Id;
+                    request.Id = Id;
 //                    request.ActionClientOrder = 55;//todo
                     if (rating == 0.5) {
                         request.ScorePercent = 10;
@@ -231,9 +217,9 @@ public class BlogDetailActivity extends AppCompatActivity {
     }
 
 
-    private void HandelDataContent(BlogContentModel request) {
+    private void HandelDataContent() {
         if (AppUtill.isNetworkAvailable(this)) {
-            new BlogContentService(this).getOne(request.Id).
+            new BlogContentService(this).getOne(Id).
                     observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(new NtkObserver<ErrorException<BlogContentModel>>() {
@@ -242,9 +228,9 @@ public class BlogDetailActivity extends AppCompatActivity {
                             Loading.setVisibility(View.GONE);
                             model = ContentResponse;
                             SetData(model);
-                            if (Request.Id > 0) {
-                                HandelDataContentOtherInfo(Request.Id);
-                                HandelDataComment(Request.Id);
+                            if (Id > 0) {
+                                HandelDataContentOtherInfo(Id);
+                                HandelDataComment(Id);
                             }
                             Loading.setVisibility(View.GONE);
                             Page.setVisibility(View.VISIBLE);
@@ -285,7 +271,6 @@ public class BlogDetailActivity extends AppCompatActivity {
             new BlogCommentService(this).getAll(Request).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new NtkObserver<ErrorException<BlogCommentModel>>() {
-
                         @Override
                         public void onNext(ErrorException<BlogCommentModel> model) {
                             if (model.IsSuccess && !model.ListItems.isEmpty()) {
@@ -306,11 +291,6 @@ public class BlogDetailActivity extends AppCompatActivity {
                                     init();
                                 }
                             }).show();
-                        }
-
-                        @Override
-                        public void onComplete() {
-
                         }
                     });
         } else {
@@ -334,7 +314,6 @@ public class BlogDetailActivity extends AppCompatActivity {
             filters.add(f);
             Request.filters = filters;
 
-
             new BlogContentOtherInfoService(this).getAll(Request).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(new NtkObserver<ErrorException<BlogContentOtherInfoModel>>() {
@@ -345,12 +324,7 @@ public class BlogDetailActivity extends AppCompatActivity {
 
                         @Override
                         public void onError(@NonNull Throwable e) {
-                            Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    init();
-                                }
-                            }).show();
+                            Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", v -> init()).show();
                         }
                     });
         } else {
@@ -462,9 +436,6 @@ public class BlogDetailActivity extends AppCompatActivity {
         finish();
     }
 
-    @Subscribe
-    public void EventHtmlBody(BlogHtmlBodyEvent event) {
-    }
 
     @Override
     protected void onStart() {
@@ -513,7 +484,7 @@ public class BlogDetailActivity extends AppCompatActivity {
                         BlogCommentModel add = new BlogCommentModel();
                         add.writer = Txt[0].getText().toString();
                         add.comment = Txt[1].getText().toString();
-                        add.linkContentid = Request.Id;
+                        add.linkContentid = Id;
 
                         new BlogCommentService(this).add(add).
                                 subscribeOn(Schedulers.io())
@@ -522,7 +493,7 @@ public class BlogDetailActivity extends AppCompatActivity {
                                     @Override
                                     public void onNext(@NonNull ErrorException<BlogCommentModel> e) {
                                         if (e.IsSuccess) {
-                                            HandelDataComment(Request.Id);
+                                            HandelDataComment(Id);
                                             dialog.dismiss();
                                             Toasty.success(BlogDetailActivity.this, "نظر شما با موفقیت ثبت شد").show();
                                         } else {
@@ -616,7 +587,7 @@ public class BlogDetailActivity extends AppCompatActivity {
             new BlogContentService(this).removeFavorite(model.Item.Id)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new  NtkObserver<ErrorExceptionBase>() {
+                    .subscribe(new NtkObserver<ErrorExceptionBase>() {
 
 
                         @Override
