@@ -28,6 +28,7 @@ import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.NtkObserver;
 import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.news.NewsContentModel;
 import ntk.android.base.services.news.NewsContentService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.EndlessRecyclerViewScrollListener;
@@ -47,7 +48,7 @@ public class NewsListActivity extends BaseActivity {
     SwipeRefreshLayout Refresh;
 
     private int Total = 0;
-    private List<NewsContent> news = new ArrayList<>();
+    private List<NewsContentModel> news = new ArrayList<>();
     private NewsAdapter adapter;
 
     @Override
@@ -98,9 +99,9 @@ public class NewsListActivity extends BaseActivity {
             new NewsContentService(this).getAll(request)
             .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new NtkObserver<ErrorException<NewsContent>>() {
+                    .subscribe(new NtkObserver<ErrorException<NewsContentModel>>() {
                         @Override
-                        public void onNext(@NonNull ErrorException<NewsContent> newsContentResponse) {
+                        public void onNext(@NonNull ErrorException<NewsContentModel> newsContentResponse) {
                             if (newsContentResponse.IsSuccess) {
                                 news.addAll(newsContentResponse.ListItems);
                                 Total = newsContentResponse.TotalRowCount;

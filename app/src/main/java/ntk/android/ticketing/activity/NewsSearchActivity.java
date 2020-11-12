@@ -30,6 +30,7 @@ import ntk.android.base.config.RetrofitManager;
 import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.base.FilterDataModel;
 import ntk.android.base.entitymodel.base.Filters;
+import ntk.android.base.entitymodel.news.NewsContentModel;
 import ntk.android.base.services.news.NewsContentService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
@@ -52,7 +53,7 @@ public class NewsSearchActivity extends BaseActivity {
     @BindView(R.id.mainLayoutActNewsSearch)
     CoordinatorLayout layout;
 
-    private ArrayList<NewsContent> news = new ArrayList<>();
+    private ArrayList<NewsContentModel> news = new ArrayList<>();
     private NewsAdapter adapter;
     boolean searchLock;
 
@@ -114,9 +115,9 @@ public class NewsSearchActivity extends BaseActivity {
                 new NewsContentService(this).getAll(request).
                         observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
-                        .subscribe(new NtkObserver<ErrorException<NewsContent>>() {
+                        .subscribe(new NtkObserver<ErrorException<NewsContentModel>>() {
                             @Override
-                            public void onNext(@NonNull ErrorException<NewsContent> response) {
+                            public void onNext(@NonNull ErrorException<NewsContentModel> response) {
                                 searchLock = false;
                                 if (response.IsSuccess) {
                                     if (response.ListItems.size() != 0) {
