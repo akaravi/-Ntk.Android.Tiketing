@@ -34,32 +34,24 @@ import com.google.gson.Gson;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import ntk.android.base.api.file.entity.FileUploadModel;
-import ntk.android.base.api.file.interfase.IFile;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.config.NtkObserver;
-import ntk.android.base.config.RetrofitManager;
 import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.file.FileUploadModel;
 import ntk.android.base.entitymodel.ticketing.TicketingAnswerModel;
+import ntk.android.base.services.file.FileUploaderService;
 import ntk.android.base.services.ticketing.TicketingAnswerService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
@@ -67,10 +59,6 @@ import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.AdAttach;
 import ntk.android.ticketing.adapter.TicketAnswerAdapter;
 import ntk.android.ticketing.event.RemoveAttachEvent;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 
 
 public class TicketAnswerActivity extends AppCompatActivity {
@@ -350,36 +338,20 @@ public class TicketAnswerActivity extends AppCompatActivity {
 
     private void UploadFileToServer(String url) {
         if (AppUtill.isNetworkAvailable(this)) {
-            File file = new File(String.valueOf(Uri.parse(url)));
-            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-            RetrofitManager retro = new RetrofitManager(this);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-            IFile iFile = retro.getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(IFile.class);
-            Observable<ResponseBody> Call = iFile.uploadFileWithPartMap(headers, new HashMap<>(), MultipartBody.Part.createFormData("File", file.getName(), requestFile));
-            Call.observeOn(AndroidSchedulers.mainThread())
+            new FileUploaderService(this).uploadFile(url).
+                    observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<ResponseBody>() {
+                    .subscribe(new NtkObserver<FileUploadModel>() {
                         @Override
-                        public void onSubscribe(Disposable d) {
+                        public void onNext(@NonNull FileUploadModel fileUploadModel) {
+                            if (linkFileIds.equals("")) linkFileIds = fileUploadModel.FileKey;
+                            else linkFileIds = linkFileIds + "," + fileUploadModel.FileKey;
+                            adapter.notifyDataSetChanged();
+                            btn.setVisibility(View.VISIBLE);
                         }
 
                         @Override
-                        public void onNext(ResponseBody model) {
-                            try {
-
-                                String uploadedString = new Gson().fromJson(model.string(), FileUploadModel.class).FileKey;
-                                if (linkFileIds.equals("")) linkFileIds = uploadedString;
-                                else linkFileIds = linkFileIds + "," + uploadedString;
-                                adapter.notifyDataSetChanged();
-                                btn.setVisibility(View.VISIBLE);
-                            } catch (IOException e) {
-                                Toasty.warning(TicketAnswerActivity.this, "خطای خواندن اطلاعات", Toasty.LENGTH_LONG, true).show();
-                            }
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
+                        public void onError(@NonNull Throwable e) {
                             Snackbar.make(layout, "خطای سامانه مجددا تلاش کنید", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -388,12 +360,8 @@ public class TicketAnswerActivity extends AppCompatActivity {
                             }).show();
                             btn.setVisibility(View.VISIBLE);
                         }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
                     });
+
         } else {
             Toasty.warning(this, "عدم دسترسی به اینترنت", Toasty.LENGTH_LONG, true).show();
         }

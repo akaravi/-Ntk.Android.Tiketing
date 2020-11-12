@@ -2,12 +2,13 @@ package ntk.android.ticketing.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -17,17 +18,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ntk.android.base.api.news.model.NewsContentViewRequest;
+import ntk.android.base.entitymodel.news.NewsContentModel;
+import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.NewsDetailActivity;
-import ntk.android.base.utill.FontManager;
-import ntk.android.base.api.news.entity.NewsContent;
-import ntk.android.base.api.news.model.NewsContentViewRequest;
 
 public class CoreImageAdapter extends RecyclerView.Adapter<CoreImageAdapter.ViewHolder> {
-    private List<NewsContent> list;
+    private List<NewsContentModel> list;
     private Context context;
 
-    public CoreImageAdapter(Context context, List<NewsContent> list) {
+    public CoreImageAdapter(Context context, List<NewsContentModel> list) {
         this.list = list;
         this.context = context;
     }
@@ -42,7 +43,7 @@ public class CoreImageAdapter extends RecyclerView.Adapter<CoreImageAdapter.View
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true).build();
-        ImageLoader.getInstance().displayImage(list.get(position).imageSrc, holder.Img, options);
+        ImageLoader.getInstance().displayImage(list.get(position).mainImageSrc, holder.Img, options);
         holder.Lbl.setText(list.get(position).Title);
         holder.Img.setOnClickListener(new View.OnClickListener() {
             @Override

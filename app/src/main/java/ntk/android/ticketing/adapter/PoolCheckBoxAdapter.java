@@ -18,19 +18,13 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import ntk.android.base.api.pooling.entity.PoolingVote;
-import ntk.android.base.api.pooling.interfase.IPooling;
-import ntk.android.base.api.pooling.model.PoolingSubmitRequest;
-import ntk.android.base.api.pooling.model.PoolingSubmitResponse;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.config.NtkObserver;
+import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.polling.PollingContentModel;
 import ntk.android.base.entitymodel.polling.PollingOptionModel;
+import ntk.android.base.entitymodel.polling.PollingVoteModel;
 import ntk.android.base.services.pooling.PollingVoteService;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
@@ -91,31 +85,23 @@ public class PoolCheckBoxAdapter extends RecyclerView.Adapter<PoolCheckBoxAdapte
         });
 
         BtnSend.setOnClickListener(v -> {
-            PoolingSubmitRequest request = new PoolingSubmitRequest();
-            request.ContentId = arrayList.get(position).linkPollingContentId;
-            request.votes = new ArrayList<>();
+//            request.ContentId = arrayList.get(position).linkPollingContentId;
+            ArrayList<PollingVoteModel> votes = new ArrayList<>();
             for (Map.Entry<Long, Integer> map : MapVote.entrySet()) {
-                PoolingVote vote = new PoolingVote();
-                vote.OptionId = map.getKey();
-                vote.OptionScore = map.getValue();
-                request.votes.add(vote);
+                PollingVoteModel vote = new PollingVoteModel();
+                vote.linkPollingOptionId = map.getKey();
+                vote.linkPollingContentId = arrayList.get(position).linkPollingContentId;
+                vote.optionScore = map.getValue();
+                votes.add(vote);
             }
 
-            RetrofitManager retro = new RetrofitManager(context);
-            IPooling iPooling = retro.getRetrofitUnCached().create(IPooling.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);
-            new PollingVoteService(this).add()
-            Observable<PoolingSubmitResponse> observable = iPooling.SetSubmitPooling(headers, request);
-            observable.observeOn(AndroidSchedulers.mainThread())
+            new PollingVoteService(context).addBatch(votes)
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<PoolingSubmitResponse>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
+                    .subscribe(new NtkObserver<ErrorException<PollingVoteModel>>() {
 
                         @Override
-                        public void onNext(PoolingSubmitResponse poolingSubmitResponse) {
+                        public void onNext(ErrorException<PollingVoteModel> poolingSubmitResponse) {
                             if (poolingSubmitResponse.IsSuccess) {
                                 Toasty.info(context, "نظر شما با موققثیت ثبت شد", Toasty.LENGTH_LONG, true).show();
                                 if (PC.viewStatisticsAfterVote) {
@@ -131,10 +117,6 @@ public class PoolCheckBoxAdapter extends RecyclerView.Adapter<PoolCheckBoxAdapte
                             Toasty.warning(context, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
                         }
 
-                        @Override
-                        public void onComplete() {
-
-                        }
                     });
         });
     }
