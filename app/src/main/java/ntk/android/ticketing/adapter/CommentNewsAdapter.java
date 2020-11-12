@@ -10,24 +10,19 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
-import ntk.android.base.api.news.interfase.INews;
-import ntk.android.base.api.news.model.NewsCommentResponse;
-import ntk.android.base.api.news.model.NewsCommentViewRequest;
-import ntk.android.base.api.utill.NTKClientAction;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.config.NtkObserver;
+import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.news.NewsCommentModel;
+import ntk.android.base.entitymodel.news.NewsContentModel;
+import ntk.android.base.services.news.NewsContentService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
@@ -61,23 +56,15 @@ public class CommentNewsAdapter extends RecyclerView.Adapter<CommentNewsAdapter.
         holder.Lbls.get(4).setText(String.valueOf(arrayList.get(position).comment));
 
         holder.ImgLike.setOnClickListener(v -> {
-            NewsCommentViewRequest request = new NewsCommentViewRequest();
-            request.Id = arrayList.get(position).Id;
-            request.ActionClientOrder = NTKClientAction.LikeClientAction;
-            RetrofitManager retro = new RetrofitManager(context);
-            INews iNews = retro.getRetrofitUnCached().create(INews.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);
-            Observable<NewsCommentResponse> call = iNews.GetCommentView(headers, request);
-            call.observeOn(AndroidSchedulers.mainThread())
+//            NewsCommentViewRequest request = new NewsCommentViewRequest();
+//            request.Id = arrayList.get(position).Id;
+//            request.ActionClientOrder = NTKClientAction.LikeClientAction;
+            long id = arrayList.get(position).Id;
+            new NewsContentService(context).getOne(id).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<NewsCommentResponse>() {
+                    .subscribe(new NtkObserver<ErrorException<NewsContentModel>>() {
                         @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
-
-                        @Override
-                        public void onNext(NewsCommentResponse model) {
+                        public void onNext(@NonNull ErrorException<NewsContentModel> model) {
                             if (model.IsSuccess) {
                                 arrayList.get(position).sumLikeClick = arrayList.get(position).sumLikeClick + 1;
                                 notifyDataSetChanged();
@@ -87,34 +74,24 @@ public class CommentNewsAdapter extends RecyclerView.Adapter<CommentNewsAdapter.
                         }
 
                         @Override
-                        public void onError(Throwable e) {
+                        public void onError(@NonNull Throwable e) {
                             Toasty.warning(context, "قبلا در این محتوا ثبت نطر ئاشته اید", Toasty.LENGTH_LONG, true).show();
-                        }
 
-                        @Override
-                        public void onComplete() {
                         }
                     });
         });
 
         holder.ImgDisLike.setOnClickListener(v -> {
-            NewsCommentViewRequest request = new NewsCommentViewRequest();
-            request.Id = arrayList.get(position).Id;
-            request.ActionClientOrder = NTKClientAction.DisLikeClientAction;
-            RetrofitManager retro = new RetrofitManager(context);
-            INews iNews = retro.getRetrofitUnCached().create(INews.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);
-            Observable<NewsCommentResponse> call = iNews.GetCommentView(headers, request);
-            call.observeOn(AndroidSchedulers.mainThread())
+//            NewsCommentViewRequest request = new NewsCommentViewRequest();
+//            request.Id = arrayList.get(position).Id;
+//            request.ActionClientOrder = NTKClientAction.DisLikeClientAction;
+            long id = arrayList.get(position).Id;
+            new NewsContentService(context).getOne(id).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<NewsCommentResponse>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
+                    .subscribe(new NtkObserver<ErrorException<NewsContentModel>>() {
 
                         @Override
-                        public void onNext(NewsCommentResponse model) {
+                        public void onNext(ErrorException<NewsContentModel> model) {
                             if (model.IsSuccess) {
                                 arrayList.get(position).sumDisLikeClick = arrayList.get(position).sumDisLikeClick - 1;
                                 notifyDataSetChanged();

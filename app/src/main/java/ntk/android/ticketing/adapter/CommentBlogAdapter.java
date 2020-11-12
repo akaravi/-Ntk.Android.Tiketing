@@ -9,28 +9,17 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
-import ntk.android.base.api.blog.entity.BlogComment;
-import ntk.android.base.api.blog.interfase.IBlog;
-import ntk.android.base.api.blog.model.BlogCommentResponse;
-import ntk.android.base.api.blog.model.BlogCommentViewRequest;
-import ntk.android.base.api.utill.NTKClientAction;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.RetrofitManager;
-import ntk.android.base.entitymodel.base.FilterDataModel;
-import ntk.android.base.entitymodel.base.Filters;
+import ntk.android.base.config.NtkObserver;
+import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.blog.BlogCommentModel;
 import ntk.android.base.services.blog.BlogCommentService;
 import ntk.android.base.utill.AppUtill;
@@ -66,25 +55,18 @@ public class CommentBlogAdapter extends RecyclerView.Adapter<CommentBlogAdapter.
         holder.Lbls.get(4).setText(String.valueOf(arrayList.get(position).comment));
 
         holder.ImgLike.setOnClickListener(v -> {
-            FilterDataModel request = new FilterDataModel();
-            request.id = arrayList.get(position).Id;
-            request.ActionClientOrder = NTKClientAction.LikeClientAction;
-            RetrofitManager retro = new RetrofitManager(context);
-            IBlog iBlog = retro.getRetrofitUnCached().create(IBlog.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);
-            Observable<BlogCommentResponse> call = iBlog.GetCommentView(headers, request);
-            new BlogCommentService(context).getAll(request).observeOn(AndroidSchedulers.mainThread())
+//            FilterDataModel request = new FilterDataModel();
+//            request.ActionClientOrder = NTKClientAction.LikeClientAction;
+
+            long id = arrayList.get(position).Id;
+            new BlogCommentService(context).getOne(id).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<BlogCommentResponse>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
+                    .subscribe(new NtkObserver<ErrorException<BlogCommentModel>>() {
 
                         @Override
-                        public void onNext(BlogCommentResponse model) {
+                        public void onNext(@NonNull ErrorException<BlogCommentModel> model) {
                             if (model.IsSuccess) {
-                                arrayList.get(position).SumLikeClick = arrayList.get(position).SumLikeClick + 1;
+                                arrayList.get(position).sumLikeClick = arrayList.get(position).sumLikeClick + 1;
                                 notifyDataSetChanged();
                             } else {
                                 Toasty.warning(context, model.ErrorMessage, Toasty.LENGTH_LONG, true).show();
@@ -96,43 +78,34 @@ public class CommentBlogAdapter extends RecyclerView.Adapter<CommentBlogAdapter.
                             Toasty.warning(context, "قبلا در این محتوا ثبت نطر ئاشته اید", Toasty.LENGTH_LONG, true).show();
                         }
 
-                        @Override
-                        public void onComplete() {
-                        }
                     });
         });
 
         holder.ImgDisLike.setOnClickListener(v -> {
-            FilterDataModel request = new FilterDataModel();
-            request.filters = new ArrayList<>();
-            {
-                Filters f = new Filters();
-                f.PropertyName = ("Id");
-                f.IntValue2 = f.IntValue1 = arrayList.get(position).Id;
-                request.filters.add(f);
-            }
-            {
-                Filters f = new Filters();
-                f.PropertyName = ("ActionClientOrder");
-                f.IntValue2 = f.IntValue1 = (long) NTKClientAction.DisLikeClientAction;
-                request.filters.add(f);
-            }
-            RetrofitManager retro = new RetrofitManager(context);
-            IBlog iBlog = retro.getRetrofitUnCached().create(IBlog.class);
-            Map<String, String> headers = new ConfigRestHeader().GetHeaders(context);
-            Observable<BlogCommentResponse> call = iBlog.GetCommentView(headers, request);
-            call.observeOn(AndroidSchedulers.mainThread())
+//            FilterDataModel request = new FilterDataModel();
+//            request.filters = new ArrayList<>();
+//            {
+//                Filters f = new Filters();
+//                f.PropertyName = ("Id");
+//                f.IntValue2 = f.IntValue1 = arrayList.get(position).Id;
+//                request.filters.add(f);
+//            }
+//            {
+//                Filters f = new Filters();
+//                f.PropertyName = ("ActionClientOrder");
+//                f.IntValue2 = f.IntValue1 = (long) NTKClientAction.DisLikeClientAction;
+//                request.filters.add(f);
+//            }
+            long id = arrayList.get(position).Id;
+            new BlogCommentService(context).getOne(id).
+                    observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<BlogCommentResponse>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-
-                        }
+                    .subscribe(new NtkObserver<ErrorException<BlogCommentModel>>() {
 
                         @Override
-                        public void onNext(BlogCommentResponse model) {
+                        public void onNext(ErrorException<BlogCommentModel> model) {
                             if (model.IsSuccess) {
-                                arrayList.get(position).SumDisLikeClick = arrayList.get(position).SumDisLikeClick - 1;
+                                arrayList.get(position).sumDisLikeClick = arrayList.get(position).sumDisLikeClick - 1;
                                 notifyDataSetChanged();
                             } else {
                                 Toasty.warning(context, model.ErrorMessage, Toasty.LENGTH_LONG, true).show();
