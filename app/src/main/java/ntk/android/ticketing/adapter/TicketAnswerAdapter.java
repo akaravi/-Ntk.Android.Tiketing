@@ -41,7 +41,7 @@ public class TicketAnswerAdapter extends RecyclerView.Adapter<TicketAnswerAdapte
         holder.Lbls.get(0).setText(Html.fromHtml(arrayList.get(position).htmlBody
                 .replace("<p>", "")
                 .replace("</p>", "")));
-        holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate.toString()) + "");//todo seem to be string maybe bug
+        holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate) + "");
     }
 
     @Override

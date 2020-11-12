@@ -79,7 +79,7 @@ public class TicketSearchActivity extends BaseActivity {
         if (!searchLock) {
             searchLock = true;
             if (AppUtill.isNetworkAvailable(this)) {
-
+                tickets.clear();
 
                 FilterDataModel request = new FilterDataModel();
                 List<Filters> filters = new ArrayList<>();

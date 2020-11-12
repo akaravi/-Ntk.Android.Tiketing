@@ -49,7 +49,7 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.Lbls.get(0).setText(arrayList.get(position).title);
-        holder.Lbls.get(2).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate.toString()) + "");//todo seem to be bug for create date
+        holder.Lbls.get(2).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate) + "");//todo seem to be bug for create date
         switch (arrayList.get(position).ticketStatus) {
             case 1:
                 holder.Lbls.get(1).setBackgroundResource(R.drawable.circlegreen);

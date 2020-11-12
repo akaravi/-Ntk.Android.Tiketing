@@ -12,6 +12,7 @@ import java.io.File;
 
 import es.dmoral.toasty.Toasty;
 import ntk.android.base.ApplicationParameter;
+import ntk.android.base.ApplicationStaticParameter;
 import ntk.android.base.ApplicationStyle;
 import ntk.android.base.NTKApplication;
 import ntk.android.base.utill.FontManager;
@@ -52,7 +53,12 @@ public class TicketingApp extends NTKApplication {
         super.attachBaseContext(base);
         MultiDex.install(base);
     }
-
+    @Override
+    protected ApplicationStaticParameter getConfig() {
+        ApplicationStaticParameter applicationStaticParameter = new ApplicationStaticParameter();
+//        applicationStaticParameter.URL = "http://dd9ecb640aee.ngrok.io/";
+        return applicationStaticParameter;
+    }
     @Override
     public ApplicationParameter getApplicationParameter() {
         return new ApplicationParameter(BuildConfig.APPLICATION_ID, BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE);

@@ -47,7 +47,7 @@ public class CommentNewsAdapter extends RecyclerView.Adapter<CommentNewsAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.Lbls.get(0).setText(arrayList.get(position).writer);
         if (arrayList.get(position).CreatedDate != null) {
-            holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate.toString()));//todo check date
+            holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate));
         } else {
             holder.Lbls.get(1).setText("");
         }

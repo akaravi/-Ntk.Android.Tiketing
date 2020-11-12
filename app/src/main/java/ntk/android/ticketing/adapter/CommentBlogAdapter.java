@@ -46,7 +46,7 @@ public class CommentBlogAdapter extends RecyclerView.Adapter<CommentBlogAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.Lbls.get(0).setText(arrayList.get(position).writer);
         if (arrayList.get(position).CreatedDate != null) {
-            holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate.toString()));//todo convert
+            holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate));
         } else {
             holder.Lbls.get(1).setText("");
         }
