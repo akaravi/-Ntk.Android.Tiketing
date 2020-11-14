@@ -7,16 +7,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import es.dmoral.toasty.Toasty;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
-import ntk.android.base.api.core.interfase.ICore;
-import ntk.android.base.api.core.model.CoreAboutUsResponse;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.ConfigStaticValue;
-import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.config.NtkObserver;
+import ntk.android.base.dtomodel.application.AboutUsDtoModel;
+import ntk.android.base.entitymodel.base.ErrorException;
+import ntk.android.base.services.application.ApplicationAppService;
 import ntk.android.ticketing.BuildConfig;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.library.about.AboutPage;
@@ -31,18 +28,11 @@ public class AboutUsActivity extends AppCompatActivity {
     }
 
     private void init() {
-        ICore iAbout = new RetrofitManager(this).getRetrofitUnCached(new ConfigStaticValue(this).GetApiBaseUrl()).create(ICore.class);
-        Observable<CoreAboutUsResponse> about = iAbout.GetAbout(new ConfigRestHeader().GetHeaders(this));
-        about.subscribeOn(Schedulers.io())
+        new ApplicationAppService(this).getAboutUs().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<CoreAboutUsResponse>() {
+                .subscribe(new NtkObserver<ErrorException<AboutUsDtoModel>>() {
                     @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(CoreAboutUsResponse about) {
+                    public void onNext(@NonNull ErrorException<AboutUsDtoModel> about) {
                         if (about != null) {
                             View aboutPage = new AboutPage(AboutUsActivity.this)
                                     .isRTL(true)
@@ -60,19 +50,15 @@ public class AboutUsActivity extends AppCompatActivity {
                                     .addInstagram(about.Item.Instagram, about.Item.TitleInstagram)
                                     .addWebsite(about.Item.WebUrl, about.Item.TitleWebUrl)
                                     .addTelegram(about.Item.Telegram, about.Item.TitleTelegram)
-                                    .addItem(new Element().setTitle(" "+BuildConfig.VERSION_NAME+" ver"))
+                                    .addItem(new Element().setTitle(" " + BuildConfig.VERSION_NAME + " ver"))
                                     .create();
                             setContentView(aboutPage);
                         }
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    public void onError(@NonNull Throwable e) {
                         Toasty.warning(AboutUsActivity.this, "خطای سامانه", Toasty.LENGTH_LONG, true).show();
-                    }
-
-                    @Override
-                    public void onComplete() {
 
                     }
                 });

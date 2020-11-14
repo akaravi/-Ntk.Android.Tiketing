@@ -372,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
                     request.ScoreComment = Txt.getText().toString();
                     //todo show loading
 
-                    new ApplicationAppService(this).ServiceScoreClick(request)
+                    new ApplicationAppService(this).submitAppScore(request)
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
                             .subscribe(new NtkObserver<ErrorExceptionBase>() {
