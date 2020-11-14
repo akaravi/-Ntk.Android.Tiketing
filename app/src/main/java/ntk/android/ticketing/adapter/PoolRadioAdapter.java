@@ -1,7 +1,6 @@
 package ntk.android.ticketing.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,18 +8,16 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.config.NtkObserver;
 import ntk.android.base.entitymodel.base.ErrorException;
@@ -28,16 +25,8 @@ import ntk.android.base.entitymodel.polling.PollingContentModel;
 import ntk.android.base.entitymodel.polling.PollingOptionModel;
 import ntk.android.base.entitymodel.polling.PollingVoteModel;
 import ntk.android.base.services.pooling.PollingVoteService;
-import ntk.android.ticketing.R;
-import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.utill.FontManager;
-import ntk.android.base.api.pooling.interfase.IPooling;
-import ntk.android.base.api.pooling.entity.PoolingContent;
-import ntk.android.base.api.pooling.entity.PoolingOption;
-import ntk.android.base.api.pooling.model.PoolingSubmitRequest;
-import ntk.android.base.api.pooling.model.PoolingSubmitResponse;
-import ntk.android.base.api.pooling.entity.PoolingVote;
-import ntk.android.base.config.RetrofitManager;
+import ntk.android.ticketing.R;
 
 public class PoolRadioAdapter extends RecyclerView.Adapter<PoolRadioAdapter.ViewHolder> {
 

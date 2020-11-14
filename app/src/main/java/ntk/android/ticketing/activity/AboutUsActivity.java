@@ -1,9 +1,10 @@
 package ntk.android.ticketing.activity;
 
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.View;
 
 import es.dmoral.toasty.Toasty;
 import io.reactivex.Observable;
@@ -11,15 +12,15 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import ntk.android.ticketing.BuildConfig;
-import ntk.android.ticketing.R;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.ConfigStaticValue;
-import ntk.android.ticketing.library.about.AboutPage;
-import ntk.android.ticketing.library.about.Element;
 import ntk.android.base.api.core.interfase.ICore;
 import ntk.android.base.api.core.model.CoreAboutUsResponse;
+import ntk.android.base.config.ConfigRestHeader;
+import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.config.RetrofitManager;
+import ntk.android.ticketing.BuildConfig;
+import ntk.android.ticketing.R;
+import ntk.android.ticketing.library.about.AboutPage;
+import ntk.android.ticketing.library.about.Element;
 
 public class AboutUsActivity extends AppCompatActivity {
 

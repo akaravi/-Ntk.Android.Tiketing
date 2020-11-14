@@ -2,9 +2,6 @@ package ntk.android.ticketing.adapter;
 
 import android.app.Dialog;
 import android.content.Context;
-import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,14 +12,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ntk.android.base.entitymodel.polling.PollingContentModel;
-import ntk.android.ticketing.R;
 import ntk.android.base.utill.FontManager;
-import ntk.android.base.api.pooling.entity.PoolingContent;
+import ntk.android.ticketing.R;
 
 public class DetailPoolCategoryAdapter extends RecyclerView.Adapter<DetailPoolCategoryAdapter.ViewHolder> {
 

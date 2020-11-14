@@ -39,7 +39,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
-import java.util.Map;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -48,24 +47,20 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import es.dmoral.toasty.Toasty;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 import ntk.android.base.activity.IntroActivity;
 import ntk.android.base.activity.NotificationsActivity;
-import ntk.android.base.api.application.interfase.IApplication;
-import ntk.android.base.api.application.model.ApplicationScoreRequest;
-import ntk.android.base.api.application.model.ApplicationScoreResponse;
 import ntk.android.base.api.core.entity.CoreMain;
-import ntk.android.base.config.ConfigRestHeader;
 import ntk.android.base.config.NtkObserver;
-import ntk.android.base.config.RetrofitManager;
+import ntk.android.base.dtomodel.application.ApplicationScoreDtoModel;
 import ntk.android.base.entitymodel.base.ErrorException;
+import ntk.android.base.entitymodel.base.ErrorExceptionBase;
 import ntk.android.base.entitymodel.base.FilterDataModel;
 import ntk.android.base.entitymodel.news.NewsContentModel;
+import ntk.android.base.services.application.ApplicationAppService;
 import ntk.android.base.services.news.NewsContentService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.EasyPreference;
@@ -343,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.feedbackBtn)
     public void onFeedBackClick() {
-        ApplicationScoreRequest request = new ApplicationScoreRequest();
+        ApplicationScoreDtoModel request = new ApplicationScoreDtoModel();
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -376,33 +371,23 @@ public class MainActivity extends AppCompatActivity {
                 if (AppUtill.isNetworkAvailable(this)) {
                     request.ScoreComment = Txt.getText().toString();
                     //todo show loading
-                    IApplication iCore = new RetrofitManager(this).getCachedRetrofit().create(IApplication.class);
-                    Map<String, String> headers = new ConfigRestHeader().GetHeaders(this);
-                    Observable<ApplicationScoreResponse> Call = iCore.SetScoreApplication(headers, request);
-                    Call.observeOn(AndroidSchedulers.mainThread())
+
+                    new ApplicationAppService(this).ServiceScoreClick(request)
+                            .observeOn(AndroidSchedulers.mainThread())
                             .subscribeOn(Schedulers.io())
-                            .subscribe(new Observer<ApplicationScoreResponse>() {
+                            .subscribe(new NtkObserver<ErrorExceptionBase>() {
                                 @Override
-                                public void onSubscribe(Disposable d) {
-
-                                }
-
-                                @Override
-                                public void onNext(ApplicationScoreResponse applicationScoreResponse) {
-                                    if (applicationScoreResponse.IsSuccess) {
+                                public void onNext(@NonNull ErrorExceptionBase response) {
+                                    if (response.IsSuccess)
                                         Toasty.success(MainActivity.this, "با موفقیت ثبت شد", Toast.LENGTH_LONG, true).show();
-                                    } else {
+                                    else {
                                         Toasty.warning(MainActivity.this, "خظا در دریافت اطلاعات", Toast.LENGTH_LONG, true).show();
                                     }
                                 }
 
                                 @Override
-                                public void onError(Throwable e) {
+                                public void onError(@NonNull Throwable e) {
                                     Toasty.warning(MainActivity.this, "خظا در اتصال به مرکز", Toast.LENGTH_LONG, true).show();
-                                }
-
-                                @Override
-                                public void onComplete() {
 
                                 }
                             });

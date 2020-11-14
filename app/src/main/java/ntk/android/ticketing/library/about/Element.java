@@ -1,11 +1,12 @@
 package ntk.android.ticketing.library.about;
 
 import android.content.Intent;
+import android.view.View;
+
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
-import android.view.View;
 
 public class Element {
 

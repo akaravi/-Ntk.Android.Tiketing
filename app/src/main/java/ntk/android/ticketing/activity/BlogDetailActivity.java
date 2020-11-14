@@ -30,7 +30,6 @@ import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +62,6 @@ import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.BlogAdapter;
 import ntk.android.ticketing.adapter.CommentBlogAdapter;
 import ntk.android.ticketing.adapter.TabBlogAdapter;
-import ntk.android.ticketing.event.BlogHtmlBodyEvent;
 
 public class BlogDetailActivity extends AppCompatActivity {
 

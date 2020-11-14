@@ -1,12 +1,13 @@
 package ntk.android.ticketing.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.Button;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 
@@ -15,9 +16,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ntk.android.base.entitymodel.blog.BlogContentOtherInfoModel;
-import ntk.android.ticketing.R;
 import ntk.android.base.utill.FontManager;
-import ntk.android.base.api.blog.entity.BlogContentOtherInfo;
+import ntk.android.ticketing.R;
 
 public class TabBlogAdapter extends RecyclerView.Adapter<TabBlogAdapter.ViewHolder> {
 

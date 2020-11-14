@@ -4,8 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import androidx.appcompat.widget.LinearLayoutCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.balysv.materialripple.MaterialRippleLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -27,13 +28,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
-import ntk.android.base.utill.EasyPreference;
-import ntk.android.ticketing.R;
+import ntk.android.base.api.baseModel.theme.Toolbar;
 import ntk.android.base.config.ConfigStaticValue;
+import ntk.android.base.utill.EasyPreference;
+import ntk.android.base.utill.FontManager;
+import ntk.android.ticketing.R;
 import ntk.android.ticketing.event.toolbar.EVHamberMenuClick;
 import ntk.android.ticketing.event.toolbar.EVSearchClick;
-import ntk.android.base.utill.FontManager;
-import ntk.android.base.api.baseModel.theme.Toolbar;
 
 public class ToolbarAdapter extends RecyclerView.Adapter<ToolbarAdapter.ViewHolder> {
 

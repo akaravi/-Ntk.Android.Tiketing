@@ -2,12 +2,13 @@ package ntk.android.ticketing.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -15,9 +16,8 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import ntk.android.base.entitymodel.ticketing.TicketingFaqModel;
-import ntk.android.ticketing.R;
 import ntk.android.base.utill.FontManager;
-import ntk.android.base.api.ticket.entity.TicketingFaq;
+import ntk.android.ticketing.R;
 
 public class FaqAdapter extends RecyclerView.Adapter<FaqAdapter.ViewHolder> {
 

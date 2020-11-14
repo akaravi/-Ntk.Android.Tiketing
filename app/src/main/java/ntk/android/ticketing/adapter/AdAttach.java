@@ -1,7 +1,6 @@
 package ntk.android.ticketing.adapter;
 
 import android.content.Context;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +8,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.event.RemoveAttachEvent;
-import ntk.android.base.utill.FontManager;
 
 public class AdAttach extends RecyclerView.Adapter<AdAttach.ViewHolder> {
 

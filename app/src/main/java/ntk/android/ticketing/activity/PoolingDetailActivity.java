@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 
-import java.util.Map;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -19,12 +17,7 @@ import es.dmoral.toasty.Toasty;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
-import ntk.android.base.api.pooling.interfase.IPooling;
-import ntk.android.base.api.pooling.model.PoolingContentListRequest;
-import ntk.android.base.config.ConfigRestHeader;
-import ntk.android.base.config.ConfigStaticValue;
 import ntk.android.base.config.NtkObserver;
-import ntk.android.base.config.RetrofitManager;
 import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.base.FilterDataModel;
 import ntk.android.base.entitymodel.polling.PollingContentModel;

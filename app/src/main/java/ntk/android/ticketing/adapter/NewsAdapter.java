@@ -15,7 +15,6 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -25,9 +24,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ntk.android.base.api.news.entity.NewsContent;
-import ntk.android.base.entitymodel.base.FilterDataModel;
-import ntk.android.base.entitymodel.base.Filters;
 import ntk.android.base.entitymodel.news.NewsContentModel;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;

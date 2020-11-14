@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">APPNTK</string>
     <string name="PhoneNumber">+9810005612020</string>
     <string name="about_page_description" translatable="false">نوشته تستی</string>

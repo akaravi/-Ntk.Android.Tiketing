@@ -17,7 +17,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import ntk.android.base.api.pooling.model.PoolingContentListRequest;
 import ntk.android.base.entitymodel.base.FilterDataModel;
 import ntk.android.base.entitymodel.base.Filters;
 import ntk.android.base.entitymodel.polling.PollingCategoryModel;

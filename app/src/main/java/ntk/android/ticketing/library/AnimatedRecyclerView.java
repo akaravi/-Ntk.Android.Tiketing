@@ -3,14 +3,15 @@ package ntk.android.ticketing.library;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.util.AttributeSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+
 import androidx.annotation.AnimRes;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.util.AttributeSet;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 
 import ntk.android.ticketing.R;
 
