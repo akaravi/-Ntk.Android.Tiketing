@@ -45,15 +45,15 @@ public class CommentNewsAdapter extends RecyclerView.Adapter<CommentNewsAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.Lbls.get(0).setText(arrayList.get(position).writer);
+        holder.Lbls.get(0).setText(arrayList.get(position).Writer);
         if (arrayList.get(position).CreatedDate != null) {
             holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate));
         } else {
             holder.Lbls.get(1).setText("");
         }
-        holder.Lbls.get(2).setText(String.valueOf(arrayList.get(position).sumDisLikeClick));
-        holder.Lbls.get(3).setText(String.valueOf(arrayList.get(position).sumLikeClick));
-        holder.Lbls.get(4).setText(String.valueOf(arrayList.get(position).comment));
+        holder.Lbls.get(2).setText(String.valueOf(arrayList.get(position).SumDisLikeClick));
+        holder.Lbls.get(3).setText(String.valueOf(arrayList.get(position).SumLikeClick));
+        holder.Lbls.get(4).setText(String.valueOf(arrayList.get(position).Comment));
 
         holder.ImgLike.setOnClickListener(v -> {
 //            NewsCommentViewRequest request = new NewsCommentViewRequest();
@@ -66,7 +66,7 @@ public class CommentNewsAdapter extends RecyclerView.Adapter<CommentNewsAdapter.
                         @Override
                         public void onNext(@NonNull ErrorException<NewsContentModel> model) {
                             if (model.IsSuccess) {
-                                arrayList.get(position).sumLikeClick = arrayList.get(position).sumLikeClick + 1;
+                                arrayList.get(position).SumLikeClick = arrayList.get(position).SumLikeClick + 1;
                                 notifyDataSetChanged();
                             } else {
                                 Toasty.warning(context, model.ErrorMessage, Toasty.LENGTH_LONG, true).show();
@@ -93,7 +93,7 @@ public class CommentNewsAdapter extends RecyclerView.Adapter<CommentNewsAdapter.
                         @Override
                         public void onNext(ErrorException<NewsContentModel> model) {
                             if (model.IsSuccess) {
-                                arrayList.get(position).sumDisLikeClick = arrayList.get(position).sumDisLikeClick - 1;
+                                arrayList.get(position).SumDisLikeClick = arrayList.get(position).SumDisLikeClick - 1;
                                 notifyDataSetChanged();
                             } else {
                                 Toasty.warning(context, model.ErrorMessage, Toasty.LENGTH_LONG, true).show();

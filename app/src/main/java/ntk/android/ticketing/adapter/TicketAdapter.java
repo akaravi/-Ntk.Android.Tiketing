@@ -48,9 +48,9 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.Lbls.get(0).setText(arrayList.get(position).title);
+        holder.Lbls.get(0).setText(arrayList.get(position).Title);
         holder.Lbls.get(2).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate) + "");//todo seem to be bug for create date
-        switch (arrayList.get(position).ticketStatus) {
+        switch (arrayList.get(position).TicketStatus) {
             case 1:
                 holder.Lbls.get(1).setBackgroundResource(R.drawable.circlegreen);
                 holder.Lbls.get(1).setText("پاسخ داده شد");
@@ -74,12 +74,11 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.ViewHolder
         }
         holder.Root.setOnClickListener(v -> {
             FilterDataModel request = new FilterDataModel();
-            List<Filters> filters = new ArrayList<>();
             Filters f = new Filters();
             f.PropertyName = "LinkTicketId";
             f.IntValue1 = arrayList.get(position).Id;
-            filters.add(f);
-            request.filters = filters;
+            request.addFilter(f);
+
             Intent intent = new Intent(context, TicketAnswerActivity.class);
             intent.putExtra("Request", new Gson().toJson(request));
             intent.putExtra("TicketId", arrayList.get(position).Id);

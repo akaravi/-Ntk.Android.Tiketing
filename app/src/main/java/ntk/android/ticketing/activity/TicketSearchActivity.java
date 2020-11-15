@@ -82,30 +82,28 @@ public class TicketSearchActivity extends BaseActivity {
                 tickets.clear();
 
                 FilterDataModel request = new FilterDataModel();
-                List<Filters> filters = new ArrayList<>();
+
                 Filters ft = new Filters();
                 ft.PropertyName = "Title";
                 ft.StringValue = Txt.getText().toString();
                 ft.ClauseType = NTKUtill.ClauseType_Or;
                 ft.SearchType = NTKUtill.Search_Type_Contains;
-                filters.add(ft);
+                request.addFilter(ft);
 
                 Filters fd = new Filters();
                 fd.PropertyName = "Description";
                 fd.StringValue = Txt.getText().toString();
                 fd.ClauseType = NTKUtill.ClauseType_Or;
                 fd.SearchType = NTKUtill.Search_Type_Contains;
-                filters.add(fd);
+                request.addFilter(fd);
 
                 Filters fb = new Filters();
                 fb.PropertyName = "Body";
                 fb.StringValue = Txt.getText().toString();
                 fb.ClauseType = NTKUtill.ClauseType_Or;
                 fb.SearchType = NTKUtill.Search_Type_Contains;
+                request.addFilter(fb);
 
-                filters.add(fb);
-
-                request.filters = filters;
                 switcher.showProgressView();
 
                 new TicketingTaskService(this).getAll(request).

@@ -51,16 +51,16 @@ public class PoolRadioAdapter extends RecyclerView.Adapter<PoolRadioAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.LblTitle.setText(arrayList.get(position).option);
+        holder.LblTitle.setText(arrayList.get(position).Option);
         holder.Radio.setChecked(lastSelectedPosition == position);
         holder.Radio.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 ArrayList<PollingVoteModel> votes = new ArrayList<>();
                 PollingVoteModel vote = new PollingVoteModel();
 //                vote.OptionId = Long.parseLong(String.valueOf(arrayList.get(position).Id));
-                vote.linkPollingOptionId = Long.parseLong(String.valueOf(arrayList.get(position).Id));
-                vote.optionScore = 1;
-                vote.linkPollingContentId=arrayList.get(position).linkPollingContentId;
+                vote.LinkPollingOptionId = Long.parseLong(String.valueOf(arrayList.get(position).Id));
+                vote.OptionScore = 1;
+                vote.LinkPollingContentId=arrayList.get(position).LinkPollingContentId;
                 votes.add(vote);
                  new PollingVoteService(context).addBatch(votes).observeOn(AndroidSchedulers.mainThread())
                         .subscribeOn(Schedulers.io())
@@ -70,7 +70,7 @@ public class PoolRadioAdapter extends RecyclerView.Adapter<PoolRadioAdapter.View
                             public void onNext(@NonNull ErrorException<PollingVoteModel> poolingSubmitResponse) {
                                 if (poolingSubmitResponse.IsSuccess) {
                                     Toasty.info(context, "نظر شما با موققثیت ثبت شد", Toasty.LENGTH_LONG, true).show();
-                                    if (PC.viewStatisticsAfterVote) {
+                                    if (PC.ViewStatisticsAfterVote) {
                                         BtnChart.setVisibility(View.VISIBLE);
                                     }
                                 } else {

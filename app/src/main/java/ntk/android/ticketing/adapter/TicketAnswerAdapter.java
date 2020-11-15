@@ -38,7 +38,7 @@ public class TicketAnswerAdapter extends RecyclerView.Adapter<TicketAnswerAdapte
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.Lbls.get(0).setText(Html.fromHtml(arrayList.get(position).htmlBody
+        holder.Lbls.get(0).setText(Html.fromHtml(arrayList.get(position).HtmlBody
                 .replace("<p>", "")
                 .replace("</p>", "")));
         holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(arrayList.get(position).CreatedDate) + "");

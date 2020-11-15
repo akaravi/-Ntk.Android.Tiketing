@@ -56,7 +56,7 @@ public class PoolCheckBoxAdapter extends RecyclerView.Adapter<PoolCheckBoxAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.LblTitle.setText(arrayList.get(position).option);
+        holder.LblTitle.setText(arrayList.get(position).Option);
 
         holder.Radio.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -64,11 +64,11 @@ public class PoolCheckBoxAdapter extends RecyclerView.Adapter<PoolCheckBoxAdapte
                 for (Map.Entry<Long, Integer> map : MapVote.entrySet()) {
                     Score = Score + map.getValue();
                 }
-                if (Score < PC.maxVoteForThisContent) {
+                if (Score < PC.MaxVoteForThisContent) {
                     MapVote.put(Long.parseLong(String.valueOf(arrayList.get(position).Id)), 1);
                     holder.Radio.setChecked(true);
                 } else {
-                    Toasty.warning(context, "تعداد پاسخ مجاز برای این نظر سنجی " + PC.maxVoteForThisContent, Toasty.LENGTH_LONG, true).show();
+                    Toasty.warning(context, "تعداد پاسخ مجاز برای این نظر سنجی " + PC.MaxVoteForThisContent, Toasty.LENGTH_LONG, true).show();
                     holder.Radio.setChecked(false);
                 }
             } else {
@@ -89,9 +89,9 @@ public class PoolCheckBoxAdapter extends RecyclerView.Adapter<PoolCheckBoxAdapte
             ArrayList<PollingVoteModel> votes = new ArrayList<>();
             for (Map.Entry<Long, Integer> map : MapVote.entrySet()) {
                 PollingVoteModel vote = new PollingVoteModel();
-                vote.linkPollingOptionId = map.getKey();
-                vote.linkPollingContentId = arrayList.get(position).linkPollingContentId;
-                vote.optionScore = map.getValue();
+                vote.LinkPollingOptionId = map.getKey();
+                vote.LinkPollingContentId = arrayList.get(position).LinkPollingContentId;
+                vote.OptionScore = map.getValue();
                 votes.add(vote);
             }
 
@@ -104,7 +104,7 @@ public class PoolCheckBoxAdapter extends RecyclerView.Adapter<PoolCheckBoxAdapte
                         public void onNext(ErrorException<PollingVoteModel> poolingSubmitResponse) {
                             if (poolingSubmitResponse.IsSuccess) {
                                 Toasty.info(context, "نظر شما با موققثیت ثبت شد", Toasty.LENGTH_LONG, true).show();
-                                if (PC.viewStatisticsAfterVote) {
+                                if (PC.ViewStatisticsAfterVote) {
                                     BtnChart.setVisibility(View.VISIBLE);
                                 }
                             } else {

@@ -82,22 +82,19 @@ public class FaqSearchActivity extends BaseActivity {
             if (AppUtill.isNetworkAvailable(this)) {
 
                 FilterDataModel request = new FilterDataModel();
-                List<Filters> filters = new ArrayList<>();
                 Filters fa = new Filters();
                 fa.PropertyName = "Answer";
                 fa.StringValue = Txt.getText().toString();
                 fa.ClauseType = NTKUtill.ClauseType_Or;
                 fa.SearchType = NTKUtill.Search_Type_Contains;
-                filters.add(fa);
+                request.addFilter(fa);
 
                 Filters fq = new Filters();
                 fq.PropertyName = "Question";
                 fq.StringValue = Txt.getText().toString();
                 fq.ClauseType = NTKUtill.ClauseType_Or;
                 fq.SearchType = NTKUtill.Search_Type_Contains;
-                filters.add(fq);
-
-                request.filters = filters;
+                request.addFilter(fq);
                 switcher.showProgressView();
                 new TicketingFaqService(this).getAll(request).
                 observeOn(AndroidSchedulers.mainThread())

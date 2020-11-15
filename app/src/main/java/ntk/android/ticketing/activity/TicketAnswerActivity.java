@@ -187,9 +187,9 @@ public class TicketAnswerActivity extends AppCompatActivity {
         } else {
             if (AppUtill.isNetworkAvailable(this)) {
                 TicketingAnswerModel request = new TicketingAnswerModel();
-                request.htmlBody = txt.getText().toString();
-                request.linkTicketId = getIntent().getLongExtra("TicketId", 0);
-                request.linkFileIds = linkFileIds;
+                request.HtmlBody = txt.getText().toString();
+                request.LinkTicketId = getIntent().getLongExtra("TicketId", 0);
+                request.LinkFileIds = linkFileIds;
 
                 new TicketingAnswerService(this).add(request)
                         .observeOn(AndroidSchedulers.mainThread())

@@ -44,18 +44,16 @@ public class PoolCategoryAdapter extends RecyclerView.Adapter<PoolCategoryAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.LblTitle.setText(arrayList.get(position).title);
+        holder.LblTitle.setText(arrayList.get(position).Title);
         holder.Root.setOnClickListener(v -> {
             FilterDataModel request = new FilterDataModel();
-            List<Filters> filters = new ArrayList<>();
             Filters f = new Filters();
             f.PropertyName = "LinkCategoryId";
             f.IntValue1 = arrayList.get(position).Id;
-            filters.add(f);
-            request.filters = filters;
+            request.addFilter(f);
             Intent intent = new Intent(context, PoolingDetailActivity.class);
             intent.putExtra("Request", new Gson().toJson(request));
-            intent.putExtra("Title", arrayList.get(position).title);
+            intent.putExtra("Title", arrayList.get(position).Title);
             context.startActivity(intent);
         });
     }

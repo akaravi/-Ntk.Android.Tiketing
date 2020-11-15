@@ -58,7 +58,7 @@ public class PoolPlusMinesAdapter extends RecyclerView.Adapter<PoolPlusMinesAdap
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.Title.setText(arrayList.get(position).option);
+        holder.Title.setText(arrayList.get(position).Option);
         holder.Plus.setOnClickListener(v -> {
             Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
             vibe.vibrate(100);
@@ -67,16 +67,16 @@ public class PoolPlusMinesAdapter extends RecyclerView.Adapter<PoolPlusMinesAdap
             for (Map.Entry<Long, Integer> map : MapVote.entrySet()) {
                 Score = Score + map.getValue();
             }
-            if (Score < PC.maxVoteForThisContent) {
-                if (val < PC.maxVoteForEachOption) {
+            if (Score < PC.MaxVoteForThisContent) {
+                if (val < PC.MaxVoteForEachOption) {
                     val = val + 1;
                     holder.Number.setText(String.valueOf(val));
                     MapVote.put(Long.parseLong(String.valueOf(arrayList.get(position).Id)), val);
                 } else {
-                    Toasty.warning(context, "تعداد پاسخ مجاز برای این گزینه " + PC.maxVoteForEachOption, Toasty.LENGTH_LONG, true).show();
+                    Toasty.warning(context, "تعداد پاسخ مجاز برای این گزینه " + PC.MaxVoteForEachOption, Toasty.LENGTH_LONG, true).show();
                 }
             } else {
-                Toasty.warning(context, "تعداد پاسخ مجاز برای این نظر سنجی " + PC.maxVoteForThisContent, Toasty.LENGTH_LONG, true).show();
+                Toasty.warning(context, "تعداد پاسخ مجاز برای این نظر سنجی " + PC.MaxVoteForThisContent, Toasty.LENGTH_LONG, true).show();
             }
         });
         holder.Minus.setOnClickListener(v -> {
@@ -93,14 +93,14 @@ public class PoolPlusMinesAdapter extends RecyclerView.Adapter<PoolPlusMinesAdap
         });
         BtnSend.setOnClickListener(v -> {
             PoolingSubmitRequest request = new PoolingSubmitRequest();
-            request.ContentId = arrayList.get(position).linkPollingContentId;
+            request.ContentId = arrayList.get(position).LinkPollingContentId;
             ArrayList<PollingVoteModel> votes = new ArrayList<>();
 
             for (Map.Entry<Long, Integer> map : MapVote.entrySet()) {
                 PollingVoteModel vote = new PollingVoteModel();
-                vote.linkPollingOptionId = map.getKey();
-                vote.linkPollingContentId = arrayList.get(position).linkPollingContentId;
-                vote.optionScore = map.getValue();
+                vote.LinkPollingOptionId = map.getKey();
+                vote.LinkPollingContentId = arrayList.get(position).LinkPollingContentId;
+                vote.OptionScore = map.getValue();
                 votes.add(vote);
             }
 
@@ -113,7 +113,7 @@ public class PoolPlusMinesAdapter extends RecyclerView.Adapter<PoolPlusMinesAdap
                         public void onNext(ErrorException<PollingVoteModel> poolingSubmitResponse) {
                             if (poolingSubmitResponse.IsSuccess) {
                                 Toasty.info(context, "نظر شما با موققثیت ثبت شد", Toasty.LENGTH_LONG, true).show();
-                                if (PC.viewStatisticsAfterVote) {
+                                if (PC.ViewStatisticsAfterVote) {
                                     BtnChart.setVisibility(View.VISIBLE);
                                 }
                             } else {

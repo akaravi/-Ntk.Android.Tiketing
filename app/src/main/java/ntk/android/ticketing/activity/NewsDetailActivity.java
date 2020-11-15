@@ -260,13 +260,12 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     private void HandelDataComment(long ContentId) {
         if (AppUtill.isNetworkAvailable(this)) {
-            List<Filters> filters = new ArrayList<>();
             FilterDataModel Request = new FilterDataModel();
             Filters f = new Filters();
             f.PropertyName = "LinkContentId";
             f.IntValue1 = ContentId;
-            filters.add(f);
-            Request.filters = filters;
+            Request.addFilter(f);
+            
             new NewsCommentService(this).getAll(Request).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new NtkObserver<ErrorException<NewsCommentModel>>() {
@@ -305,14 +304,12 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     private void HandelDataContentOtherInfo(long ContentId) {
         if (AppUtill.isNetworkAvailable(this)) {
-            List<Filters> filters = new ArrayList<>();
+           
             FilterDataModel Request = new FilterDataModel();
             Filters f = new Filters();
             f.PropertyName = "LinkContentId";
             f.IntValue1 = ContentId;
-            filters.add(f);
-            Request.filters = filters;
-
+            Request.addFilter(f);
             new NewsContentOtherInfoService(this).getAll(Request).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(new NtkObserver<ErrorException<NewsContentOtherInfoModel>>() {
@@ -349,22 +346,22 @@ public class NewsDetailActivity extends AppCompatActivity {
         for (NewsContentOtherInfoModel ai : model.ListItems) {
             switch (ai.typeId) {
                 case 21:
-                    Lbls.get(7).setText(ai.title);
-                    ai.htmlBody = ai.htmlBody.replace("<p>", "");
-                    ai.htmlBody = ai.htmlBody.replace("</p>", "");
-                    Lbls.get(6).setText(Html.fromHtml(ai.htmlBody));
+                    Lbls.get(7).setText(ai.Title);
+                    ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
+                    ai.HtmlBody = ai.HtmlBody.replace("</p>", "");
+                    Lbls.get(6).setText(Html.fromHtml(ai.HtmlBody));
                     break;
                 case 22:
-                    Lbls.get(9).setText(ai.title);
-                    ai.htmlBody = ai.htmlBody.replace("<p>", "");
-                    ai.htmlBody = ai.htmlBody.replace("</p>", "");
-                    Lbls.get(8).setText(Html.fromHtml(ai.htmlBody));
+                    Lbls.get(9).setText(ai.Title);
+                    ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
+                    ai.HtmlBody = ai.HtmlBody.replace("</p>", "");
+                    Lbls.get(8).setText(Html.fromHtml(ai.HtmlBody));
                     break;
                 case 23:
-                    Lbls.get(11).setText(ai.title);
-                    ai.htmlBody = ai.htmlBody.replace("<p>", "");
-                    ai.htmlBody = ai.htmlBody.replace("</p>", "");
-                    Lbls.get(10).setText(Html.fromHtml(ai.htmlBody));
+                    Lbls.get(11).setText(ai.Title);
+                    ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
+                    ai.HtmlBody = ai.HtmlBody.replace("</p>", "");
+                    Lbls.get(10).setText(Html.fromHtml(ai.HtmlBody));
                     break;
                 default:
                     Info.add(ai);
@@ -377,13 +374,13 @@ public class NewsDetailActivity extends AppCompatActivity {
     }
 
     private void SetData(ErrorException<NewsContentModel> model) {
-        ImageLoader.getInstance().displayImage(model.Item.mainImageSrc, ImgHeader);
+        ImageLoader.getInstance().displayImage(model.Item.MainImageSrc, ImgHeader);
         Lbls.get(0).setText(model.Item.Title);
         Lbls.get(1).setText(model.Item.Title);
-        Lbls.get(3).setText(String.valueOf(model.Item.viewCount));
+        Lbls.get(3).setText(String.valueOf(model.Item.ViewCount));
         double rating = 0.0;
-        int sumClick = model.Item.viewCount;
-        if (model.Item.viewCount == 0) sumClick = 1;
+        int sumClick = model.Item.ViewCount;
+        if (model.Item.ViewCount == 0) sumClick = 1;
         if (model.Item.ScoreSumPercent / sumClick > 0 && model.Item.ScoreSumPercent / sumClick <= 10) {
             rating = 0.5;
         } else if (model.Item.ScoreSumPercent / sumClick > 10 && model.Item.ScoreSumPercent / sumClick <= 20) {
@@ -408,7 +405,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         Rate.setRating((float) rating);
         if (model.Item.body != null)
             webViewBody.loadData("<html dir=\"rtl\" lang=\"\"><body>" + model.Item.body + "</body></html>", "text/html; charset=utf-8", "UTF-8");
-        if (model.Item.favorited) {
+        if (model.Item.Favorited) {
             ((ImageView) findViewById(R.id.imgHeartActDetailNews)).setImageResource(R.drawable.ic_fav_full);
         }
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
@@ -461,9 +458,9 @@ public class NewsDetailActivity extends AppCompatActivity {
                 } else {
                     if (AppUtill.isNetworkAvailable(this)) {
                         NewsCommentModel add = new NewsCommentModel();
-                        add.writer = Txt[0].getText().toString();
-                        add.comment = Txt[1].getText().toString();
-                        add.linkContentid = Id;
+                        add.Writer = Txt[0].getText().toString();
+                        add.Comment = Txt[1].getText().toString();
+                        add.LinkContentId = Id;
                         new NewsCommentService(this).add(add).
                                 subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
@@ -508,7 +505,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.imgFavActDetailNews)
     public void ClickFav() {
-        if (!model.Item.favorited) {
+        if (!model.Item.Favorited) {
             Fav();
         } else {
             UnFav();
@@ -527,8 +524,8 @@ public class NewsDetailActivity extends AppCompatActivity {
                         public void onNext(ErrorExceptionBase e) {
                             if (e.IsSuccess) {
                                 Toasty.success(NewsDetailActivity.this, "با موفقیت ثبت شد").show();
-                                model.Item.favorited = !model.Item.favorited;
-                                if (model.Item.favorited) {
+                                model.Item.Favorited = !model.Item.Favorited;
+                                if (model.Item.Favorited) {
                                     ((ImageView) findViewById(R.id.imgHeartActDetailNews)).setImageResource(R.drawable.ic_fav_full);
                                 } else {
                                     ((ImageView) findViewById(R.id.imgHeartActDetailNews)).setImageResource(R.drawable.ic_fav);
@@ -569,8 +566,8 @@ public class NewsDetailActivity extends AppCompatActivity {
                         public void onNext(ErrorExceptionBase e) {
                             if (e.IsSuccess) {
                                 Toasty.success(NewsDetailActivity.this, "با موفقیت ثبت شد").show();
-                                model.Item.favorited = !model.Item.favorited;
-                                if (model.Item.favorited) {
+                                model.Item.Favorited = !model.Item.Favorited;
+                                if (model.Item.Favorited) {
                                     ((ImageView) findViewById(R.id.imgHeartActDetailNews)).setImageResource(R.drawable.ic_fav_full);
                                 } else {
                                     ((ImageView) findViewById(R.id.imgHeartActDetailNews)).setImageResource(R.drawable.ic_fav);

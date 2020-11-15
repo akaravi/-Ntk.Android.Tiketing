@@ -162,7 +162,7 @@ public class NewTicketActivity extends BaseActivity {
         spinners.get(1).setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                request.priority = (position + 1);
+                request.Priority = (position + 1);
             }
 
             @Override
@@ -170,7 +170,7 @@ public class NewTicketActivity extends BaseActivity {
 
             }
         });
-        if (request.priority == 0) {
+        if (request.Priority == 0) {
             spinners.get(1).setSelection(0);
         }
         FilterDataModel request = new FilterDataModel();
@@ -183,7 +183,7 @@ public class NewTicketActivity extends BaseActivity {
                     public void onNext(@NonNull ErrorException<TicketingDepartemenModel> model) {
                         List<String> list = new ArrayList<>();
                         for (TicketingDepartemenModel td : model.ListItems) {
-                            list.add(td.title);
+                            list.add(td.Title);
                             SpinnerAdapter<String> adapter_dpartman = new SpinnerAdapter<>(NewTicketActivity.this, R.layout.spinner_item, list);
                             spinners.get(0).setAdapter(adapter_dpartman);
                         }
@@ -243,8 +243,8 @@ public class NewTicketActivity extends BaseActivity {
             request.Email = Txts.get(4).getText().toString();
             request.PhoneNo = Txts.get(3).getText().toString();
             request.FullName = Txts.get(2).getText().toString();
-            request.htmlBody = Txts.get(1).getText().toString();
-            request.title = Txts.get(0).getText().toString();
+            request.HtmlBody = Txts.get(1).getText().toString();
+            request.Title = Txts.get(0).getText().toString();
 
             String ids = "";
             for (int i = 0; i < fileId.size(); i++) {
@@ -253,7 +253,7 @@ public class NewTicketActivity extends BaseActivity {
                 else
                     ids += "," + fileId.get(i);
             }
-            request.linkFileIds = ids;
+            request.LinkFileIds = ids;
 
             requestMember.FirstName = Txts.get(2).getText().toString();
             requestMember.LastName = Txts.get(2).getText().toString();
