@@ -38,7 +38,7 @@ public class TabNewsAdapter extends RecyclerView.Adapter<TabNewsAdapter.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.Btn.setText(arrayList.get(position).Title);
-        if (arrayList.get(position).typeId == 0) {
+        if (arrayList.get(position).TypeId == 0) {
             holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + arrayList.get(position).HtmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8");
         }
         holder.Ripple.setOnClickListener(v -> holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + arrayList.get(position).HtmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8"));

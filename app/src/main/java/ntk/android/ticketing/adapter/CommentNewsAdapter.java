@@ -85,6 +85,7 @@ public class CommentNewsAdapter extends RecyclerView.Adapter<CommentNewsAdapter.
 //            NewsCommentViewRequest request = new NewsCommentViewRequest();
 //            request.Id = arrayList.get(position).Id;
 //            request.ActionClientOrder = NTKClientAction.DisLikeClientAction;
+            //todo replace with comment like dislike
             long id = arrayList.get(position).Id;
             new NewsContentService(context).getOne(id).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -105,10 +106,6 @@ public class CommentNewsAdapter extends RecyclerView.Adapter<CommentNewsAdapter.
                             Toasty.warning(context, "قبلا در این محتوا ثبت نطر ئاشته اید", Toasty.LENGTH_LONG, true).show();
                         }
 
-                        @Override
-                        public void onComplete() {
-
-                        }
                     });
         });
     }

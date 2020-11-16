@@ -304,7 +304,6 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     private void HandelDataContentOtherInfo(long ContentId) {
         if (AppUtill.isNetworkAvailable(this)) {
-           
             FilterDataModel Request = new FilterDataModel();
             Filters f = new Filters();
             f.PropertyName = "LinkContentId";
@@ -344,7 +343,7 @@ public class NewsDetailActivity extends AppCompatActivity {
         List<NewsContentOtherInfoModel> Info = new ArrayList<>();
 
         for (NewsContentOtherInfoModel ai : model.ListItems) {
-            switch (ai.typeId) {
+            switch (ai.TypeId) {
                 case 21:
                     Lbls.get(7).setText(ai.Title);
                     ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
@@ -403,8 +402,8 @@ public class NewsDetailActivity extends AppCompatActivity {
             rating = 5.0;
         }
         Rate.setRating((float) rating);
-        if (model.Item.body != null)
-            webViewBody.loadData("<html dir=\"rtl\" lang=\"\"><body>" + model.Item.body + "</body></html>", "text/html; charset=utf-8", "UTF-8");
+        if (model.Item.Body != null)
+            webViewBody.loadData("<html dir=\"rtl\" lang=\"\"><body>" + model.Item.Body + "</body></html>", "text/html; charset=utf-8", "UTF-8");
         if (model.Item.Favorited) {
             ((ImageView) findViewById(R.id.imgHeartActDetailNews)).setImageResource(R.drawable.ic_fav_full);
         }
@@ -586,11 +585,6 @@ public class NewsDetailActivity extends AppCompatActivity {
                                 }
                             }).show();
                         }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
                     });
         } else {
             Snackbar.make(layout, "عدم دسترسی به اینترنت", Snackbar.LENGTH_INDEFINITE).setAction("تلاش مجددا", v -> init()).show();
@@ -605,8 +599,8 @@ public class NewsDetailActivity extends AppCompatActivity {
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
         String message = model.Item.Title + "\n" + model.Item.Description + "\n";
-        if (model.Item.body != null) {
-            message = message + Html.fromHtml(model.Item.body
+        if (model.Item.Body != null) {
+            message = message + Html.fromHtml(model.Item.Body
                     .replace("<p>", "")
                     .replace("</p>", ""));
         }

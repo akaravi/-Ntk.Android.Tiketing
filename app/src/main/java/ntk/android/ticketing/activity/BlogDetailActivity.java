@@ -341,7 +341,7 @@ public class BlogDetailActivity extends AppCompatActivity {
         List<BlogContentOtherInfoModel> Info = new ArrayList<>();
 
         for (BlogContentOtherInfoModel ai : model.ListItems) {
-            switch (ai.typeId) {
+            switch (ai.TypeId) {
                 case 21:
                     Lbls.get(7).setText(ai.Title);
                     ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
