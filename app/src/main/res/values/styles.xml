@@ -11,9 +11,14 @@
         <item name="ntk_splash_loading">@raw/loading</item>
         <item name="ntk_splash_logo">@drawable/logo</item>
         <item name="ntk_notification_color">@color/colorWhite</item>
-        <item name="Theme_NTKIntro">@style/AppTheme</item>
-        <item name="Theme_NTKRegister">@style/AppTheme</item>
-        <item name="Theme_NTKNotification">@style/AppTheme</item>
+        <item name="Theme_NTK_Intro">@style/AppTheme</item>
+        <item name="Theme_NTK_Register">@style/AppTheme</item>
+        <item name="Theme_NTK_Notification">@style/AppTheme</item>
+        <item name="Theme_NTK_Fag">@style/NoActionBar</item>
+        <item name="Theme_NTK_Ticket_Answer">@style/NoActionBar</item>
+        <item name="Theme_NTK_Ticket_Search">@style/NoActionBar</item>
+        <item name="Theme_NTK_Ticket_List">@style/NoActionBar</item>
+        <item name="Theme_NTK_Faq_Search">@style/NoActionBar </item>
     </style>
 
     <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">

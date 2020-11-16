@@ -25,9 +25,5 @@
         <item>طراحی</item>
         <item>پشتیبانی</item>
     </string-array>
-    <string-array name="StateTicket">
-        <item>معمولی</item>
-        <item>مهم</item>
-        <item>ضروری</item>
-    </string-array>
+
 </resources>
