@@ -18,7 +18,7 @@ import ntk.android.base.NTKApplication;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.activity.MainActivity;
 
-public class TicketingApp extends NTKApplication {
+public class MyApplication extends NTKApplication {
 
     public static boolean Inbox = false;
 
