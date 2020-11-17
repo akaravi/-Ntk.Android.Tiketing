@@ -19,6 +19,8 @@
         <item name="Theme_NTK_Ticket_Search">@style/NoActionBar</item>
         <item name="Theme_NTK_Ticket_List">@style/NoActionBar</item>
         <item name="Theme_NTK_Faq_Search">@style/NoActionBar </item>
+        <item name="Theme_NTK_Poll">@style/NoActionBar </item>
+        <item name="Theme_NTK_Poll_Detail">@style/NoActionBar </item>
     </style>
 
     <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">

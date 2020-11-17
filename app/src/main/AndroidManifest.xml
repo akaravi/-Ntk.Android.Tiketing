@@ -43,14 +43,7 @@
             android:name=".activity.NewsListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activity.PoolingActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activity.PoolingDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+
         <activity
             android:name=".activity.NewsDetailActivity"
             android:screenOrientation="portrait"
