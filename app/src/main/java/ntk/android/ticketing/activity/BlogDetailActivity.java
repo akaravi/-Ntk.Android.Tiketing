@@ -56,8 +56,8 @@ import ntk.android.base.services.blog.BlogCommentService;
 import ntk.android.base.services.blog.BlogContentOtherInfoService;
 import ntk.android.base.services.blog.BlogContentService;
 import ntk.android.base.utill.AppUtill;
-import ntk.android.base.utill.EasyPreference;
 import ntk.android.base.utill.FontManager;
+import ntk.android.base.utill.prefrense.Preferences;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.BlogAdapter;
 import ntk.android.ticketing.adapter.CommentBlogAdapter;
@@ -623,7 +623,7 @@ public class BlogDetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.imgShareActDetailBlog)
     public void ClickShare() {
-        String st = EasyPreference.with(this).getString("configapp", "");
+        String st = Preferences.with(this).appVariableInfo().configapp();
         CoreMain mcr = new Gson().fromJson(st, CoreMain.class);
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);

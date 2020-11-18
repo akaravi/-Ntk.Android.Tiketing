@@ -55,8 +55,9 @@ import ntk.android.base.services.news.NewsCommentService;
 import ntk.android.base.services.news.NewsContentOtherInfoService;
 import ntk.android.base.services.news.NewsContentService;
 import ntk.android.base.utill.AppUtill;
-import ntk.android.base.utill.EasyPreference;
+
 import ntk.android.base.utill.FontManager;
+import ntk.android.base.utill.prefrense.Preferences;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.CommentNewsAdapter;
 import ntk.android.ticketing.adapter.NewsAdapter;
@@ -593,8 +594,7 @@ public class NewsDetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.imgShareActDetailNews)
     public void ClickShare() {
-        String st =
-                EasyPreference.with(this).getString("configapp", "");
+                String st = Preferences.with(this).appVariableInfo().configapp();
         CoreMain mcr = new Gson().fromJson(st, CoreMain.class);
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);

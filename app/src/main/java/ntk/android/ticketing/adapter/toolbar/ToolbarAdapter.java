@@ -30,7 +30,6 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import ntk.android.base.api.baseModel.theme.Toolbar;
 import ntk.android.base.config.ConfigStaticValue;
-import ntk.android.base.utill.EasyPreference;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.event.toolbar.EVHamberMenuClick;
@@ -55,61 +54,62 @@ public class ToolbarAdapter extends RecyclerView.Adapter<ToolbarAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        ImageLoader.getInstance().displayImage(toolbars.get(position).HamberMenu.Image, holder.Imgs.get(0));
-        ImageLoader.getInstance().displayImage(toolbars.get(position).SearchBox.Image, holder.Imgs.get(1));
-        ImageLoader.getInstance().displayImage(toolbars.get(position).Cart.Image, holder.Imgs.get(2));
-        holder.Imgs.get(0).setColorFilter(Color.parseColor(toolbars.get(position).HamberMenu.Color), PorterDuff.Mode.SRC_IN);
-        holder.Imgs.get(1).setColorFilter(Color.parseColor(toolbars.get(position).SearchBox.Color), PorterDuff.Mode.SRC_IN);
-        holder.Imgs.get(2).setColorFilter(Color.parseColor(toolbars.get(position).Cart.Color), PorterDuff.Mode.SRC_IN);
-        holder.Container.setBackgroundColor(Color.parseColor(toolbars.get(position).BackgroundColor));
-        holder.Line.setBackgroundColor(Color.parseColor(toolbars.get(position).ColorBelowLine));
-
-        holder.Ripples.get(0).setOnClickListener(v -> EventBus.getDefault().post(new EVHamberMenuClick(true)));
-        holder.Ripples.get(1).setOnClickListener(v -> EventBus.getDefault().post(new EVSearchClick(true)));
-
-        holder.Container.setOnClickListener(v -> {
-            if (Click < 10) {
-                Click = Click + 1;
-            } else {
-                Click = 8;
-                final Dialog dialog = new Dialog(context);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setCanceledOnTouchOutside(true);
-                Window window = dialog.getWindow();
-                window.setLayout(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
-                window.setGravity(Gravity.CENTER);
-                dialog.setContentView(R.layout.dialog_url);
-                dialog.show();
-                TextView tv = dialog.findViewById(R.id.lblTitleDialogUrl);
-                tv.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
-
-                TextView txtApiBaseUrlUseed = dialog.findViewById(R.id.txtLinkDialogUrl);
-                int ApiBaseUrlUseed = EasyPreference.with(context).getInt("ApiBaseUrlUseed", 0);
-                txtApiBaseUrlUseed.setText("Use Count : " + ApiBaseUrlUseed + " Of 10");
-
-                EditText txtApiBaseUrl = dialog.findViewById(R.id.txtLinkDialogUrl);
-                txtApiBaseUrl.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
-                String strUrl = EasyPreference.with(context).getString("ApiBaseUrl", new ConfigStaticValue(context).GetApiBaseUrl());
-
-                txtApiBaseUrl.setText(strUrl);
-
-                EditText txtApiBaseAppId = dialog.findViewById(R.id.txtLinkDialogUrl);
-                txtApiBaseAppId.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
-                txtApiBaseAppId.setText(EasyPreference.with(context).getString("ApiBaseAppId", new ConfigStaticValue(context).ApiBaseAppId + ""));
-
-                Button btn = dialog.findViewById(R.id.btnSubmitDialogUrl);
-                btn.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
-
-                btn.setOnClickListener(v1 -> {
-                    EasyPreference.with(context).addString("ApiBaseUrl", txtApiBaseUrl.getText().toString());
-                    EasyPreference.with(context).addString("ApiBaseAppId", txtApiBaseAppId.getText().toString());
-                    EasyPreference.with(context).addInt("ApiBaseUrlUseed", 0);
-
-                    Click = 5;
-                    dialog.dismiss();
-                });
-            }
-        });
+        //remove
+//        ImageLoader.getInstance().displayImage(toolbars.get(position).HamberMenu.Image, holder.Imgs.get(0));
+//        ImageLoader.getInstance().displayImage(toolbars.get(position).SearchBox.Image, holder.Imgs.get(1));
+//        ImageLoader.getInstance().displayImage(toolbars.get(position).Cart.Image, holder.Imgs.get(2));
+//        holder.Imgs.get(0).setColorFilter(Color.parseColor(toolbars.get(position).HamberMenu.Color), PorterDuff.Mode.SRC_IN);
+//        holder.Imgs.get(1).setColorFilter(Color.parseColor(toolbars.get(position).SearchBox.Color), PorterDuff.Mode.SRC_IN);
+//        holder.Imgs.get(2).setColorFilter(Color.parseColor(toolbars.get(position).Cart.Color), PorterDuff.Mode.SRC_IN);
+//        holder.Container.setBackgroundColor(Color.parseColor(toolbars.get(position).BackgroundColor));
+//        holder.Line.setBackgroundColor(Color.parseColor(toolbars.get(position).ColorBelowLine));
+//
+//        holder.Ripples.get(0).setOnClickListener(v -> EventBus.getDefault().post(new EVHamberMenuClick(true)));
+//        holder.Ripples.get(1).setOnClickListener(v -> EventBus.getDefault().post(new EVSearchClick(true)));
+//
+//        holder.Container.setOnClickListener(v -> {
+//            if (Click < 10) {
+//                Click = Click + 1;
+//            } else {
+//                Click = 8;
+//                final Dialog dialog = new Dialog(context);
+//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//                dialog.setCanceledOnTouchOutside(true);
+//                Window window = dialog.getWindow();
+//                window.setLayout(LinearLayoutCompat.LayoutParams.WRAP_CONTENT, LinearLayoutCompat.LayoutParams.WRAP_CONTENT);
+//                window.setGravity(Gravity.CENTER);
+//                dialog.setContentView(R.layout.dialog_url);
+//                dialog.show();
+//                TextView tv = dialog.findViewById(R.id.lblTitleDialogUrl);
+//                tv.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
+//
+//                TextView txtApiBaseUrlUseed = dialog.findViewById(R.id.txtLinkDialogUrl);
+//                int ApiBaseUrlUseed = EasyPreference.with(context).getInt("ApiBaseUrlUseed", 0);
+//                txtApiBaseUrlUseed.setText("Use Count : " + ApiBaseUrlUseed + " Of 10");
+//
+//                EditText txtApiBaseUrl = dialog.findViewById(R.id.txtLinkDialogUrl);
+//                txtApiBaseUrl.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
+//                String strUrl = EasyPreference.with(context).getString("ApiBaseUrl", new ConfigStaticValue(context).GetApiBaseUrl());
+//
+//                txtApiBaseUrl.setText(strUrl);
+//
+//                EditText txtApiBaseAppId = dialog.findViewById(R.id.txtLinkDialogUrl);
+//                txtApiBaseAppId.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
+//                txtApiBaseAppId.setText(EasyPreference.with(context).getString("ApiBaseAppId", new ConfigStaticValue(context).ApiBaseAppId + ""));
+//
+//                Button btn = dialog.findViewById(R.id.btnSubmitDialogUrl);
+//                btn.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
+//
+//                btn.setOnClickListener(v1 -> {
+//                    EasyPreference.with(context).addString("ApiBaseUrl", txtApiBaseUrl.getText().toString());
+//                    EasyPreference.with(context).addString("ApiBaseAppId", txtApiBaseAppId.getText().toString());
+//                    EasyPreference.with(context).addInt("ApiBaseUrlUseed", 0);
+//
+//                    Click = 5;
+//                    dialog.dismiss();
+//                });
+//            }
+//        });
     }
 
     @Override

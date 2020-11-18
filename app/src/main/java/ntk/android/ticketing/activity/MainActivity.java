@@ -67,8 +67,9 @@ import ntk.android.base.entitymodel.news.NewsContentModel;
 import ntk.android.base.services.application.ApplicationAppService;
 import ntk.android.base.services.news.NewsContentService;
 import ntk.android.base.utill.AppUtill;
-import ntk.android.base.utill.EasyPreference;
+
 import ntk.android.base.utill.FontManager;
+import ntk.android.base.utill.prefrense.Preferences;
 import ntk.android.ticketing.BuildConfig;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.CoreImageAdapter;
@@ -199,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
      * check new version availability
      */
     private void CheckUpdate() {
-        String st = EasyPreference.with(this).getString("configapp", "");
+        String st = Preferences.with(this).appVariableInfo().configapp();
         CoreMain mcr = new Gson().fromJson(st, CoreMain.class);
         if (mcr.AppVersion > BuildConfig.VERSION_CODE && BuildConfig.APPLICATION_ID.indexOf(".APPNTK") < 0) {
             if (mcr.AppForceUpdate) {
@@ -214,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
      * optional update if user want
      */
     private void Update() {
-        String st = EasyPreference.with(this).getString("configapp", "");
+        String st = Preferences.with(this).appVariableInfo().configapp();
         CoreMain mcr = new Gson().fromJson(st, CoreMain.class);
         Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -245,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
      * force update app
      */
     private void UpdateFore() {
-        String st = EasyPreference.with(this).getString("configapp", "");
+        String st = Preferences.with(this).appVariableInfo().configapp();
         CoreMain mcr = new Gson().fromJson(st, CoreMain.class);
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -356,9 +357,9 @@ public class MainActivity extends AppCompatActivity {
         Lbl.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
         final EditText Txt = dialog.findViewById(R.id.txtDialogComment);
         Txt.setTypeface(FontManager.GetTypeface(this, FontManager.IranSans));
-        Txt.setText(EasyPreference.with(this).getString("RateMessage", ""));
+//        Txt.setText(EasyPreference.with(this).getString("RateMessage", ""));
         final MaterialRatingBar Rate = dialog.findViewById(R.id.rateDialogComment);
-        Rate.setRating(EasyPreference.with(this).getInt("Rate", 0));
+//        Rate.setRating(EasyPreference.with(this).getInt("Rate", 0));
         Rate.setOnRatingChangeListener((ratingBar, rating) -> {
             request.ScorePercent = (int) rating;
             //برای تبدیل به درصد
@@ -410,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.inviteBtn)
     public void onInviteClick() {
-        String st = EasyPreference.with(this).getString("configapp", "");
+        String st = Preferences.with(this).appVariableInfo().configapp();
         CoreMain mcr = new Gson().fromJson(st, CoreMain.class);
 
         final Dialog dialog = new Dialog(this);
