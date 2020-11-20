@@ -30,7 +30,7 @@ import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.BlogAdapter;
 
-public class BlogActivity extends BaseActivity {
+public class BlogListActivity extends BaseActivity {
 
     @BindView(R.id.lblTitleActBlog)
     TextView LblTitle;

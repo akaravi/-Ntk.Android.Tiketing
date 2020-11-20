@@ -454,7 +454,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.blogBtn)
     public void onBlogClick() {
-        this.startActivity(new Intent(this, BlogActivity.class));
+        this.startActivity(new Intent(this, BlogListActivity.class));
     }
 
     @OnClick(R.id.aboutUsBtn)
