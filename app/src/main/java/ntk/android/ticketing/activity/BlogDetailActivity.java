@@ -421,7 +421,7 @@ public class BlogDetailActivity extends AppCompatActivity {
 
     @OnClick(R.id.lblAllMenuActDetailBlog)
     public void onMoreBlogClick() {
-        this.startActivity(new Intent(this, BlogActivity.class));
+        this.startActivity(new Intent(this, BlogListActivity.class));
     }
 
 
