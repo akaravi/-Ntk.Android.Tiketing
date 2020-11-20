@@ -115,7 +115,8 @@ dependencies {
     //for qrcode
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
     implementation 'com.github.codekidX:storage-chooser:2.0.4.2'
-
+    //for functional codding
+    implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.2'
 //    implementation 'com.github.akaravi:Ntk.Android.BaseActivity:1.06'
 //    implementation 'com.github.akaravi:ntk.android.base:1.0.58'
     implementation project(path: ':baseActivity')
