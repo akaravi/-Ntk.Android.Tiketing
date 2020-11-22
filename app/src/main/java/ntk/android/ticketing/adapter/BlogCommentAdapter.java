@@ -26,12 +26,12 @@ import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 
-public class CommentBlogAdapter extends RecyclerView.Adapter<CommentBlogAdapter.ViewHolder> {
+public class BlogCommentAdapter extends RecyclerView.Adapter<BlogCommentAdapter.ViewHolder> {
 
     private List<BlogCommentModel> arrayList;
     private Context context;
 
-    public CommentBlogAdapter(Context context, List<BlogCommentModel> arrayList) {
+    public BlogCommentAdapter(Context context, List<BlogCommentModel> arrayList) {
         this.arrayList = arrayList;
         this.context = context;
     }
