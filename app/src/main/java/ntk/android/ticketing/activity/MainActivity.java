@@ -67,7 +67,6 @@ import ntk.android.base.entitymodel.news.NewsContentModel;
 import ntk.android.base.services.application.ApplicationAppService;
 import ntk.android.base.services.news.NewsContentService;
 import ntk.android.base.utill.AppUtill;
-
 import ntk.android.base.utill.FontManager;
 import ntk.android.base.utill.prefrense.Preferences;
 import ntk.android.ticketing.BuildConfig;
@@ -464,10 +463,9 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.introBtn)
     public void onIntroClick() {
-        Bundle bundle = new Bundle();
-        bundle.putInt("Help", 1);
+
         Intent intent = new Intent(this, IntroActivity.class);
-        intent.putExtra("Help", bundle);
+        intent.putExtra(IntroActivity.ExtraComeFromMain, true);
         this.startActivity(intent);
     }
 }
