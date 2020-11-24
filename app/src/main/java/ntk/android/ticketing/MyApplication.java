@@ -25,6 +25,7 @@ public class MyApplication extends NTKApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        DEBUG = true;
         if (!new File(getCacheDir(), "image").exists()) {
             new File(getCacheDir(), "image").mkdirs();
         }
