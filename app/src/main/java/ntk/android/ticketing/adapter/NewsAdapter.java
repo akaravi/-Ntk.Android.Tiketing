@@ -24,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ntk.android.base.Extras;
 import ntk.android.base.entitymodel.news.NewsContentModel;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
@@ -101,7 +102,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.Root.setOnClickListener(view -> {
             Intent intent = new Intent(context, NewsDetailActivity.class);
 
-            intent.putExtra("Request",arrayList.get(position).Id);
+            intent.putExtra(Extras.EXTRA_FIRST_ARG,arrayList.get(position).Id);
             context.startActivity(intent);
         });
     }
