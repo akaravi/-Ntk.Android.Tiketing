@@ -53,7 +53,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         holder.LblLike.setText(String.valueOf(arrayList.get(position).ViewCount));
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true).build();
-        ImageLoader.getInstance().displayImage(arrayList.get(position).MainImageSrc, holder.Img, options, new ImageLoadingListener() {
+        ImageLoader.getInstance().displayImage(arrayList.get(position).LinkMainImageIdSrc, holder.Img, options, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
 

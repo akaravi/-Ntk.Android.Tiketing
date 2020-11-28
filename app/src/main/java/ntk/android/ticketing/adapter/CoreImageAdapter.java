@@ -42,7 +42,7 @@ public class CoreImageAdapter extends RecyclerView.Adapter<CoreImageAdapter.View
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheOnDisk(true).build();
-        ImageLoader.getInstance().displayImage(list.get(position).MainImageSrc, holder.Img, options);
+        ImageLoader.getInstance().displayImage(list.get(position).LinkMainImageIdSrc, holder.Img, options);
         holder.Lbl.setText(list.get(position).Title);
         holder.Img.setOnClickListener(new View.OnClickListener() {
             @Override

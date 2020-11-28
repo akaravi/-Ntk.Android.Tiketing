@@ -144,7 +144,7 @@ public class BlogDetailActivity extends AbstractionDetailActivity<BlogContentMod
 
     @Override
     public void bindContentData(ErrorException<BlogContentModel> model) {
-        ImageLoader.getInstance().displayImage(model.Item.MainImageSrc, ImgHeader);
+        ImageLoader.getInstance().displayImage(model.Item.LinkMainImageIdSrc, ImgHeader);
         Lbls.get(0).setText(model.Item.Title);
         Lbls.get(1).setText(model.Item.Title);
         Lbls.get(3).setText(String.valueOf(model.Item.ViewCount));
