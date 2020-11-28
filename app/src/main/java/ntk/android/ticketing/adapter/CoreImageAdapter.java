@@ -41,6 +41,7 @@ public class CoreImageAdapter extends RecyclerView.Adapter<CoreImageAdapter.View
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showImageOnFail(R.mipmap.ic_launcher)
                 .cacheOnDisk(true).build();
         ImageLoader.getInstance().displayImage(list.get(position).LinkMainImageIdSrc, holder.Img, options);
         holder.Lbl.setText(list.get(position).Title);

@@ -52,6 +52,7 @@ public class BlogAdapter extends RecyclerView.Adapter<BlogAdapter.ViewHolder> {
         holder.LblDescrption.setText(arrayList.get(position).Description);
         holder.LblLike.setText(String.valueOf(arrayList.get(position).ViewCount));
         DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .showImageOnFail(R.mipmap.ic_launcher)
                 .cacheOnDisk(true).build();
         ImageLoader.getInstance().displayImage(arrayList.get(position).LinkMainImageIdSrc, holder.Img, options, new ImageLoadingListener() {
             @Override
