@@ -5,6 +5,7 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -119,23 +120,25 @@ public class NewsDetailActivity extends AbstractionDetailActivity<NewsContentMod
         for (NewsContentOtherInfoModel ai : model.ListItems) {
             switch (ai.TypeId) {
                 case 21:
-                    Lbls.get(7).setText(ai.Title);
+                    ((TextView) findViewById(ntk.android.base.R.id.lblAllMenuDetail)).setText(ai.Title);
                     ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
                     ai.HtmlBody = ai.HtmlBody.replace("</p>", "");
-                    Lbls.get(6).setText(Html.fromHtml(ai.HtmlBody));
+                    ((TextView) findViewById(ntk.android.base.R.id.lblMenuDetail)).setText(Html.fromHtml(ai.HtmlBody));
                     break;
                 case 22:
-                    Lbls.get(9).setText(ai.Title);
-                    ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
-                    ai.HtmlBody = ai.HtmlBody.replace("</p>", "");
-                    Lbls.get(8).setText(Html.fromHtml(ai.HtmlBody));
-                    break;
+                    throw new RuntimeException(("OtherInfo type 22"));
+//                    Lbls.get(9).setText(ai.Title);
+//                    ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
+//                    ai.HtmlBody = ai.HtmlBody.replace("</p>", "");
+//                    Lbls.get(8).setText(Html.fromHtml(ai.HtmlBody));
+//                    break;
                 case 23:
-                    Lbls.get(11).setText(ai.Title);
-                    ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
-                    ai.HtmlBody = ai.HtmlBody.replace("</p>", "");
-                    Lbls.get(10).setText(Html.fromHtml(ai.HtmlBody));
-                    break;
+                    throw new RuntimeException(("OtherInfo type 23"));
+//                    Lbls.get(11).setText(ai.Title);
+//                    ai.HtmlBody = ai.HtmlBody.replace("<p>", "");
+//                    ai.HtmlBody = ai.HtmlBody.replace("</p>", "");
+//                    Lbls.get(10).setText(Html.fromHtml(ai.HtmlBody));
+//                    break;
                 default:
                     Info.add(ai);
                     break;
@@ -149,9 +152,9 @@ public class NewsDetailActivity extends AbstractionDetailActivity<NewsContentMod
     @Override
     public void bindContentData(ErrorException<NewsContentModel> model) {
         ImageLoader.getInstance().displayImage(model.Item.LinkMainImageIdSrc, ImgHeader);
-        Lbls.get(0).setText(model.Item.Title);
-        Lbls.get(1).setText(model.Item.Title);
-        Lbls.get(3).setText(String.valueOf(model.Item.ViewCount));
+        ((TextView) findViewById(ntk.android.base.R.id.lblTitleDetail)).setText(model.Item.Title);
+        ((TextView) findViewById(ntk.android.base.R.id.lblNameCommandDetail)).setText(model.Item.Title);
+        ((TextView)findViewById(ntk.android.base.R.id.lblValueSeenDetail)).setText(String.valueOf(model.Item.ViewCount));
         double rating = 0.0;
         int sumClick = model.Item.ViewCount;
         if (model.Item.ViewCount == 0) sumClick = 1;
@@ -189,8 +192,8 @@ public class NewsDetailActivity extends AbstractionDetailActivity<NewsContentMod
         Rv.setAdapter(adBlog);
         adBlog.notifyDataSetChanged();
         if (model.ListItems.isEmpty()) {
-            Lbls.get(6).setVisibility(View.GONE);
-            Lbls.get(7).setVisibility(View.GONE);
+            findViewById(ntk.android.base.R.id.lblMenuDetail).setVisibility(View.GONE);
+            findViewById(ntk.android.base.R.id.lblAllMenuDetail).setVisibility(View.GONE);
         }
     }
 
