@@ -49,7 +49,7 @@ public class BlogAdapter extends BaseRecyclerAdapter<BlogContentModel, BlogAdapt
         holder.LblTitle.setText(item.Title);
         holder.LblDescrption.setText(item.Description);
         holder.LblLike.setText(String.valueOf(item.ViewCount));
-        loadImage(item.LinkMainImageIdSrc, holder.Img, holder.Img);
+        loadImage(item.LinkMainImageIdSrc, holder.Img, holder.Progress);
         double rating = CmsApiScoreApi.CONVERT_TO_RATE(item.ViewCount, item.ScoreSumPercent);
         holder.Rate.setRating((float) rating);
         holder.Root.setOnClickListener(view -> {

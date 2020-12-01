@@ -55,7 +55,6 @@ public class BlogCommentAdapter extends BaseRecyclerAdapter<BlogCommentModel, Bl
         holder.Lbls.get(4).setText(String.valueOf(item.Comment));
 
         holder.ImgLike.setOnClickListener(v -> {
-
             long id = item.Id;
             holder.loading.setVisibility(View.VISIBLE);
             new BlogCommentService(context).like(id).observeOn(AndroidSchedulers.mainThread())
