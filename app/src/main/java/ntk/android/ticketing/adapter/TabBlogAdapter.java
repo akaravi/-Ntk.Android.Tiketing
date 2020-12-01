@@ -15,17 +15,18 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ntk.android.base.adapter.BaseRecyclerAdapter;
 import ntk.android.base.entitymodel.blog.BlogContentOtherInfoModel;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 
-public class TabBlogAdapter extends RecyclerView.Adapter<TabBlogAdapter.ViewHolder> {
+public class TabBlogAdapter extends BaseRecyclerAdapter<BlogContentOtherInfoModel,TabBlogAdapter.ViewHolder> {
 
-    private List<BlogContentOtherInfoModel> arrayList;
-    private Context context;
+
+    private final Context context;
 
     public TabBlogAdapter(Context context, List<BlogContentOtherInfoModel> arrayList) {
-        this.arrayList = arrayList;
+        super(arrayList);
         this.context = context;
     }
 
@@ -37,19 +38,17 @@ public class TabBlogAdapter extends RecyclerView.Adapter<TabBlogAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        holder.Btn.setText(arrayList.get(position).Title);
-        if (arrayList.get(position).TypeId == 0) {
-            holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + arrayList.get(position).HtmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8");
+        BlogContentOtherInfoModel item = list.get(position);
+        holder.Btn.setText(item.Title);
+        if (item.TypeId == 0) {
+            holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + item.HtmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8");
         }
         holder.Ripple.setOnClickListener(v ->
-                holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + arrayList.get(position).HtmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8")
+                holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + item.HtmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8")
         );
     }
 
-    @Override
-    public int getItemCount() {
-        return arrayList.size();
-    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 

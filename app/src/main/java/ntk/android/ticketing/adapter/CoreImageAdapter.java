@@ -18,47 +18,37 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ntk.android.base.Extras;
+import ntk.android.base.adapter.BaseRecyclerAdapter;
 import ntk.android.base.entitymodel.news.NewsContentModel;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.NewsDetailActivity;
 
-public class CoreImageAdapter extends RecyclerView.Adapter<CoreImageAdapter.ViewHolder> {
-    private List<NewsContentModel> list;
-    private Context context;
+public class CoreImageAdapter extends BaseRecyclerAdapter<NewsContentModel,CoreImageAdapter.ViewHolder> {
+
+    private final Context context;
 
     public CoreImageAdapter(Context context, List<NewsContentModel> list) {
-        this.list = list;
+        super(list);
         this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_recycler_image, viewGroup, false);
+        View view = inflate(viewGroup,R.layout.row_recycler_image);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .showImageOnFail(R.mipmap.ic_launcher)
-                .cacheOnDisk(true).build();
-        ImageLoader.getInstance().displayImage(list.get(position).LinkMainImageIdSrc, holder.Img, options);
+
+       loadImage(list.get(position).LinkMainImageIdSrc, holder.Img);
         holder.Lbl.setText(list.get(position).Title);
-        holder.Img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, NewsDetailActivity.class)
-                        .putExtra(Extras.EXTRA_FIRST_ARG, list.get(position).Id));
-            }
-        });
+        holder.Img.setOnClickListener(v -> context.startActivity(new Intent(context, NewsDetailActivity.class)
+                .putExtra(Extras.EXTRA_FIRST_ARG, list.get(position).Id)));
 
     }
 
-    @Override
-    public int getItemCount() {
-        return list.size();
-    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
