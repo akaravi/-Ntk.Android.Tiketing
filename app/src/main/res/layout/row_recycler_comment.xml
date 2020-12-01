@@ -102,6 +102,8 @@
             android:visibility="gone"
             android:layout_alignRight="@+id/likeLinear"
             android:layout_alignLeft="@+id/likeLinear"
+
+            android:layout_alignBottom="@+id/likeLinear"
             android:layout_height="wrap_content">
             <ProgressBar
                 android:layout_width="30dp"
