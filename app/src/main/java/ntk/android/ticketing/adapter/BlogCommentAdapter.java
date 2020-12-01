@@ -22,7 +22,7 @@ import ntk.android.base.adapter.BaseRecyclerAdapter;
 import ntk.android.base.config.NtkObserver;
 import ntk.android.base.entitymodel.base.ErrorExceptionBase;
 import ntk.android.base.entitymodel.blog.BlogCommentModel;
-import ntk.android.base.services.news.NewsCommentService;
+import ntk.android.base.services.blog.BlogCommentService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
@@ -58,7 +58,7 @@ public class BlogCommentAdapter extends BaseRecyclerAdapter<BlogCommentModel, Bl
 
             long id = item.Id;
             holder.loading.setVisibility(View.VISIBLE);
-            new NewsCommentService(context).like(id).observeOn(AndroidSchedulers.mainThread())
+            new BlogCommentService(context).like(id).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(new NtkObserver<ErrorExceptionBase>() {
                         @Override
@@ -85,7 +85,7 @@ public class BlogCommentAdapter extends BaseRecyclerAdapter<BlogCommentModel, Bl
         holder.ImgDisLike.setOnClickListener(v -> {
             long id = item.Id;
             holder.loading.setVisibility(View.VISIBLE);
-            new NewsCommentService(context).dislike(id).observeOn(AndroidSchedulers.mainThread())
+            new BlogCommentService(context).dislike(id).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(new NtkObserver<ErrorExceptionBase>() {
 
