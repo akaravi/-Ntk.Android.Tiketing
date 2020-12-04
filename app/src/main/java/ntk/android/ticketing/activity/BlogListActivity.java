@@ -6,14 +6,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import io.reactivex.Observable;
 import java9.util.function.Function;
-import ntk.android.base.activity.abstraction.AbstractionListActivity;
+import ntk.android.base.activity.common.BaseFilterModelListActivity;
 import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.base.FilterDataModel;
 import ntk.android.base.entitymodel.blog.BlogContentModel;
 import ntk.android.base.services.blog.BlogContentService;
 import ntk.android.ticketing.adapter.BlogAdapter;
 
-public class BlogListActivity extends AbstractionListActivity<BlogContentModel> {
+public class BlogListActivity extends BaseFilterModelListActivity<BlogContentModel> {
 
 
     @Override

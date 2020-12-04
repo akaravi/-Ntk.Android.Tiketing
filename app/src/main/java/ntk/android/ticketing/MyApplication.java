@@ -16,6 +16,7 @@ import ntk.android.base.ApplicationStaticParameter;
 import ntk.android.base.ApplicationStyle;
 import ntk.android.base.NTKApplication;
 import ntk.android.base.utill.FontManager;
+import ntk.android.base.view.ViewController;
 import ntk.android.ticketing.activity.MainActivity;
 
 public class MyApplication extends NTKApplication {
@@ -46,6 +47,16 @@ public class MyApplication extends NTKApplication {
             public Class<?> getMainActivity() {
                 return MainActivity.class;
             }
+
+            @Override
+            public ViewController getViewController() {
+                ViewController v = new ViewController() {
+                };
+                v.setError_view(R.layout.sub_base_error);
+                v.setLoading_view(R.layout.sub_base_loading);
+                v.setEmpty_view(R.layout.sub_base_empty);
+                return v;
+            }
         };
     }
 
@@ -54,12 +65,14 @@ public class MyApplication extends NTKApplication {
         super.attachBaseContext(base);
         MultiDex.install(base);
     }
+
     @Override
     protected ApplicationStaticParameter getConfig() {
         ApplicationStaticParameter applicationStaticParameter = new ApplicationStaticParameter();
 //        applicationStaticParameter.URL = "https://106459d2045f.ngrok.io/";
         return applicationStaticParameter;
     }
+
     @Override
     public ApplicationParameter getApplicationParameter() {
         return new ApplicationParameter(BuildConfig.APPLICATION_ID, BuildConfig.APPLICATION_ID, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE);

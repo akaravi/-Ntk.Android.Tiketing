@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import io.reactivex.Observable;
 import java9.util.function.Function;
-import ntk.android.base.activity.abstraction.AbstractionListActivity;
+import ntk.android.base.activity.common.BaseFilterModelListActivity;
 import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.base.FilterDataModel;
 import ntk.android.base.entitymodel.news.NewsContentModel;
@@ -17,10 +17,10 @@ import ntk.android.base.services.news.NewsContentService;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.NewsAdapter;
 
-public class NewsListActivity extends AbstractionListActivity<NewsContentModel> {
+public class NewsListActivity extends BaseFilterModelListActivity<NewsContentModel> {
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void  onCreated() {
+        super.onCreated();
         ((TextView) findViewById(R.id.lblTitle)).setText("اخبار");
     }
 
