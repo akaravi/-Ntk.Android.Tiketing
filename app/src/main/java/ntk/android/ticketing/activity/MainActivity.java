@@ -104,7 +104,7 @@ public class MainActivity extends AbstractMainActivity {
                 R.color.colorAccent);
 
         Refresh.setOnRefreshListener(() -> {
-            CheckUpdate();
+//         todo   CheckUpdate(res.Item);
             setAnimation();
             Refresh.setRefreshing(false);
         });
