@@ -16,7 +16,7 @@ import ntk.android.base.ApplicationStaticParameter;
 import ntk.android.base.ApplicationStyle;
 import ntk.android.base.NTKApplication;
 import ntk.android.base.utill.FontManager;
-import ntk.android.base.view.ViewController;
+//import ntk.android.base.view.ViewController;
 import ntk.android.ticketing.activity.MainActivity;
 
 public class MyApplication extends NTKApplication {
@@ -48,15 +48,15 @@ public class MyApplication extends NTKApplication {
                 return MainActivity.class;
             }
 
-            @Override
-            public ViewController getViewController() {
-                ViewController v = new ViewController() {
-                };
-                v.setError_view(R.layout.sub_base_error);
-                v.setLoading_view(R.layout.sub_base_loading);
-                v.setEmpty_view(R.layout.sub_base_empty);
-                return v;
-            }
+//            @Override
+//            public ViewController getViewController() {
+//                ViewController v = new ViewController() {
+//                };
+//                v.setError_view(R.layout.sub_base_error);
+//                v.setLoading_view(R.layout.sub_base_loading);
+//                v.setEmpty_view(R.layout.sub_base_empty);
+//                return v;
+//            }
         };
     }
 
