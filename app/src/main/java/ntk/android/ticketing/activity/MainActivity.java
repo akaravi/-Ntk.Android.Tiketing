@@ -2,6 +2,7 @@ package ntk.android.ticketing.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -147,10 +148,6 @@ public class MainActivity extends AbstractMainActivity {
     }
 
 
-
-
-
-
     private void HandelSlider() {
 
         FilterDataModel request = new FilterDataModel();
@@ -164,28 +161,19 @@ public class MainActivity extends AbstractMainActivity {
                     @Override
                     public void onNext(ErrorException<NewsContentModel> newsContentResponse) {
                         if (newsContentResponse.IsSuccess) {
-                            findViewById(R.id.linear).setBackground(null);
-                            SnapHelper snapHelper = new PagerSnapHelper();
-                            CoreImageAdapter adapter = new CoreImageAdapter(MainActivity.this, newsContentResponse.ListItems);
-                            Slider.setHasFixedSize(true);
-                            LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, true);
-                            Slider.setLayoutManager(manager);
-                            Slider.setAdapter(adapter);
-                            snapHelper.attachToRecyclerView(Slider);
-                            adapter.notifyDataSetChanged();
-//                            List<Banner> banners = new ArrayList<>();
-//                            for (NewsContent news : newsContentResponse.ListItems) {
-//                                banners.add(new RemoteBanner(news.imageSrc));
-//                            }
-//                            Slider.setBanners(banners);
-//                            Slider.setOnBannerClickListener(new OnBannerClickListener() {
-//                                @Override
-//                                public void onClick(int position) {
-//                                    NewsContentViewRequest request = new NewsContentViewRequest();
-//                                    request.Id = newsContentResponse.ListItems.get(position).Id;
-//                                    startActivity(new Intent(ActMain.this, ActDetailNews.class).putExtra("Request", new Gson().toJson(request)));
-//                                }
-//                            });
+                            if (newsContentResponse.ListItems.size() > 0) {
+                                findViewById(R.id.linear).setVisibility(View.VISIBLE);
+                                findViewById(R.id.linear).setBackground(null);
+                                SnapHelper snapHelper = new PagerSnapHelper();
+                                CoreImageAdapter adapter = new CoreImageAdapter(MainActivity.this, newsContentResponse.ListItems);
+                                Slider.setHasFixedSize(true);
+                                LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, true);
+                                Slider.setLayoutManager(manager);
+                                Slider.setAdapter(adapter);
+                                snapHelper.attachToRecyclerView(Slider);
+                                adapter.notifyDataSetChanged();
+                            }else
+                                findViewById(R.id.linear).setVisibility(View.GONE);
                         }
                     }
 
