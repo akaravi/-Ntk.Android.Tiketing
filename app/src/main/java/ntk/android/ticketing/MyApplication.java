@@ -17,6 +17,7 @@ import ntk.android.base.ApplicationStyle;
 import ntk.android.base.NTKApplication;
 import ntk.android.base.utill.FontManager;
 //import ntk.android.base.view.ViewController;
+import ntk.android.base.view.ViewController;
 import ntk.android.ticketing.activity.MainActivity;
 
 public class MyApplication extends NTKApplication {
@@ -43,6 +44,18 @@ public class MyApplication extends NTKApplication {
                 .setToastTypeface(FontManager.GetTypeface(getApplicationContext(), FontManager.IranSans))
                 .setTextSize(14).apply();
         applicationStyle = new ApplicationStyle() {
+            @Override
+            public ViewController getViewController() {
+                ViewController vc = new ViewController() {
+                };
+                vc.setLoading_view(R.layout.sub_base_loading)
+                        .setEmpty_view(R.layout.sub_base_empty)
+                        .setError_view(R.layout.sub_base_error)
+                        .setError_button(R.id.btn_error_tryAgain)
+                        .setError_label(R.id.tvError);
+                return vc;
+            }
+
             @Override
             public Class<?> getMainActivity() {
                 return MainActivity.class;

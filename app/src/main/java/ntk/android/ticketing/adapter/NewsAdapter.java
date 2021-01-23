@@ -25,6 +25,7 @@ import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.NewsDetailActivity;
 
+
 public class NewsAdapter extends BaseRecyclerAdapter<NewsContentModel, NewsAdapter.ViewHolder> {
 
     private final Context context;

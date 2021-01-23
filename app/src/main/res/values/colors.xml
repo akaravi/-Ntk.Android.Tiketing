@@ -25,5 +25,12 @@
     <color name="colorBottomNavigationSelectedBackground">#17000000</color>
     <color name="colorBottomNavigationNotification">#F63D2B</color>
 
+    <color name="colorItem">#2E4B59</color>
+    <color name="colorItemDetailBackground">#90A6B4</color>
+    <color name="colorItemName">#2E4B59</color>
+    <color name="colorTextPrimary">#202020</color>
+    <color name="colorTextSecondary">#454545</color>
+    <color name="colorUnsuccess">#B14953</color>
+    <color name="colorSuccess">#3B9B69</color>
 
 </resources>

@@ -1,11 +1,15 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="toolbarColorText">@color/colorWhite</item>
+        <item name="toolbarColorBackground">@color/colorPrimary</item>
+        <item name="colorTextPrimary">@color/colorTextPrimary</item>
+        <item name="colorTextSecondary">@color/colorTextSecondary</item>
         <item name="ntk_base_logo">@drawable/logo</item>
         <item name="ntk_splash_background">@drawable/splash</item>
         <item name="ntk_splash_loading">@raw/loading</item>
@@ -17,10 +21,9 @@
         <item name="Theme_NTK_Fag">@style/NoActionBar</item>
         <item name="Theme_NTK_Ticket_Answer">@style/NoActionBar</item>
         <item name="Theme_NTK_Ticket_Search">@style/NoActionBar</item>
-        <item name="Theme_NTK_Ticket_List">@style/NoActionBar</item>
-        <item name="Theme_NTK_Faq_Search">@style/NoActionBar </item>
-        <item name="Theme_NTK_Poll">@style/NoActionBar </item>
-        <item name="Theme_NTK_Poll_Detail">@style/NoActionBar </item>
+        <item name="Theme_NTK_Ticket_List">@style/AppTheme</item>
+        <item name="Theme_NTK_Faq_Search">@style/NoActionBar</item>
+
     </style>
 
     <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
