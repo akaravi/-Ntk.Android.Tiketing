@@ -18,11 +18,11 @@
         <item name="Theme_NTK_Intro">@style/AppTheme</item>
         <item name="Theme_NTK_Register">@style/AppTheme</item>
         <item name="Theme_NTK_Notification">@style/AppTheme</item>
-        <item name="Theme_NTK_Fag">@style/NoActionBar</item>
-        <item name="Theme_NTK_Ticket_Answer">@style/NoActionBar</item>
-        <item name="Theme_NTK_Ticket_Search">@style/NoActionBar</item>
+        <item name="Theme_NTK_Fag">@style/AppTheme</item>
+        <item name="Theme_NTK_Ticket_Answer">@style/AppTheme</item>
+        <item name="Theme_NTK_Ticket_Search">@style/AppTheme</item>
         <item name="Theme_NTK_Ticket_List">@style/AppTheme</item>
-        <item name="Theme_NTK_Faq_Search">@style/NoActionBar</item>
+        <item name="Theme_NTK_Faq_Search">@style/AppTheme</item>
 
     </style>
 

@@ -35,10 +35,7 @@
             android:name=".activity.AboutUsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" />
-        <activity
-            android:name="ntk.android.base.activity.ticketing.NewTicketActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+
         <activity
             android:name=".activity.NewsListActivity"
             android:screenOrientation="portrait"
