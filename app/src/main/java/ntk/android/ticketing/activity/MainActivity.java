@@ -106,8 +106,8 @@ public class MainActivity extends AbstractMainActivity {
 
         Refresh.setOnRefreshListener(() -> {
 //         todo   CheckUpdate(res.Item);
-            setAnimation();
-            Refresh.setRefreshing(false);
+//            setAnimation();
+//            Refresh.setRefreshing(false);
         });
         HandelSlider();
     }
