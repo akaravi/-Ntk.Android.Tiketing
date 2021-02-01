@@ -118,10 +118,10 @@ dependencies {
     //for functional codding
     implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.2'
     //base of project
-    api 'com.github.akaravi:Ntk.Android.BaseActivity:1.4.105'
+//    api 'com.github.akaravi:Ntk.Android.BaseActivity:1.4.105'
 
 
-//    api project(path: ':baseActivity')
+    api project(path: ':baseActivity')
 //    implementation project(path: ':baseApi')
 
 }

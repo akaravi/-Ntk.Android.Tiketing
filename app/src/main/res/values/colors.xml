@@ -2,15 +2,16 @@
 <resources>
     <color name="colorPrimary">#004D40</color>
     <color name="colorPrimaryDark">#880E4F</color>
-    <color name="colorAccent">#F57F17</color>
+    <color name="colorAccent">#D81B60</color>
     <color name="colorAccentDark">#303FDB</color>
-    <color name="colorWhite">#fff</color>
     <color name="colorTextPrimary">#202020</color>
     <color name="colorTextSecondary">#454545</color>
+    <color name="toolbarColorText">@color/warningColor</color>
+    <color name="toolbarColorBackground">@color/colorPrimary</color>
 
     <color name="colorMenu">#030303</color>
     <color name="colorTextBlack">#211c0e</color>
     <color name="colorGrayText">#363f45</color>
-
+    <color name="colorWhite">#fff</color>
 
 </resources>

@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:supportsRtl">
-        <activity android:name=".activity.SplashActivity"  >
+        <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -29,8 +29,7 @@
         </activity>
         <activity
             android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AboutUsActivity"
             android:screenOrientation="portrait"
@@ -38,31 +37,25 @@
 
         <activity
             android:name=".activity.NewsListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.NewsDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.BlogListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.BlogDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.NewsSearchActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.BlogSearchActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar" />
+            android:screenOrientation="portrait" />
 
 
         <provider

@@ -33,8 +33,8 @@ public class BlogAdapter extends BaseRecyclerAdapter<BlogContentModel, BlogAdapt
 
     public BlogAdapter(Context context, List<BlogContentModel> arrayList) {
         super(arrayList);
-
         this.context = context;
+        drawable=R.drawable.blog_placeholder;
     }
 
     @Override

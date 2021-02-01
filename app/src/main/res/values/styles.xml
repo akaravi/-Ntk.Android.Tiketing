@@ -6,8 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="toolbarColorText">@color/colorWhite</item>
-        <item name="toolbarColorBackground">@color/colorPrimary</item>
+        <item name="toolbarColorText">@color/toolbarColorText</item>
+        <item name="toolbarColorBackground">@color/toolbarColorBackground</item>
         <item name="colorTextPrimary">@color/colorTextPrimary</item>
         <item name="colorTextSecondary">@color/colorTextSecondary</item>
         <item name="ntk_base_logo">@drawable/logo</item>
@@ -27,9 +27,6 @@
 
     </style>
 
-    <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-    </style>
 
     <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light">
         <item name="windowNoTitle">true</item>
