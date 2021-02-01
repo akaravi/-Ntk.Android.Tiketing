@@ -17,6 +17,7 @@
         <item name="ntk_notification_color">@color/colorWhite</item>
         <item name="Theme_NTK_Intro">@style/AppTheme</item>
         <item name="Theme_NTK_Register">@style/AppTheme</item>
+        <item name="Theme_NTK_Poll_Detail">@style/AppTheme</item>
         <item name="Theme_NTK_Notification">@style/AppTheme</item>
         <item name="Theme_NTK_Fag">@style/AppTheme</item>
         <item name="Theme_NTK_Ticket_Answer">@style/AppTheme</item>
@@ -37,8 +38,6 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowDisablePreview">true</item>
     </style>
-
-
 
 
 </resources>

@@ -32,7 +32,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.activity.abstraction.AbstractMainActivity;
 import ntk.android.base.activity.common.NotificationsActivity;
-import ntk.android.base.activity.poling.PolingActivity;
+import ntk.android.base.activity.poling.PolingDetailActivity;
 import ntk.android.base.activity.ticketing.FaqActivity;
 import ntk.android.base.activity.ticketing.TicketListActivity;
 import ntk.android.base.activity.ticketing.TicketSearchActivity;
@@ -210,7 +210,7 @@ public class MainActivity extends AbstractMainActivity {
 
     @OnClick(R.id.poolingBtn)
     public void onPoolingClick() {
-        this.startActivity(new Intent(this, PolingActivity.class));
+        this.startActivity(new Intent(this, PolingDetailActivity.class));
     }
 
     @OnClick(R.id.inviteBtn)

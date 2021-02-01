@@ -1,23 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <array name="paranoid_theme">
-        <!-- Overview -->
-        <item>@android:color/white</item> <!--  Top Header bg -->
-        <item>@color/colorAccent</item> <!-- header text   -->
-        <item>@android:color/white</item> <!-- list bg  -->
-        <item>@android:color/black</item> <!--  storage list name text  -->
-        <item>#e1e1e1</item> <!-- free space text  -->
-        <item>@color/colorAccent</item> <!-- memory bar -->
-
-        <!-- secondary dialog colors -->
-        <item>@color/colorAccent</item> <!-- folder tint -->
-        <item>@android:color/white</item> <!-- list bg -->
-        <item>@android:color/black</item> <!-- list text -->
-        <item>@android:color/black</item> <!-- address bar tint -->
-        <item>@color/colorAccentDark</item> <!-- new folder hint tint -->
-        <item>@color/colorAccent</item> <!-- select button color -->
-        <item>@color/colorAccentDark</item> <!-- new folder layour bg -->
-        <item>@color/colorAccent</item> <!-- fab multiselect color -->
-        <item>@android:color/white</item> <!-- address bar bg -->
-    </array>
-</resources>
+<resources></resources>
