@@ -6,7 +6,7 @@ import io.reactivex.Observable;
 import java9.util.function.Function;
 import ntk.android.base.activity.abstraction.AbstractionSearchActivity;
 import ntk.android.base.entitymodel.base.ErrorException;
-import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.base.FilterModel;
 import ntk.android.base.entitymodel.news.NewsContentModel;
 import ntk.android.base.services.news.NewsContentService;
 import ntk.android.ticketing.adapter.NewsAdapter;
@@ -20,7 +20,7 @@ public class NewsSearchActivity extends AbstractionSearchActivity<NewsContentMod
     }
 
     @Override
-    public Function<FilterDataModel, Observable<ErrorException<NewsContentModel>>> getService() {
+    public Function<FilterModel, Observable<ErrorException<NewsContentModel>>> getService() {
         return new NewsContentService(this)::getAll;
     }
 

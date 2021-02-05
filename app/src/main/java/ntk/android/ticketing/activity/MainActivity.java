@@ -38,7 +38,7 @@ import ntk.android.base.activity.ticketing.TicketListActivity;
 import ntk.android.base.activity.ticketing.TicketSearchActivity;
 import ntk.android.base.config.NtkObserver;
 import ntk.android.base.entitymodel.base.ErrorException;
-import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.base.FilterModel;
 import ntk.android.base.entitymodel.news.NewsContentModel;
 import ntk.android.base.services.news.NewsContentService;
 import ntk.android.base.utill.FontManager;
@@ -150,7 +150,7 @@ public class MainActivity extends AbstractMainActivity {
 
     private void HandelSlider() {
 
-        FilterDataModel request = new FilterDataModel();
+        FilterModel request = new FilterModel();
         request.RowPerPage = 5;
         request.CurrentPageNumber = 1;
         new NewsContentService(this).getAll(request).

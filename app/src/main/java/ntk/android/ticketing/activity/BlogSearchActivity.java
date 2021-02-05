@@ -6,9 +6,8 @@ import io.reactivex.Observable;
 import java9.util.function.Function;
 import ntk.android.base.activity.abstraction.AbstractionSearchActivity;
 import ntk.android.base.entitymodel.base.ErrorException;
-import ntk.android.base.entitymodel.base.FilterDataModel;
+import ntk.android.base.entitymodel.base.FilterModel;
 import ntk.android.base.entitymodel.blog.BlogContentModel;
-import ntk.android.base.services.base.CmsApiServerBase;
 import ntk.android.base.services.blog.BlogContentService;
 import ntk.android.ticketing.adapter.BlogAdapter;
 
@@ -20,7 +19,7 @@ public class BlogSearchActivity extends AbstractionSearchActivity<BlogContentMod
     }
 
     @Override
-    public Function<FilterDataModel, Observable<ErrorException<BlogContentModel>>> getService() {
+    public Function<FilterModel, Observable<ErrorException<BlogContentModel>>> getService() {
         return new BlogContentService(this)::getAll;
     }
 
