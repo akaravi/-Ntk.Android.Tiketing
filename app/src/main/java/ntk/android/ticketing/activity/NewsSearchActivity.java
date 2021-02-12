@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import io.reactivex.Observable;
 import java9.util.function.Function;
-import ntk.android.base.activity.abstraction.AbstractionSearchActivity;
+import ntk.android.base.activity.abstraction.AbstractSearchActivity;
 import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.base.FilterModel;
 import ntk.android.base.entitymodel.news.NewsContentModel;
@@ -13,7 +13,7 @@ import ntk.android.ticketing.adapter.NewsAdapter;
 
 ;
 
-public class NewsSearchActivity extends AbstractionSearchActivity<NewsContentModel> {
+public class NewsSearchActivity extends AbstractSearchActivity<NewsContentModel> {
     @Override
     protected RecyclerView.Adapter getAdapter() {
         return new NewsAdapter(this, models);

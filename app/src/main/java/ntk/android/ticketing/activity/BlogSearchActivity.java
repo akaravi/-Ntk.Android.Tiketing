@@ -4,14 +4,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import io.reactivex.Observable;
 import java9.util.function.Function;
-import ntk.android.base.activity.abstraction.AbstractionSearchActivity;
+import ntk.android.base.activity.abstraction.AbstractSearchActivity;
 import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.base.FilterModel;
 import ntk.android.base.entitymodel.blog.BlogContentModel;
 import ntk.android.base.services.blog.BlogContentService;
 import ntk.android.ticketing.adapter.BlogAdapter;
 
-public class BlogSearchActivity extends AbstractionSearchActivity<BlogContentModel> {
+public class BlogSearchActivity extends AbstractSearchActivity<BlogContentModel> {
 
     @Override
     protected RecyclerView.Adapter getAdapter() {

@@ -12,7 +12,8 @@
         <item name="colorTextSecondary">@color/colorTextSecondary</item>
         <item name="ntk_base_logo">@drawable/logo</item>
         <item name="ntk_splash_background">@drawable/splash</item>
-        <item name="ntk_splash_loading">@raw/loading</item>
+        <item name="ntk_splash_lottie_loading">@raw/loading</item>
+        <item name="ntk_splash_lottie_logo">@raw/loading</item>
         <item name="ntk_splash_logo">@drawable/logo</item>
         <item name="ntk_notification_color">@color/colorWhite</item>
         <item name="Theme_NTK_Intro">@style/AppTheme</item>
