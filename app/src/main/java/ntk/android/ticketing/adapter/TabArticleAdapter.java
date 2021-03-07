@@ -16,16 +16,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ntk.android.base.adapter.BaseRecyclerAdapter;
-import ntk.android.base.entitymodel.blog.BlogContentOtherInfoModel;
+import ntk.android.base.entitymodel.article.ArticleContentOtherInfoModel;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 
-public class TabBlogAdapter extends BaseRecyclerAdapter<BlogContentOtherInfoModel,TabBlogAdapter.ViewHolder> {
+public class TabArticleAdapter extends BaseRecyclerAdapter<ArticleContentOtherInfoModel, TabArticleAdapter.ViewHolder> {
 
 
     private final Context context;
 
-    public TabBlogAdapter(Context context, List<BlogContentOtherInfoModel> arrayList) {
+    public TabArticleAdapter(Context context, List<ArticleContentOtherInfoModel> arrayList) {
         super(arrayList);
         this.context = context;
     }
@@ -38,7 +38,7 @@ public class TabBlogAdapter extends BaseRecyclerAdapter<BlogContentOtherInfoMode
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        BlogContentOtherInfoModel item = list.get(position);
+        ArticleContentOtherInfoModel item = list.get(position);
         holder.Btn.setText(item.Title);
         if (item.TypeId == 0) {
             holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + item.HtmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8");

@@ -20,17 +20,17 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
 import ntk.android.base.adapter.BaseRecyclerAdapter;
 import ntk.android.base.config.NtkObserver;
+import ntk.android.base.entitymodel.article.ArticleCommentModel;
 import ntk.android.base.entitymodel.base.ErrorExceptionBase;
-import ntk.android.base.entitymodel.blog.BlogCommentModel;
-import ntk.android.base.services.blog.BlogCommentService;
+import ntk.android.base.services.article.ArticleCommentService;
 import ntk.android.base.utill.AppUtill;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 
-public class BlogCommentAdapter extends BaseRecyclerAdapter<BlogCommentModel, BlogCommentAdapter.ViewHolder> {
+public class ArticleCommentAdapter extends BaseRecyclerAdapter<ArticleCommentModel, ArticleCommentAdapter.ViewHolder> {
     private final Context context;
 
-    public BlogCommentAdapter(Context context, List<BlogCommentModel> arrayList) {
+    public ArticleCommentAdapter(Context context, List<ArticleCommentModel> arrayList) {
         super(arrayList);
         this.context = context;
     }
@@ -43,7 +43,7 @@ public class BlogCommentAdapter extends BaseRecyclerAdapter<BlogCommentModel, Bl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        BlogCommentModel item = list.get(position);
+        ArticleCommentModel item = list.get(position);
         holder.Lbls.get(0).setText(item.Writer);
         if (item.CreatedDate != null) {
             holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(item.CreatedDate));
@@ -57,7 +57,7 @@ public class BlogCommentAdapter extends BaseRecyclerAdapter<BlogCommentModel, Bl
         holder.ImgLike.setOnClickListener(v -> {
             long id = item.Id;
             holder.loading.setVisibility(View.VISIBLE);
-            new BlogCommentService(context).like(id).observeOn(AndroidSchedulers.mainThread())
+            new ArticleCommentService(context).like(id).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(new NtkObserver<ErrorExceptionBase>() {
                         @Override
@@ -84,7 +84,7 @@ public class BlogCommentAdapter extends BaseRecyclerAdapter<BlogCommentModel, Bl
         holder.ImgDisLike.setOnClickListener(v -> {
             long id = item.Id;
             holder.loading.setVisibility(View.VISIBLE);
-            new BlogCommentService(context).dislike(id).observeOn(AndroidSchedulers.mainThread())
+            new ArticleCommentService(context).dislike(id).observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
                     .subscribe(new NtkObserver<ErrorExceptionBase>() {
 

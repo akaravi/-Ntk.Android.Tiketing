@@ -44,17 +44,17 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".activity.BlogListActivity"
+            android:name=".activity.ArticleListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.BlogDetailActivity"
+            android:name=".activity.ArticleDetailActivity"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.NewsSearchActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.BlogSearchActivity"
+            android:name=".activity.ArticleSearchActivity"
             android:screenOrientation="portrait" />
 
 

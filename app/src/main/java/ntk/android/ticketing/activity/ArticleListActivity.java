@@ -7,28 +7,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.Observable;
 import java9.util.function.Function;
 import ntk.android.base.activity.common.BaseFilterModelListActivity;
+import ntk.android.base.entitymodel.article.ArticleContentModel;
 import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.base.FilterModel;
-import ntk.android.base.entitymodel.blog.BlogContentModel;
-import ntk.android.base.services.blog.BlogContentService;
-import ntk.android.ticketing.adapter.BlogAdapter;
+import ntk.android.base.services.article.ArticleContentService;
+import ntk.android.ticketing.adapter.ArticleAdapter;
 
-public class BlogListActivity extends BaseFilterModelListActivity<BlogContentModel> {
+public class ArticleListActivity extends BaseFilterModelListActivity<ArticleContentModel> {
 
 
     @Override
-    public Function<FilterModel, Observable<ErrorException<BlogContentModel>>> getService() {
-        return new BlogContentService(this)::getAll;
+    public Function<FilterModel, Observable<ErrorException<ArticleContentModel>>> getService() {
+        return new ArticleContentService(this)::getAll;
     }
 
     @Override
     public RecyclerView.Adapter createAdapter() {
-        return new BlogAdapter(this, models);
+        return new ArticleAdapter(this, models);
     }
 
     @Override
     public void ClickSearch() {
-        startActivity(new Intent(this, BlogSearchActivity.class));
+        startActivity(new Intent(this, ArticleSearchActivity.class));
     }
 
 //    @BindView(R.id.lblTitleActBlog)

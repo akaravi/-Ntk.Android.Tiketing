@@ -20,7 +20,6 @@ import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 
@@ -44,7 +43,6 @@ import ntk.android.base.services.news.NewsContentService;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.CoreImageAdapter;
-import ntk.android.ticketing.event.toolbar.EVSearchClick;
 
 public class MainActivity extends AbstractMainActivity {
 
@@ -142,11 +140,6 @@ public class MainActivity extends AbstractMainActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    @Subscribe
-    public void EvClickSearch(EVSearchClick click) {
-        startActivity(new Intent(this, TicketSearchActivity.class));
-    }
-
 
     private void HandelSlider() {
 
@@ -225,7 +218,7 @@ public class MainActivity extends AbstractMainActivity {
 
     @OnClick(R.id.blogBtn)
     public void onBlogClick() {
-        this.startActivity(new Intent(this, BlogListActivity.class));
+        this.startActivity(new Intent(this, ArticleListActivity.class));
     }
 
     @OnClick(R.id.aboutUsBtn)
