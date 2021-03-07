@@ -48,9 +48,9 @@ public class MyApplication extends NTKApplication {
             public ViewController getViewController() {
                 ViewController vc = new ViewController() {
                 };
-                vc.setLoading_view(R.layout.sub_base_loading)
-                        .setEmpty_view(R.layout.sub_base_empty)
-                        .setError_view(R.layout.sub_base_error)
+                vc.setLoading_view(R.layout.app_base_loading)
+                        .setEmpty_view(R.layout.app_base_empty)
+                        .setError_view(R.layout.app_base_error)
                         .setError_button(R.id.btn_error_tryAgain)
                         .setError_label(R.id.tvError);
                 return vc;
@@ -73,7 +73,7 @@ public class MyApplication extends NTKApplication {
     @Override
     protected ApplicationStaticParameter getConfig() {
         ApplicationStaticParameter applicationStaticParameter = new ApplicationStaticParameter();
-//        applicationStaticParameter.URL = "https://106459d2045f.ngrok.io/";
+//        applicationStaticParameter.URL = "https://b90d8887a5d8.ngrok.io/";
         return applicationStaticParameter;
     }
 
