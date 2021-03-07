@@ -52,7 +52,7 @@ public class MainActivity extends AbstractMainActivity {
             R.id.feedback,
             R.id.question,
             R.id.intro,
-            R.id.blog,
+            R.id.article,
             R.id.aboutUs,
             R.id.support,
             R.id.message,
@@ -66,7 +66,7 @@ public class MainActivity extends AbstractMainActivity {
             R.id.feedbackBtn,
             R.id.questionBtn,
             R.id.introBtn,
-            R.id.blogBtn,
+            R.id.articleBtn,
             R.id.aboutUsBtn,
             R.id.supportBtn,
             R.id.messageBtn})
@@ -126,18 +126,6 @@ public class MainActivity extends AbstractMainActivity {
             btn.get(i).startAnimation(scaleAnimation);
         }
         layout.startAnimation(alphaAnimation);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        EventBus.getDefault().unregister(this);
     }
 
 
@@ -216,8 +204,8 @@ public class MainActivity extends AbstractMainActivity {
         this.startActivity(new Intent(this, FaqActivity.class));
     }
 
-    @OnClick(R.id.blogBtn)
-    public void onBlogClick() {
+    @OnClick(R.id.articleBtn)
+    public void onArticleClick() {
         this.startActivity(new Intent(this, ArticleListActivity.class));
     }
 

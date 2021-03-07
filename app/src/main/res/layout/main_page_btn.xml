@@ -186,7 +186,7 @@
                     android:weightSum="1">
 
                     <LinearLayout
-                        android:id="@+id/blogBtn"
+                        android:id="@+id/articleBtn"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_margin="4dp"
@@ -203,7 +203,7 @@
                             android:src="@drawable/files" />
 
                         <TextView
-                            android:id="@+id/blog"
+                            android:id="@+id/article"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="0.35"

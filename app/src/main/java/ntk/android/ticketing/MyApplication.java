@@ -61,15 +61,6 @@ public class MyApplication extends NTKApplication {
                 return MainActivity.class;
             }
 
-//            @Override
-//            public ViewController getViewController() {
-//                ViewController v = new ViewController() {
-//                };
-//                v.setError_view(R.layout.sub_base_error);
-//                v.setLoading_view(R.layout.sub_base_loading);
-//                v.setEmpty_view(R.layout.sub_base_empty);
-//                return v;
-//            }
         };
     }
 

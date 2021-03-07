@@ -35,12 +35,12 @@ public class ArticleAdapter extends BaseRecyclerAdapter<ArticleContentModel, Art
     public ArticleAdapter(Context context, List<ArticleContentModel> arrayList) {
         super(arrayList);
         this.context = context;
-        drawable=R.drawable.blog_placeholder;
+        drawable=R.drawable.article_place_holder;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_recycler_blog, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_recycler_article, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -63,25 +63,25 @@ public class ArticleAdapter extends BaseRecyclerAdapter<ArticleContentModel, Art
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.lblTitleRowRecyclerBlog)
+        @BindView(R.id.lblTitleRowRecyclerArticle)
         TextView LblTitle;
 
-        @BindView(R.id.lblDescriptionRowRecyclerBlog)
+        @BindView(R.id.lblDescriptionRowRecyclerArticle)
         TextView LblDescrption;
 
-        @BindView(R.id.lblLikeRowRecyclerBlog)
+        @BindView(R.id.lblLikeRowRecyclerArticle)
         TextView LblLike;
 
-        @BindView(R.id.imgRowRecyclerBlog)
+        @BindView(R.id.imgRowRecyclerArticle)
         ImageView Img;
 
-        @BindView(R.id.ratingBarRowRecyclerBlog)
+        @BindView(R.id.ratingBarRowRecyclerArticle)
         RatingBar Rate;
 
-        @BindView(R.id.rootBlog)
+        @BindView(R.id.rootArticle)
         CardView Root;
 
-        @BindView(R.id.ProgressRecyclerBlog)
+        @BindView(R.id.ProgressRecyclerArticle)
         ProgressBar Progress;
 
 
