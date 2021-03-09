@@ -19,8 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -153,7 +151,7 @@ public class MainActivity extends AbstractMainActivity {
                                 Slider.setAdapter(adapter);
                                 snapHelper.attachToRecyclerView(Slider);
                                 adapter.notifyDataSetChanged();
-                            }else
+                            } else
                                 findViewById(R.id.linear).setVisibility(View.GONE);
                         }
                     }

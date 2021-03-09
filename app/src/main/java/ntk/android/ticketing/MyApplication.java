@@ -19,6 +19,7 @@ import ntk.android.base.utill.FontManager;
 //import ntk.android.base.view.ViewController;
 import ntk.android.base.view.ViewController;
 import ntk.android.ticketing.activity.MainActivity;
+import ntk.android.ticketing.activity.MainActivity_2;
 
 public class MyApplication extends NTKApplication {
 
@@ -58,7 +59,7 @@ public class MyApplication extends NTKApplication {
 
             @Override
             public Class<?> getMainActivity() {
-                return MainActivity.class;
+                return MainActivity_2.class;
             }
 
         };
