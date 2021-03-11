@@ -19,6 +19,7 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import ntk.android.base.activity.abstraction.AbstractMainActivity;
+import ntk.android.base.activity.common.IntroActivity;
 import ntk.android.base.activity.common.NotificationsActivity;
 import ntk.android.base.activity.poling.PolingActivity;
 import ntk.android.base.activity.ticketing.FaqActivity;
@@ -30,7 +31,6 @@ import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.activity.AboutUsActivity;
 import ntk.android.ticketing.activity.ArticleListActivity;
-import ntk.android.ticketing.activity.MainActivity;
 import ntk.android.ticketing.activity.NewsListActivity;
 
 
@@ -55,49 +55,58 @@ public class DrawerAdapter extends BaseRecyclerAdapter<DrawerChildThemeDtoModel,
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        ImageLoader.getInstance().displayImage(getItem(position).Icon, holder.Img);
-        if (getItem(position).Type == 1) {
+        DrawerChildThemeDtoModel item = getItem(position);
+        if (item.Icon != null)
+            ImageLoader.getInstance().displayImage(item.Icon, holder.Img);
+        else if (item.drawableIcon != 0)
+            holder.Img.setImageResource(item.drawableIcon);
+        if (item.Type == 1) {
             int n = new NotificationStorageService().getAllUnread(context).size();
             if (n != 0) {
                 holder.Lbls.get(1).setText(String.valueOf(n));
                 holder.Lbls.get(1).setVisibility(View.VISIBLE);
             }
         }
-        holder.Lbls.get(0).setText(getItem(position).Title);
+        holder.Lbls.get(0).setText(item.Title);
 
         holder.Root.setOnClickListener(v -> {
-            switch (getItem(position).Id) {
-                case 1:
+            switch (item.Id) {
+                case 0:
                     ClickInbox();
                     break;
-                case 2:
+                case 1:
                     ClickNews();
+                    break;
+                case 2:
+                    ClickContact();
                     break;
                 case 3:
                     ClickPooling();
                     break;
+                case 4:
+                    ClickArticle();
+                    break;
                 case 5:
-                    ClickShare();
-                    break;
-                case 6:
-                    ClickAbout();
-                    break;
-                case 7:
-                    ClickContact();
-                    break;
-                case 8:
-                    ClickFeedBack();
-                    break;
-                case 9:
                     ClickQuestion();
                     break;
+                case 6:
+                    ClickFeedBack();
+                    break;
+                case 7:
+                    ClickShare();
+                    break;
+                case 8:
+                    ClickAbout();
+                    break;
+                case 9:
+                    ClickAbout();
+                    break;
                 case 10:
-                    ClickArticle();
+                    ClickIntro();
                     break;
             }
         });
     }
-
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -165,7 +174,7 @@ public class DrawerAdapter extends BaseRecyclerAdapter<DrawerChildThemeDtoModel,
         if (Drawer != null) {
             Drawer.closeMenu(true);
         }
-        ((MainActivity) context).onFeedbackClick();
+        ((AbstractMainActivity) context).onFeedbackClick();
     }
 
     private void ClickQuestion() {
@@ -177,6 +186,11 @@ public class DrawerAdapter extends BaseRecyclerAdapter<DrawerChildThemeDtoModel,
 
     private void ClickArticle() {
         context.startActivity(new Intent(context, ArticleListActivity.class));
+        if (Drawer != null) {
+            Drawer.closeMenu(true);
+        }
+    } private void ClickIntro() {
+        context.startActivity(new Intent(context, IntroActivity.class));
         if (Drawer != null) {
             Drawer.closeMenu(true);
         }
