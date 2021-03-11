@@ -60,7 +60,7 @@ public class MyApplication extends NTKApplication {
 
             @Override
             public Class<?> getMainActivity() {
-                return MainActivity3.class;
+                return MainActivity.class;
             }
 
         };

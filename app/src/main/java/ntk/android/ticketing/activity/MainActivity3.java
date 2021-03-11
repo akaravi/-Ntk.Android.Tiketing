@@ -2,6 +2,7 @@ package ntk.android.ticketing.activity;
 
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ntk.android.base.activity.abstraction.AbstractMainActivity;
+import ntk.android.base.appclass.AboutUsClass;
 import ntk.android.base.dtomodel.theme.DrawerChildThemeDtoModel;
+import ntk.android.base.utill.prefrense.Preferences;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.drawer.DrawerAdapter;
 
@@ -29,7 +32,9 @@ public class MainActivity3 extends AbstractMainActivity {
         drawerRecycler.setAdapter(adapter);
         drawerRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         drawerRecycler.setHasFixedSize(true);
-
+        //set title of app
+        AboutUsClass aboutUsClass = Preferences.with(this).appVariableInfo().aboutUs();
+        ((TextView) findViewById(R.id.txtToolbarTitle)).setText(aboutUsClass.AboutUsTitle);
         //click on humberger
         ImageView menu = findViewById(R.id.img_drawable_back);
         menu.setImageResource(R.drawable.hamburger);
