@@ -33,12 +33,13 @@ public class NewsAdapter extends BaseRecyclerAdapter<NewsContentModel, NewsAdapt
     public NewsAdapter(Context context, List<NewsContentModel> arrayList) {
         super(arrayList);
         this.context = context;
-    }
+        drawable=R.drawable.news_placeholder;   }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = inflate(viewGroup, R.layout.row_recycler_news);
         return new ViewHolder(view);
+
     }
 
     @Override

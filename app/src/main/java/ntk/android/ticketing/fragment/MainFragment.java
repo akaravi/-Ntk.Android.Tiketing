@@ -18,18 +18,21 @@ import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
+import ntk.android.base.activity.BaseActivity;
 import ntk.android.base.adapter.common.MainTagAdapter;
 import ntk.android.base.config.NtkObserver;
 import ntk.android.base.config.ServiceExecute;
+import ntk.android.base.entitymodel.article.ArticleContentModel;
 import ntk.android.base.entitymodel.base.ErrorException;
 import ntk.android.base.entitymodel.base.FilterModel;
-import ntk.android.base.entitymodel.hypershop.HyperShopCategoryModel;
 import ntk.android.base.entitymodel.hypershop.HyperShopContentModel;
 import ntk.android.base.entitymodel.news.NewsContentModel;
+import ntk.android.base.entitymodel.ticketing.TicketingTaskModel;
 import ntk.android.base.fragment.BaseFragment;
-import ntk.android.base.services.hypershop.HyperShopCategoryService;
+import ntk.android.base.services.article.ArticleContentService;
 import ntk.android.base.services.hypershop.HyperShopContentService;
 import ntk.android.base.services.news.NewsContentService;
+import ntk.android.base.services.ticketing.TicketingTaskService;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.MainFragment1_1Adapter;
 
@@ -71,10 +74,10 @@ public class MainFragment extends BaseFragment {
 
         RecyclerView rcAllView = findViewById(R.id.rc);
         rcAllView.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        adapter = (new MainFragment1_1Adapter(titles));
+        adapter = (new MainFragment1_1Adapter((BaseActivity) getActivity(),titles));
         getNews();
-        getCategory();
-        getContent();
+        getArticles();
+        getTickers();
     }
 
 
@@ -104,38 +107,13 @@ public class MainFragment extends BaseFragment {
                 });
     }
 
-    private void getContent() {
-        FilterModel f = new FilterModel();
-        f.RowPerPage = 20;
-        ServiceExecute.execute(new HyperShopContentService(getContext()).getAllMicroService(f))
-                .subscribe(new NtkObserver<ErrorException<HyperShopContentModel>>() {
-                    @Override
-                    public void onNext(@io.reactivex.annotations.NonNull ErrorException<HyperShopContentModel> response) {
-                        if (response.IsSuccess) {
-                            adapter.put(2, response.ListItems);
-                            if (adapter.getItemCount() == 3) {
-
-                                ((RecyclerView) findViewById(R.id.rc)).setAdapter(adapter);
-                                switcher.showContentView();
-                            }
-                        } else
-                            Toasty.error(getContext(), response.ErrorMessage).show();
-                    }
-
-                    @Override
-                    public void onError(@io.reactivex.annotations.NonNull Throwable e) {
-
-                    }
-                });
-    }
-
-    private void getCategory() {
+    private void getArticles() {
         FilterModel f = new FilterModel();
         f.RowPerPage = 8;
-        ServiceExecute.execute(new HyperShopCategoryService(getContext()).getAllMicroService(f))
-                .subscribe(new NtkObserver<ErrorException<HyperShopCategoryModel>>() {
+        ServiceExecute.execute(new ArticleContentService(getContext()).getAll(f))
+                .subscribe(new NtkObserver<ErrorException<ArticleContentModel>>() {
                     @Override
-                    public void onNext(@io.reactivex.annotations.NonNull ErrorException<HyperShopCategoryModel> response) {
+                    public void onNext(@io.reactivex.annotations.NonNull ErrorException<ArticleContentModel> response) {
                         if (response.IsSuccess) {
                             adapter.put(1, response.ListItems);
                             if (adapter.getItemCount() == 3) {
@@ -152,5 +130,30 @@ public class MainFragment extends BaseFragment {
                     }
                 });
 
+    }
+
+    private void getTickers() {
+        FilterModel f = new FilterModel();
+        f.RowPerPage = 20;
+        ServiceExecute.execute(new TicketingTaskService(getContext()).getAll(f))
+                .subscribe(new NtkObserver<ErrorException<TicketingTaskModel>>() {
+                    @Override
+                    public void onNext(@io.reactivex.annotations.NonNull ErrorException<TicketingTaskModel> response) {
+                        if (response.IsSuccess) {
+                            adapter.put(2, response.ListItems);
+                            if (adapter.getItemCount() == 3) {
+
+                                ((RecyclerView) findViewById(R.id.rc)).setAdapter(adapter);
+                                switcher.showContentView();
+                            }
+                        } else
+                            Toasty.error(getContext(), response.ErrorMessage).show();
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.annotations.NonNull Throwable e) {
+
+                    }
+                });
     }
 }

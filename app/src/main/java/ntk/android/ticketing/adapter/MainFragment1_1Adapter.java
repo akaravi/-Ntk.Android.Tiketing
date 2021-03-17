@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ntk.android.base.activity.BaseActivity;
 import ntk.android.ticketing.adapter.holders.ArticlesMoreItemsVH;
 import ntk.android.ticketing.adapter.holders.NewsMoreItemsVH;
 import ntk.android.ticketing.adapter.holders.TicketsMoreItemsVH;
@@ -18,10 +19,11 @@ import ntk.android.ticketing.adapter.holders.TicketsMoreItemsVH;
 public class MainFragment1_1Adapter extends RecyclerView.Adapter {
     HashMap<Integer, List> models;
     List<String> strings;
-
-    public MainFragment1_1Adapter(List<String> titles) {
+BaseActivity baseActivity;
+    public MainFragment1_1Adapter(BaseActivity activity,List<String> titles) {
         strings = titles;
         models = new HashMap<>();
+        baseActivity=activity;
     }
 
     @NonNull
@@ -46,7 +48,7 @@ public class MainFragment1_1Adapter extends RecyclerView.Adapter {
                 ((NewsMoreItemsVH) holder).bind(models.get(viewType), strings.get(position));
                 break;
                 case 1://todo
-                ((TicketsMoreItemsVH) holder).bind(null,models.get(viewType), strings.get(position));
+                ((TicketsMoreItemsVH) holder).bind(baseActivity,models.get(viewType), strings.get(position));
                 break;
             case 3:
                 ((ArticlesMoreItemsVH) holder).bind(models.get(viewType), strings.get(position));

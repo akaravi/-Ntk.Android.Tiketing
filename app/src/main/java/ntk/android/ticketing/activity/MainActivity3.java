@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +21,7 @@ import ntk.android.base.dtomodel.theme.DrawerChildThemeDtoModel;
 import ntk.android.base.utill.prefrense.Preferences;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.drawer.DrawerAdapter;
+import ntk.android.ticketing.fragment.MainFragment;
 
 public class MainActivity3 extends AbstractMainActivity {
     @Override
@@ -40,6 +42,11 @@ public class MainActivity3 extends AbstractMainActivity {
         menu.setImageResource(R.drawable.hamburger);
         menu.setOnClickListener(v -> ((FlowingDrawer) findViewById(R.id.floaingDrawer)).openMenu(false));
         ((KenBurnsView) findViewById(R.id.HeaderImage)).setImageResource(R.drawable.menu_header);
+        //create fragment
+        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+        tx.replace(R.id.main_frame, new MainFragment());
+        tx.addToBackStack(null);
+        tx.commit();
     }
 
     private List<DrawerChildThemeDtoModel> createDrawerItems() {
@@ -55,6 +62,6 @@ public class MainActivity3 extends AbstractMainActivity {
         list.add(new DrawerChildThemeDtoModel().setId(i++).setTitle("دعوت از دوستان").setDrawableIcon(R.drawable.invite2));
         list.add(new DrawerChildThemeDtoModel().setId(i++).setTitle("درباره ما").setDrawableIcon(R.drawable.about_us2));
         list.add(new DrawerChildThemeDtoModel().setId(i++).setTitle("راهنما").setDrawableIcon(R.drawable.intro2));
-       return list;
+        return list;
     }
 }

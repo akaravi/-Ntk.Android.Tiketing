@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.mxn.soul.flowingdrawer_core.FlowingDrawer xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/floaingDrawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,14 +11,24 @@
     app:edMenuSize="220dp"
     app:edPosition="2">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include layout="@layout/base_toolbar_back" />
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/include"
+            layout="@layout/base_toolbar_back" />
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <FrameLayout
+            android:id="@+id/main_frame"
+         android:layout_below="@+id/include"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toTopOf="@id/include"
+            app:layout_constraintTop_toTopOf="parent" />
+    </RelativeLayout>
 
     <include layout="@layout/drawer_theme_1" />
 </com.mxn.soul.flowingdrawer_core.FlowingDrawer>
