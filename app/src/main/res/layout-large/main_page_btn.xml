@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.45"
                 android:gravity="center"
-                android:text="صندوق پیام"
+                 android:text="@string/notification_inbox"
                 android:textColor="#000"
                 android:textSize="30sp" />
         </LinearLayout>
