@@ -74,7 +74,7 @@ public class ArticleCommentAdapter extends BaseRecyclerAdapter<ArticleCommentMod
                         @Override
                         public void onError(@NonNull Throwable e) {
                             holder.loading.setVisibility(View.GONE);
-                            Toasty.warning(context, "خطا در انجام عملیات", Toasty.LENGTH_LONG, true).show();
+                            Toasty.warning(context, R.string.per_error, Toasty.LENGTH_LONG, true).show();
 
                         }
                     });
@@ -102,7 +102,7 @@ public class ArticleCommentAdapter extends BaseRecyclerAdapter<ArticleCommentMod
                         @Override
                         public void onError(Throwable e) {
                             holder.loading.setVisibility(View.GONE);
-                            Toasty.warning(context, "خطا در انجام عملیات", Toasty.LENGTH_LONG, true).show();
+                            Toasty.warning(context,  R.string.per_error, Toasty.LENGTH_LONG, true).show();
                         }
 
                     });

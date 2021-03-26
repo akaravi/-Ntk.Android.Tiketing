@@ -19,7 +19,7 @@ public class NewsListActivity extends BaseFilterModelListActivity<NewsContentMod
     @Override
     protected void  onCreated() {
         super.onCreated();
-        ((TextView) findViewById(R.id.lblTitle)).setText("اخبار");
+        ((TextView) findViewById(R.id.lblTitle)).setText(R.string.per_news);
     }
 
     @Override

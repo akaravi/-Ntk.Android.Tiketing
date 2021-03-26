@@ -1,5 +1,19 @@
 <resources>
     <string name="app_name">APPNTK</string>
     <string name="PhoneNumber">+9810005612020</string>
+    <string name="per_news">اخبار</string>
+    <string name="news">اخبار</string>
+    <string name="per_error"> R.string.per_error</string>
+    <string name="polling">نظرسنجی</string>
+    <string name="invite_friends">دعوت از دوستان</string>
+    <string name="feedback">بازخورد</string>
+    <string name="faq">پرسش های متداول</string>
+    <string name="help">راهنما</string>
+    <string name="Article">مجلات</string>
+    <string name="aboutUs">درباره ما</string>
+    <string name="ticketing">پشتیبانی</string>
+    <string name="hot_news">اخبار برگزیده</string>
+    <string name="recent_article">مقالات اخیر</string>
+    <string name="last_tickets">آخرین درخواست ها</string>
 
 </resources>

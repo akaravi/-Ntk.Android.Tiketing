@@ -124,7 +124,7 @@ dependencies {
     //base of project
     api 'com.github.akaravi:Ntk.Android.BaseActivity:1.4.122'
 
-//    api project(path: ':baseActivity')
+    api project(path: ':baseActivity')
 
 
 }

@@ -49,9 +49,9 @@ public class MainFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         switcher.showProgressView();
         List<String> titles = new ArrayList() {{
-            add("اخبار برگزیده");
-            add("مقالات اخیر");
-            add("آخرین درخواست ها");
+            add(getString(R.string.hot_news));
+            add(getString(R.string.recent_article));
+            add(getString(R.string.last_tickets));
         }};
 
         RecyclerView chipGroup = findViewById(R.id.tagRc);

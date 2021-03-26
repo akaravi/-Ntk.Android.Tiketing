@@ -139,7 +139,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="0.35"
                     android:gravity="center"
-                    android:text="پرسش های متداول"
+                    android:text="@string/faq"
                     android:textColor="#000"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -310,7 +310,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_weight="0.6"
                             android:gravity="right"
-                            android:text="اخبار"
+                            android:text="@string/per_news"
                             android:textColor="#000"
                             android:textSize="18sp" />
 
