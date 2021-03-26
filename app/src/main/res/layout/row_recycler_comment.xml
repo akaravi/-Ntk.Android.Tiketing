@@ -26,7 +26,7 @@
                 android:id="@+id/lblUserNameRecyclerComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="نام و نام خانوادگی"
+                android:text="@string/fullName"
                 android:textColor="@color/colorTextBlack"
                 tools:ignore="HardcodedText" />
 
@@ -34,7 +34,7 @@
                 android:id="@+id/lblDateRecyclerComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="تاریخ"
+                android:text="@string/date"
                 android:textSize="10sp"
                 tools:ignore="HardcodedText" />
         </LinearLayout>

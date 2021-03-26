@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="تیکت یاب"
+                android:text="@string/ticket_search"
                 android:textColor="#000"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
                 android:gravity="center"
-                android:text="پشتیبانی"
+                android:text="@string/ticketing"
                 android:textColor="#000"
                 android:textSize="18sp" />
 
@@ -167,7 +167,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="0.2"
                         android:gravity="center"
-                        android:text="راهنما"
+                        android:text="@string/help"
                         android:textColor="#000"
                         android:textSize="18sp" />
 
@@ -208,7 +208,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="0.35"
                             android:gravity="center"
-                            android:text="مجلات"
+                            android:text="@string/Article"
                             android:textColor="#000"
                             android:textSize="18sp" />
                     </LinearLayout>
@@ -230,7 +230,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="0.4"
                             android:gravity="center"
-                            android:text="درباره ما"
+                            android:text="@string/aboutUs"
                             android:textColor="#000"
                             android:textSize="18sp" />
 
@@ -275,7 +275,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="0.2"
                         android:gravity="center"
-                        android:text="بازخورد"
+                        android:text="@string/feedback"
                         android:textColor="#000"
                         android:textSize="18sp" />
 
@@ -346,7 +346,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="نظرسنجی"
+                            android:text="@string/poling"
                             android:textColor="#000"
                             android:textSize="18sp" />
 
@@ -383,7 +383,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="0.4"
                     android:gravity="center"
-                    android:text="دعوت از دوستان"
+                    android:text="@string/invite_friends"
                     android:textColor="#000"
                     android:textSize="18sp" />
             </LinearLayout>

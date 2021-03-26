@@ -11,9 +11,12 @@
     <string name="help">راهنما</string>
     <string name="Article">مجلات</string>
     <string name="aboutUs">درباره ما</string>
-    <string name="ticketing">پشتیبانی</string>
     <string name="hot_news">اخبار برگزیده</string>
     <string name="recent_article">مقالات اخیر</string>
     <string name="last_tickets">آخرین درخواست ها</string>
+    <string name="ticket_search">تیکت یاب</string>
+    <string name="ticketing">پشتیبانی</string>
+    <string name="fullName">نام و نام خانوادگی</string>
+    <string name="date">تاریخ</string>
 
 </resources>
