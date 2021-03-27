@@ -61,7 +61,7 @@ public class TabNewsAdapter extends BaseRecyclerAdapter<NewsContentOtherInfoMode
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-            Btn.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
+            Btn.setTypeface(FontManager.T1_Typeface(context));
             webView.getSettings().setJavaScriptEnabled(true);
             webView.getSettings().setBuiltInZoomControls(true);
         }

@@ -61,7 +61,7 @@ public class CoreImageAdapter extends BaseRecyclerAdapter<NewsContentModel,CoreI
         public ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-            Lbl.setTypeface(FontManager.GetTypeface(context, FontManager.IranSans));
+            Lbl.setTypeface(FontManager.T1_Typeface(context));
         }
     }
 }
