@@ -93,7 +93,7 @@ public class MainActivity extends AbstractMainActivity {
     private void init() {
         setAnimation();
         for (int i = 0; i < lbl.size(); i++) {
-            lbl.get(i).setTypeface(FontManager.GetTypeface(this, FontManager.DastNevis));
+            lbl.get(i).setTypeface(FontManager.T2_Typeface(this));
         }
         Refresh.setColorSchemeResources(
                 R.color.colorAccent,
