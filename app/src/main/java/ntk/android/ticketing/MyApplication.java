@@ -76,7 +76,7 @@ public class MyApplication extends NTKApplication {
     protected ApplicationStaticParameter getConfig() {
         ApplicationStaticParameter applicationStaticParameter = new ApplicationStaticParameter();
 //        applicationStaticParameter.URL = "https://b90d8887a5d8.ngrok.io/";
-        ApplicationStaticParameter.PACKAGE_NAME="ntk.android.ticketing.app109";
+//        ApplicationStaticParameter.PACKAGE_NAME="ntk.android.ticketing.app109";
         return applicationStaticParameter;
     }
 
