@@ -32,7 +32,7 @@ public class TabArticleAdapter extends BaseRecyclerAdapter<ArticleContentOtherIn
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_recycler_tab, viewGroup, false);
+        View view = inflate(viewGroup,R.layout.row_recycler_tab);
         return new ViewHolder(view);
     }
 

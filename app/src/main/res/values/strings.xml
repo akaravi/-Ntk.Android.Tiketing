@@ -3,7 +3,7 @@
     <string name="PhoneNumber">+9810005612020</string>
     <string name="per_news">اخبار</string>
     <string name="news">اخبار</string>
-    <string name="per_error"> R.string.per_error</string>
+    <string name="per_error"> خطا در انجام عملیات</string>
     <string name="polling">نظرسنجی</string>
     <string name="invite_friends">دعوت از دوستان</string>
     <string name="feedback">بازخورد</string>

@@ -40,7 +40,7 @@ public class ArticleAdapter extends BaseRecyclerAdapter<ArticleContentModel, Art
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.row_recycler_article, viewGroup, false);
+        View view = inflate(viewGroup,R.layout.row_recycler_article);
         return new ViewHolder(view);
     }
 
