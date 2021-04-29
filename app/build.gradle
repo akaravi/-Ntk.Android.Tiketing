@@ -115,9 +115,10 @@ dependencies {
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
     //for functional codding
     implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.2'
+    implementation ('com.akexorcist:localization:1.2.9')
 
     //base of project
-    api 'com.github.akaravi:Ntk.Android.BaseActivity:1.4.125'
+    api 'com.github.akaravi:Ntk.Android.BaseActivity:1.4.130'
 
 //    api project(path: ':baseActivity')
 

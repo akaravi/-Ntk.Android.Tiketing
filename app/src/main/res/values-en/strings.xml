@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">APPNTK</string>
+    <string name="PhoneNumber">+9810005612020</string>
+    <string name="per_news">news</string>
+    <string name="news">news</string>
+    <string name="per_error">errors</string>
+    <string name="polling">polling</string>
+    <string name="invite_friends">invite friends</string>
+    <string name="feedback">feedback</string>
+    <string name="faq">faq</string>
+    <string name="help">help</string>
+    <string name="Article">Article</string>
+    <string name="aboutUs">aboutUs</string>
+    <string name="hot_news">hot news</string>
+    <string name="recent_article">recent article</string>
+    <string name="last_tickets">last ticket</string>
+    <string name="ticket_search">search ticket</string>
+    <string name="ticketing">support</string>
+    <string name="fullName">full name</string>
+    <string name="date">date</string>
+
+</resources>
