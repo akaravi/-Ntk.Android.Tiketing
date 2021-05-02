@@ -23,7 +23,7 @@
             android:background="@drawable/background_small" />
     </com.balysv.materialripple.MaterialRippleLayout>
 
-    <WebView
+    <ntk.android.base.view.NWebView
         android:id="@+id/WebViewActDetailNews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

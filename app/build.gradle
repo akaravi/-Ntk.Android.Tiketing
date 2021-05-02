@@ -58,11 +58,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    //for crashList Firebase
-    implementation platform('com.google.firebase:firebase-bom:26.1.1')
-    implementation 'com.google.firebase:firebase-messaging:21.0.1'
-    implementation 'com.google.firebase:firebase-analytics'
-    implementation 'com.google.firebase:firebase-crashlytics'
+    // Add the Firebase Crashlytics SDK.
+    implementation 'com.google.firebase:firebase-crashlytics:17.4.1'
+    implementation 'com.google.firebase:firebase-analytics:18.0.3'
 
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
@@ -115,10 +113,9 @@ dependencies {
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
     //for functional codding
     implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.2'
-    implementation ('com.akexorcist:localization:1.2.9')
 
     //base of project
-    api 'com.github.akaravi:Ntk.Android.BaseActivity:1.4.130'
+    api 'com.github.akaravi:Ntk.Android.BaseActivity:1.4.132'
 
 //    api project(path: ':baseActivity')
 

@@ -16,11 +16,10 @@ import ntk.android.base.ApplicationStaticParameter;
 import ntk.android.base.ApplicationStyle;
 import ntk.android.base.NTKApplication;
 import ntk.android.base.utill.FontManager;
-//import ntk.android.base.view.ViewController;
 import ntk.android.base.view.ViewController;
 import ntk.android.ticketing.activity.MainActivity;
-import ntk.android.ticketing.activity.MainActivity3;
-import ntk.android.ticketing.activity.MainActivity_2;
+
+//import ntk.android.base.view.ViewController;
 
 public class MyApplication extends NTKApplication {
 
@@ -28,23 +27,6 @@ public class MyApplication extends NTKApplication {
 
     @Override
     public void onCreate() {
-        super.onCreate();
-        DEBUG = true;
-        if (!new File(getCacheDir(), "image").exists()) {
-            new File(getCacheDir(), "image").mkdirs();
-        }
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
-                .diskCache(new UnlimitedDiskCache(new File(getCacheDir(), "image")))
-                .diskCacheFileNameGenerator(imageUri -> {
-                    String[] Url = imageUri.split("/");
-                    return Url[Url.length];
-                })
-                .build();
-        ImageLoader.getInstance().init(config);
-
-        Toasty.Config.getInstance()
-                .setToastTypeface(FontManager.T1_Typeface(getApplicationContext()))
-                .setTextSize(14).apply();
         applicationStyle = new ApplicationStyle() {
             @Override
             public ViewController getViewController() {
@@ -64,11 +46,29 @@ public class MyApplication extends NTKApplication {
             }
 
         };
+        super.onCreate();
+        DEBUG = true;
+        if (!new File(getCacheDir(), "image").exists()) {
+            new File(getCacheDir(), "image").mkdirs();
+        }
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                .diskCache(new UnlimitedDiskCache(new File(getCacheDir(), "image")))
+                .diskCacheFileNameGenerator(imageUri -> {
+                    String[] Url = imageUri.split("/");
+                    return Url[Url.length];
+                })
+                .build();
+        ImageLoader.getInstance().init(config);
+
+        Toasty.Config.getInstance()
+                .setToastTypeface(FontManager.T1_Typeface(getApplicationContext()))
+                .setTextSize(14).apply();
+
     }
 
     @Override
     protected void attachBaseContext(Context base) {
-        instance=this;
+        instance = this;
         super.attachBaseContext(base);
         MultiDex.install(base);
     }
