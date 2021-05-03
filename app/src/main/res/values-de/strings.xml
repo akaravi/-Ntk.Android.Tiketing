@@ -16,7 +16,7 @@
     <string name="last_tickets">letztes Ticket</string>
     <string name="ticket_search">Ticket suchen</string>
     <string name="ticketing">Unterstützung</string>
-    <string name="fullName">vollständiger Name</string>
+
     <string name="date">Datum</string>
 
 </resources>
