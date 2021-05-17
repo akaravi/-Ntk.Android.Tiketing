@@ -9,7 +9,7 @@ android {
         targetSdkVersion 29
         multiDexEnabled true
         versionCode 1  //Build Version NTK
-        versionName "1.4.134"//Splash Version Lable
+        versionName "1.0"//Splash Version Lable
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary = true
