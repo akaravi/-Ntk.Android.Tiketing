@@ -1,6 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+
+def BaseVersion='1.4.135'
+
 android {
     compileSdkVersion 29
     defaultConfig {
@@ -9,7 +12,7 @@ android {
         targetSdkVersion 29
         multiDexEnabled true
         versionCode 1  //Build Version NTK
-        versionName "1.0"//Splash Version Lable
+        versionName "${BaseVersion}"//Splash Version Lable
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary = true
@@ -114,10 +117,11 @@ dependencies {
     //for functional codding
     implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.2'
 
-    //base of project
-    api 'com.github.akaravi:Ntk.Android.BaseActivity:1.4.134'
 
-//    api project(path: ':baseActivity')
+    //base of project
+//    api "com.github.akaravi:Ntk.Android.BaseActivity:${BaseVersion}"
+//
+    api project(path: ':baseActivity')
 
 }
 repositories {
