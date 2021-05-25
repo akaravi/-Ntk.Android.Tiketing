@@ -31,6 +31,7 @@ public class CoreImageAdapter extends BaseRecyclerAdapter<NewsContentModel,CoreI
     public CoreImageAdapter(Context context, List<NewsContentModel> list) {
         super(list);
         this.context = context;
+        drawable=R.drawable.news_placeholder;
     }
 
     @Override
