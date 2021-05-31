@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.MainActivity_1"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AboutUsActivity"
@@ -60,7 +60,7 @@
         <activity
             android:name=".activity.MainActivity_2"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.MainActivity3"
+        <activity android:name=".activity.MainActivity_3"
             android:screenOrientation="portrait" />
 
 

@@ -23,7 +23,7 @@ import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.drawer.DrawerAdapter;
 import ntk.android.ticketing.fragment.MainFragment;
 
-public class MainActivity3 extends AbstractMainActivity {
+public class MainActivity_3 extends AbstractMainActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

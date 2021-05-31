@@ -42,7 +42,7 @@ import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.CoreImageAdapter;
 
-public class MainActivity extends AbstractMainActivity {
+public class MainActivity_1 extends AbstractMainActivity {
 
     @BindViews({R.id.news,
             R.id.pooling,
@@ -144,9 +144,9 @@ public class MainActivity extends AbstractMainActivity {
                                 findViewById(R.id.linear).setVisibility(View.VISIBLE);
                                 findViewById(R.id.linear).setBackground(null);
                                 SnapHelper snapHelper = new PagerSnapHelper();
-                                CoreImageAdapter adapter = new CoreImageAdapter(MainActivity.this, newsContentResponse.ListItems);
+                                CoreImageAdapter adapter = new CoreImageAdapter(MainActivity_1.this, newsContentResponse.ListItems);
                                 Slider.setHasFixedSize(true);
-                                LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, true);
+                                LinearLayoutManager manager = new LinearLayoutManager(MainActivity_1.this, LinearLayoutManager.HORIZONTAL, true);
                                 Slider.setLayoutManager(manager);
                                 Slider.setAdapter(adapter);
                                 snapHelper.attachToRecyclerView(Slider);

@@ -13,11 +13,8 @@ import java.io.File;
 import es.dmoral.toasty.Toasty;
 import ntk.android.base.ApplicationParameter;
 import ntk.android.base.ApplicationStaticParameter;
-import ntk.android.base.ApplicationStyle;
 import ntk.android.base.NTKApplication;
 import ntk.android.base.utill.FontManager;
-import ntk.android.base.view.ViewController;
-import ntk.android.ticketing.activity.MainActivity;
 
 //import ntk.android.base.view.ViewController;
 
@@ -25,25 +22,7 @@ public class MyApplication extends NTKApplication {
 
     @Override
     public void onCreate() {
-        applicationStyle = new ApplicationStyle() {
-            @Override
-            public ViewController getViewController() {
-                ViewController vc = new ViewController() {
-                };
-                vc.setLoading_view(R.layout.app_base_loading)
-                        .setEmpty_view(R.layout.app_base_empty)
-                        .setError_view(R.layout.app_base_error)
-                        .setError_button(R.id.btn_error_tryAgain)
-                        .setError_label(R.id.tvError);
-                return vc;
-            }
-
-            @Override
-            public Class<?> getMainActivity() {
-                return MainActivity.class;
-            }
-
-        };
+        applicationStyle = new MyAppStyle();
         super.onCreate();
         DEBUG = true;
         if (!new File(getCacheDir(), "image").exists()) {

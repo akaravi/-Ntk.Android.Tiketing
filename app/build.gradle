@@ -2,17 +2,17 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
-def BaseVersion='1.4.138'
-
+def BaseVersion='1.4.139'
+def incrementalVersion='2'
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     defaultConfig {
         applicationId "ntk.android.ticketing.APPNTK"//change for packagename for api
         minSdkVersion 17
-        targetSdkVersion 29
+        targetSdkVersion 30
         multiDexEnabled true
         versionCode 1  //Build Version NTK
-        versionName "${BaseVersion}"//Splash Version Lable
+        versionName "${BaseVersion}${incrementalVersion}"//Splash Version Label
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         vectorDrawables {
             useSupportLibrary = true
@@ -120,7 +120,7 @@ dependencies {
 
     //base of project
     api "com.github.akaravi:Ntk.Android.BaseActivity:${BaseVersion}"
-
+//
 //    api project(path: ':baseActivity')
 
 }
