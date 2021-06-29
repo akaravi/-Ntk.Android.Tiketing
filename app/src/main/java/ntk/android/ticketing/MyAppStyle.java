@@ -1,6 +1,7 @@
 package ntk.android.ticketing;
 
 import ntk.android.base.ApplicationStyle;
+import ntk.android.base.view.ThemeNameEnum;
 import ntk.android.base.view.ViewController;
 import ntk.android.ticketing.activity.MainActivity_1;
 import ntk.android.ticketing.activity.MainActivity_2;
@@ -22,9 +23,9 @@ public class MyAppStyle extends ApplicationStyle {
 
     @Override
     public Class<?> getMainActivity() {
-        if (theme.equals("theme3"))
+        if (theme== ThemeNameEnum.THEME3)
             return MainActivity_3.class;
-        else if (theme.equals("theme2"))
+        else if (theme== ThemeNameEnum.THEME2)
             return MainActivity_2.class;
         else
             return MainActivity_1.class;
