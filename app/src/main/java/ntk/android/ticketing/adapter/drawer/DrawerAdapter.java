@@ -37,9 +37,9 @@ import ntk.android.ticketing.activity.NewsListActivity;
 public class DrawerAdapter extends BaseRecyclerAdapter<DrawerChildThemeDtoModel, DrawerAdapter.ViewHolder> {
 
 
-    private Context context;
+    private final Context context;
 
-    private FlowingDrawer Drawer;
+    private final FlowingDrawer Drawer;
 
     public DrawerAdapter(Context context, List<DrawerChildThemeDtoModel> children, FlowingDrawer drawer) {
         super(children);

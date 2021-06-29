@@ -13,7 +13,7 @@ import ntk.android.ticketing.R;
 
 public class GridMenuAdapter  extends ArrayAdapter<GridMenu> {
 
-    private LayoutInflater mInflater;
+    private final LayoutInflater mInflater;
 
     public GridMenuAdapter(Context context) {
         super(context, 0);

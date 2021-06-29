@@ -11,8 +11,6 @@ import ntk.android.ticketing.R;
 import ntk.android.ticketing.adapter.NewsCommentAdapter;
 import ntk.android.ticketing.adapter.TabNewsAdapter;
 
-;
-
 public class NewsDetailActivity extends BaseNewsDetail_1_Activity {
 
 

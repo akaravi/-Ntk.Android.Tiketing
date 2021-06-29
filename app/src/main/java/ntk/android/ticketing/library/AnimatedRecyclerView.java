@@ -88,7 +88,7 @@ public class AnimatedRecyclerView extends RecyclerView {
         @AnimRes
         private int animation = R.anim.layout_animation_from_bottom;
         private LayoutAnimationController animationController;
-        private Context context;
+        private final Context context;
 
         public Builder(Context context) {
             this.context = context;

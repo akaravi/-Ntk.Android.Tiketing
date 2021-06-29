@@ -11,8 +11,6 @@ import ntk.android.base.entitymodel.news.NewsContentModel;
 import ntk.android.base.services.news.NewsContentService;
 import ntk.android.ticketing.adapter.NewsAdapter;
 
-;
-
 public class NewsSearchActivity extends AbstractSearchActivity<NewsContentModel> {
     @Override
     protected RecyclerView.Adapter getAdapter() {

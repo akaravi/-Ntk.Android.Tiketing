@@ -9,7 +9,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class FixedSwipeRefreshLayout extends SwipeRefreshLayout {
 
-    private int touchSlop;
+    private final int touchSlop;
     private float prevX;
     private boolean declined;
 
