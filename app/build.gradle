@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
-def BaseVersion='1.4.151'
+def BaseVersion='1.4.152'
 def incrementalVersion='2'
 android {
     compileSdkVersion 30
@@ -64,7 +64,7 @@ configurations.all {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // Add the Firebase Crashlytics SDK.
-    implementation 'com.google.firebase:firebase-crashlytics:18.0.1'
+    implementation 'com.google.firebase:firebase-crashlytics:18.1.0'
     implementation 'com.google.firebase:firebase-analytics:19.0.0'
 
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
@@ -90,7 +90,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.3.0'//karavi:dont change
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.balysv:material-ripple:1.0.2'
-    implementation 'com.ss.bannerslider:bannerslider:1.8.0'
+    implementation 'com.ss.bannerslider:bannerslider:2.0.0'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.12.0'
 //    implementation 'androidx.lifecycle:lifecycle-runtime:2.2.0'
 //    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
@@ -121,7 +121,7 @@ dependencies {
 
     //base of project
     api "com.github.akaravi:Ntk.Android.BaseActivity:${BaseVersion}"
-//
+
 //    api project(path: ':baseActivity')
 
 }
