@@ -55,6 +55,7 @@ android {
         maven { url 'https://dl.bintray.com/drummer-aidan/maven' }
         maven {
             url "http://dl.bintray.com/lukaville/maven"
+            allowInsecureProtocol = true
         }
     }
 }
