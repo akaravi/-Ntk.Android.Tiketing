@@ -60,7 +60,11 @@
         <activity
             android:name=".activity.MainActivity_2"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.MainActivity_3"
+        <activity
+            android:name=".activity.MainActivity_3"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MainActivity_4"
             android:screenOrientation="portrait" />
 
 

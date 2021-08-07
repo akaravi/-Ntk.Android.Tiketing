@@ -45,7 +45,7 @@ android {
     repositories {
         google()
 
-
+        maven { url "https://jitpack.io" }
         maven {
             url 'https://dl.bintray.com/omnivirt/OmniVirtSDK'
         }
@@ -75,6 +75,8 @@ dependencies {
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     implementation 'com.jakewharton:butterknife:10.0.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    //for inidcator
+    implementation 'com.github.romandanylyk:PageIndicatorView:b1bad589b5'
 
     implementation 'io.reactivex.rxjava2:rxjava:2.2.9'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
