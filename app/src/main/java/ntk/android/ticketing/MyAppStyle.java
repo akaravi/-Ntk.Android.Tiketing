@@ -3,8 +3,6 @@ package ntk.android.ticketing;
 import ntk.android.base.ApplicationStyle;
 import ntk.android.base.view.ThemeNameEnum;
 import ntk.android.base.view.ViewController;
-import ntk.android.ticketing.activity.MainActivity_1;
-import ntk.android.ticketing.activity.MainActivity_2;
 import ntk.android.ticketing.activity.MainActivity_3;
 
 public class MyAppStyle extends ApplicationStyle {
@@ -23,12 +21,14 @@ public class MyAppStyle extends ApplicationStyle {
 
     @Override
     public Class<?> getMainActivity() {
-        if (theme== ThemeNameEnum.THEME3)
+        if (theme == ThemeNameEnum.THEME4)
+            return MainActivity_4.class;
+        else if (theme == ThemeNameEnum.THEME3)
             return MainActivity_3.class;
-        else if (theme== ThemeNameEnum.THEME2)
-            return MainActivity_2.class;
-        else
-            return MainActivity_1.class;
+//        else if (theme== ThemeNameEnum.THEME2)
+//            return MainActivity_2.class;
+//        else
+//            return MainActivity_1.class;
     }
 
 }

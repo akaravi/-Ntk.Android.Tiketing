@@ -19,11 +19,12 @@ import ntk.android.ticketing.adapter.holders.TicketsMoreItemsVH;
 public class MainFragment1_1Adapter extends RecyclerView.Adapter {
     HashMap<Integer, List> models;
     List<String> strings;
-BaseActivity baseActivity;
-    public MainFragment1_1Adapter(BaseActivity activity,List<String> titles) {
+    BaseActivity baseActivity;
+
+    public MainFragment1_1Adapter(BaseActivity activity, List<String> titles) {
         strings = titles;
         models = new HashMap<>();
-        baseActivity=activity;
+        baseActivity = activity;
     }
 
     @NonNull
@@ -33,9 +34,10 @@ BaseActivity baseActivity;
             case 0:
                 return NewsMoreItemsVH.create(parent);
             case 1:
-                return TicketsMoreItemsVH.create(parent);
-            default:
                 return ArticlesMoreItemsVH.create(parent);
+            default:
+                return TicketsMoreItemsVH.create(parent);
+
         }
 
     }
@@ -47,11 +49,11 @@ BaseActivity baseActivity;
             case 0:
                 ((NewsMoreItemsVH) holder).bind(models.get(viewType), strings.get(position));
                 break;
-                case 1://todo
-                ((TicketsMoreItemsVH) holder).bind(baseActivity,models.get(viewType), strings.get(position));
-                break;
-            case 3:
+            case 1:
                 ((ArticlesMoreItemsVH) holder).bind(models.get(viewType), strings.get(position));
+                break;
+            default:
+                ((TicketsMoreItemsVH) holder).bind(baseActivity, models.get(viewType), strings.get(position));
                 break;
         }
     }
