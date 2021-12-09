@@ -14,7 +14,7 @@
         android:layout_above="@+id/sub_loading_text"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/sub_loading" />
+        app:lottie_rawRes="@raw/" />
 
     <TextView
         android:id="@+id/sub_loading_text"
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
         android:gravity="center"
-        android:text="@string/loading"
+        android:text="@string/list_is_empty"
         android:textColor="?attr/colorAccent"
         android:textSize="15sp" />
 </LinearLayout>
