@@ -23,7 +23,7 @@ import ntk.android.base.config.NtkObserver;
 import ntk.android.base.entitymodel.article.ArticleCommentModel;
 import ntk.android.base.entitymodel.base.ErrorExceptionBase;
 import ntk.android.base.services.article.ArticleCommentService;
-import ntk.android.base.utill.AppUtill;
+import ntk.android.base.utill.AppUtil;
 import ntk.android.base.utill.FontManager;
 import ntk.android.ticketing.R;
 
@@ -46,7 +46,7 @@ public class ArticleCommentAdapter extends BaseRecyclerAdapter<ArticleCommentMod
         ArticleCommentModel item = list.get(position);
         holder.Lbls.get(0).setText(item.Writer);
         if (item.CreatedDate != null) {
-            holder.Lbls.get(1).setText(AppUtill.GregorianToPersian(item.CreatedDate));
+            holder.Lbls.get(1).setText(AppUtil.GregorianToPersian(item.CreatedDate));
         } else {
             holder.Lbls.get(1).setText("");
         }

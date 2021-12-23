@@ -5,11 +5,11 @@ apply plugin: 'com.google.firebase.crashlytics'
 def BaseVersion='1.4.153'
 def incrementalVersion='2'
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
     defaultConfig {
         applicationId "ntk.android.ticketing.APPNTK"//change for packagename for api
         minSdkVersion 17
-        targetSdkVersion 30
+        targetSdkVersion 31
         multiDexEnabled true
         versionCode 1  //Build Version NTK
         versionName "${BaseVersion}${incrementalVersion}"//Splash Version Label
@@ -39,8 +39,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     repositories {
         google()
@@ -62,8 +62,8 @@ configurations.all {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     // Add the Firebase Crashlytics SDK.
-    implementation 'com.google.firebase:firebase-crashlytics:18.2.0'
-    implementation 'com.google.firebase:firebase-analytics:19.0.0'
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.1'
+    implementation 'com.google.firebase:firebase-analytics:19.0.1'
 
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
@@ -104,9 +104,6 @@ dependencies {
     //for lottie
     implementation 'com.airbnb.android:lottie:3.4.2'
 
-    implementation 'com.google.zxing:core:3.3.0'
-    //for qrcode
-    implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
     //for functional codding
     implementation 'net.sourceforge.streamsupport:android-retrostreams:1.7.2'
 
