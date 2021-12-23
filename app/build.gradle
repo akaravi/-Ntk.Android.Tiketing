@@ -76,8 +76,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'//karavi:dont change
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.balysv:material-ripple:1.0.2'
-    implementation 'com.ss.bannerslider:bannerslider:2.0.0'
-    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.12.0'
+//    implementation 'com.ss.bannerslider:bannerslider:2.0.0'
+//    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.12.0'
 
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
@@ -87,7 +87,7 @@ dependencies {
     implementation 'com.mxn.soul:flowingdrawer-core:2.1.0'
     implementation 'me.zhanghai.android.materialratingbar:library:1.3.1'
     //for flex
-    implementation 'com.google.android:flexbox:2.0.1'
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
     //for lottie
     implementation 'com.airbnb.android:lottie:3.4.2'
 

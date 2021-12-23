@@ -22,7 +22,9 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:supportsRtl,android:icon">
 
-        <activity android:name=".activity.SplashActivity">
+        <activity
+            android:name=".activity.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -80,6 +82,7 @@
 
         <receiver
             android:name=".service.SmsService"
+            android:exported="false"
             android:permission="android.permission.BROADCAST_SMS">
             <intent-filter android:priority="15000">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />

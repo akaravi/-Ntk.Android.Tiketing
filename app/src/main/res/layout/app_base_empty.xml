@@ -14,7 +14,7 @@
         android:layout_above="@+id/sub_loading_text"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/" />
+        app:lottie_rawRes="@raw/empty" />
 
     <TextView
         android:id="@+id/sub_loading_text"

@@ -7,6 +7,14 @@ buildscript {
         mavenCentral()
 //        jcenter()
         maven { url "https://jitpack.io" }
+        maven {
+            url 'https://dl.bintray.com/omnivirt/OmniVirtSDK'
+        }
+        maven {
+            url "http://dl.bintray.com/lukaville/maven"
+            allowInsecureProtocol = true
+        }
+        maven { url 'https://dl.bintray.com/drummer-aidan/maven' }
     }
 
     dependencies {
@@ -17,13 +25,13 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-
 allprojects {
     repositories {
         google()
         mavenCentral()
-//        jcenter()
+        jcenter()
         maven { url "https://jitpack.io" }
+
 
     }
 }
