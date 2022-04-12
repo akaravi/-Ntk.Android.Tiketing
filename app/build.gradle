@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 
-def BaseVersion = '1.5.62'
+def BaseVersion = '1.5.73'
 def incrementalVersion='1'
 android {
     compileSdkVersion 31
@@ -97,7 +97,7 @@ dependencies {
 
     //base of project
     api "com.github.akaravi:Ntk.Android.BaseActivity:${BaseVersion}"
-//
+
 //     api project(path: ':baseActivity')
 
 }
