@@ -20,11 +20,13 @@ public class NewsListActivity extends BaseFilterModelListActivity<NewsContentMod
     protected void  onCreated() {
         super.onCreated();
         ((TextView) findViewById(R.id.lblTitle)).setText(R.string.per_news);
+
     }
 
     @Override
     public Function<FilterModel, Observable<ErrorException<NewsContentModel>>> getService() {
         return new NewsContentService(this)::getAll;
+
     }
 
 
