@@ -21,7 +21,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:supportsRtl,android:icon">
-
+        <meta-data android:name="io.sentry.dsn" android:value="https://122d97a97ac3427f80fdb1c55345fdbd@o1135344.ingest.sentry.io/6358506" />
+        <!-- Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+           We recommend adjusting this value in production. -->
+        <meta-data android:name="io.sentry.traces.sample-rate" android:value="1.0" />
         <activity
             android:name=".activity.SplashActivity"
             android:exported="true">

@@ -41,7 +41,7 @@ public class TabNewsAdapter extends BaseRecyclerAdapter<NewsContentOtherInfoMode
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         NewsContentOtherInfoModel item = list.get(position);
         holder.Btn.setText(item.Title);
-        if (item.TypeId == 0) {
+        if (item.TypeId !=null&&item.TypeId== 0) {
             holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + item.HtmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8");
         }
         holder.Ripple.setOnClickListener(v -> holder.webView.loadData("<html dir=\"rtl\" lang=\"\"><body>" + item.HtmlBody + "</body></html>", "text/html; charset=utf-8", "UTF-8"));
