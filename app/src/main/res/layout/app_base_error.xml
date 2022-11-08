@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="#eee"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     android:visibility="visible">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/sub_loading"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_centerHorizontal="true"
-
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-
-        app:lottie_rawRes="@raw/sub_error" />
+        app:lottie_rawRes="@raw/erorr" />
 
     <TextView
         android:id="@+id/tvError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_below="@+id/sub_loading"
         android:gravity="center"
         android:text="@string/error_raised"
         android:textSize="14sp"
@@ -40,11 +36,5 @@
         android:text="@string/try_again"
         android:textColor="@color/colorWhite" />
 
-    <View
-        android:id="@id/debugModeView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_alignParentLeft="true"
-        android:background="@color/transparent"
-        android:clickable="true" />
-</RelativeLayout>
+
+</LinearLayout>
