@@ -95,9 +95,9 @@ dependencies {
     //for locale
     implementation 'com.akexorcist:localization:1.2.11'
     //base of project
-    api "com.github.akaravi:Ntk.Android.BaseActivity:${BaseVersion}"
-
-//     api project(path: ':baseActivity')
+//    api "com.github.akaravi:Ntk.Android.BaseActivity:${BaseVersion}"
+//
+     api project(path: ':baseActivity')
 
 }
 repositories {
