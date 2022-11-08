@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
-def BaseVersion = '1.6.41'
+def BaseVersion = '1.6.43'
 def incrementalVersion='1'
 android {
     compileSdkVersion 33
@@ -95,9 +95,9 @@ dependencies {
     //for locale
     implementation 'com.akexorcist:localization:1.2.11'
     //base of project
-//    api "com.github.akaravi:Ntk.Android.BaseActivity:${BaseVersion}"
+    api "com.github.akaravi:Ntk.Android.BaseActivity:${BaseVersion}"
 //
-     api project(path: ':baseActivity')
+//     api project(path: ':baseActivity')
 
 }
 repositories {
